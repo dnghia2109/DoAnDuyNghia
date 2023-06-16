@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+/* Chỉnh scroll bar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.container  {
+    max-width: 1000px;
+    /* margin: 0 auto;
+    padding: 0 16px; */
+    width: 100%;
+    
+}
+
+.banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    background-color: #ffffff;
+    align-items: center;
+    justify-content: space-between;
+    height: 55px;
+}
+
+.logo img {
+    width: 130px;
+    height: auto;
+}
+
+.banner-menu {
+
+
+}
+
+.menu-main {
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.menu-main-li {
+    position: relative;
+    margin: auto 20px;
+    width: fit-content;
+    height: 55px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.menu-child {
+    position: absolute;
+    display: none;
+    top: 100%;
+    left: 0;
+    
+}
+
+.menu-main-li:hover .menu-child{
+    
+    display: block;
+}
