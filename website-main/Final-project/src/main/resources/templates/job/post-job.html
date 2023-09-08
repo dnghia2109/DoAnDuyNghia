@@ -1,0 +1,303 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title>JobHunt</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" sizes="32x32" th:href="@{/images/favicon-32x32.png}">
+  <link rel="stylesheet"  th:href="@{css/custom-bs.css}">
+  <link rel="stylesheet" th:href="@{css/jquery.fancybox.min.css}">
+  <link rel="stylesheet" th:href="@{css/bootstrap-select.min.css}">
+  <link rel="stylesheet" th:href="@{fonts/icomoon/style.css}">
+  <link rel="stylesheet" th:href="@{fonts/line-icons/style.css}">
+  <link rel="stylesheet" th:href="@{css/owl.carousel.min.css}">
+  <link rel="stylesheet" th:href="@{css/animate.min.css}">
+
+  <link rel="stylesheet" th:href="@{css/quill.snow.css}">
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" th:href="@{css/style.css}">
+</head>
+
+<body id="top">
+
+<div id="overlayer"></div>
+<div class="loader">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+
+<div class="site-wrap">
+
+  <div class="site-mobile-menu site-navbar-target">
+    <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div> <!-- .site-mobile-menu -->
+
+
+  <!-- NAVBAR -->
+  <header class="site-navbar">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="site-logo"><a th:href="@{/}">JOBHUNT</a></div>
+      </div>
+    </div>
+  </header>
+  <!-- HOME -->
+  <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <h1 class="text-white font-weight-bold">Thêm công viêc</h1>
+          <div class="custom-breadcrumbs">
+            <a href="/">Home</a> <span class="mx-2 slash">/</span>
+            <a href="#">Job</a> <span class="mx-2 slash">/</span>
+            <span class="text-white"><strong>Thêm công việc</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section sty>
+    <div class="container-fluid">
+        <div class="row mb-5" >
+          <nav class="col-lg-3" style="padding: 20px 100px 0 50px">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              <li class="nav-item">
+                <a th:href="|/apply-list|" class="nav-link " style="padding-top: 20px">
+                  <p>Trang quản trị ứng tuyển</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="|/add-job|" class="nav-link active "  style="padding-top: 20px">
+                  <p>Thêm công việc</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="|/job-list-for-employer|" class="nav-link " style="padding-top: 20px">
+                  <p>Quản lí công việc đang tuyển dụng</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="|/employer-infor?emp_id=${emp_id}|" class="nav-link" style="padding-top: 20px">
+                  <p>Thông tin công ty</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="|/change-password|" class="nav-link" style="padding-top: 20px">
+                  <p>Đổi mật khẩu</p>
+                </a>
+              </li>
+              <li class="nav-item" style="padding-top: 20px">
+                <a th:href="@{/logout}" class="nav-link ">
+                  <p>Đăng xuất</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="col-lg-9" style="padding: 50px">
+            <form th:action="@{/save}" th:object="${job}" method="post" novalidate="novalidate">
+              <h3 class="text-black mb-5 border-bottom pb-2">Job Details</h3>
+
+              <div class="form-group">
+                <input type="hidden" class="form-control" id="job-title"  th:field="*{id}">
+                <input type="hidden" class="form-control" id="job-title"  th:field="*{emp_id}">
+                <label for="job-title">Job Title</label>
+                <input type="text" class="form-control form-palace-holder" id="job-title" placeholder="Product Designer" th:field="*{title}" style="height: 60px">
+                <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Name Error</div><br><br>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Salary</label>
+                <input type="text" class="form-control form-palace-holder" id="email" placeholder="Salary" th:field="*{salary}" style="height: 60px">
+                <div class="text-danger" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">Name Error</div><br><br>
+              </div>
+
+              <div class="form-group">
+                <label>Vacancy</label>
+                <input type="text" class="form-control form-palace-holder"  placeholder="Vacancy" th:field="*{vacancy}" style="height: 60px">
+              </div>
+
+              <div class="form-group">
+                <label>Experience</label>
+                <input type="text" class="form-control form-palace-holder"  placeholder="Expericence" th:field="*{experience}" style="height: 60px">
+              </div>
+
+              <div class="form-group">
+                <label for="job-region">Job Region</label>
+                <select class="selectpicker border rounded form-palace-holder" id="job-region" data-style="btn-black" data-width="100%" data-live-search="true" th:field ="*{city}" style="height: 60px">
+                  <option value="">-- Select a city --</option>
+                  <option
+                          th:each="citycode:${citycodes}"
+                          th:text="${citycode.name}"
+                          th:value="${citycode.name}">
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="job-type">Job Type</label>
+                <select class="selectpicker border rounded form-palace-holder job-type" id="job-type" data-style="btn-black" data-width="100%" data-live-search="true" th:field ="*{type}" style="height: 60px">
+                  <option value="">-- Select a type --</option>
+                  <option
+                          th:each="job:${jobType}"
+                          th:text="${job.label}"
+                          th:value="${job}">
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Lựa chọn các sở trường của bạn</label>
+                <select class="selectpicker border rounded form-palace-holder" id="skill-model" data-style="btn-black" data-width="100%" data-live-search="true" th:field ="*{skill}" multiple="multiple" >
+                  <option
+                          th:each="state : ${T(vn.techmaster.finalproject.model.entity.Skill).values()}"
+                          th:text="${state}"
+                          th:value="${state}">
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Dead Line</label>
+                <div class="input-group date">
+                  <input type="date" class="form-control form-palace-holder" id="deadline" placeholder="Salary" th:field="*{deadline}" style="height: 60px">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="job-description">Job description</label>
+                <textarea type="text" class="form-control form-palace-holder" cols="50" rows="20" id="job-description" placeholder="Description" th:field="*{jobDescription}" > </textarea>
+                <div class="text-danger" th:if="${#fields.hasErrors('jobDescription')}" th:errors="*{jobDescription}">Name Error</div><br><br>
+              </div>
+
+              <div class="form-group">
+                <label for="skill">Skill Detail Description</label>
+                <textarea type="text" class="form-control form-palace-holder" cols="50" rows="20" id="skill" placeholder="Description" th:field="*{jobSkill}" > </textarea>
+                <div class="text-danger" th:if="${#fields.hasErrors('jobSkill')}" th:errors="*{jobSkill}">Name Error</div><br><br>
+              </div>
+
+              <div class="form-group">
+                <label for="education">Education require Description</label>
+                <textarea type="text" class="form-control form-palace-holder" cols="50" rows="20" id="education" placeholder="Education description" th:field="*{education}" > </textarea>
+                <div class="text-danger" th:if="${#fields.hasErrors('education')}" th:errors="*{education}">Name Error</div><br><br>
+              </div>
+
+              <div class="form-group">
+                <label for="benefits">Benefits Detail Description</label>
+                <textarea type="text" class="form-control form-palace-holder" cols="50" rows="20" id="benefits" placeholder="Description" th:field="*{benefits}" > </textarea>
+                <div class="text-danger" th:if="${#fields.hasErrors('benefits')}" th:errors="*{benefits}">Name Error</div><br><br>
+              </div>
+
+              <div class="form-group">
+                <div class="col-lg-12 ml-auto">
+                  <div class="row">
+                    <a><button type="submit" class="btn btn-block btn-primary btn-md">Save Job</button></a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+    </div>
+  </section>
+
+
+
+  <footer class="site-footer">
+
+    <a href="#top" class="smoothscroll scroll-top">
+      <span class="icon-keyboard_arrow_up"></span>
+    </a>
+
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Search Trending</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Graphic Design</a></li>
+            <li><a href="#">Web Developers</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">HTML5</a></li>
+            <li><a href="#">CSS3</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Company</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Resources</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Support</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Contact Us</h3>
+          <div class="footer-social">
+            <a href="#"><span class="icon-facebook"></span></a>
+            <a href="#"><span class="icon-twitter"></span></a>
+            <a href="#"><span class="icon-instagram"></span></a>
+            <a href="#"><span class="icon-linkedin"></span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <div class="col-12">
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- SCRIPTS -->
+
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{js/isotope.pkgd.min.js}"></script>
+<script th:src="@{js/stickyfill.min.js}"></script>
+<script th:src="@{js/jquery.fancybox.min.js}"></script>
+<script th:src="@{js/jquery.easing.1.3.js}"></script>
+<script th:src="@{js/jquery.waypoints.min.js}"></script>
+<script th:src="@{js/jquery.animateNumber.min.js}"></script>
+<script th:src="@{js/owl.carousel.min.js}"></script>
+<script th:src="@{js/bootstrap-select.min.js}"></script>
+<script th:src="@{js/quill.min.js}"></script>
+<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js}"></script>
+<script th:src="@{js/custom.js}"></script>
+
+<script th:inline="javascript">
+  const jobDescription = new EasyMDE({element: document.getElementById('job-description')});
+  const skill = new EasyMDE({element: document.getElementById('skill')});
+  const benefits = new EasyMDE({element: document.getElementById('benefits')});
+  const education = new EasyMDE({element: document.getElementById('education')});
+
+</script>
+
+
+
+</body>
+</html>

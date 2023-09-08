@@ -1,0 +1,243 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title>JobHunt</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" sizes="32x32" th:href="@{/images/favicon-32x32.png}">
+  <link rel="stylesheet" th:href="@{css/custom-bs.css}">
+  <link rel="stylesheet" th:href="@{css/jquery.fancybox.min.css}">
+  <link rel="stylesheet" th:href="@{css/bootstrap-select.min.css}">
+  <link rel="stylesheet" th:href="@{fonts/icomoon/style.css}">
+  <link rel="stylesheet" th:href="@{fonts/line-icons/style.css}">
+  <link rel="stylesheet" th:href="@{css/owl.carousel.min.css}">
+  <link rel="stylesheet" th:href="@{css/animate.min.css}">
+  <link rel="stylesheet" th:href="@{css/quill.snow.css}">
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" th:href="@{css/style.css}">
+</head>
+<body id="top">
+
+<div id="overlayer"></div>
+<div class="loader">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+
+<div class="site-wrap">
+
+  <div class="site-mobile-menu site-navbar-target">
+    <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div> <!-- .site-mobile-menu -->
+
+
+  <!-- NAVBAR -->
+  <header class="site-navbar mt-3">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="site-logo col-6"><a th:href="@{/}">JOBHUNT</a></div>
+
+      </div>
+    </div>
+  </header>
+  <!-- HOME -->
+  <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <h1 class="text-white font-weight-bold">Quản lý công việc</h1>
+          <div class="custom-breadcrumbs">
+            <a th:href="@{/}">Home</a> <span class="mx-2 slash">/</span>
+            <a href="#">Job</a> <span class="mx-2 slash">/</span>
+            <span class="text-white"><strong>Quản lí công việc</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section >
+    <div class="container-fluid">
+      <div class="row mb-5" >
+        <nav class="col-lg-3" style="padding: 20px 100px 0 50px">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+              <a th:href="|/apply-list|" class="nav-link " style="padding-top: 20px">
+                <p>Trang quản trị ứng tuyển</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a th:href="|/add-job|" class="nav-link "  style="padding-top: 20px">
+                <p>Thêm công việc</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a th:href="|/job-list-for-employer|" class="nav-link active" style="padding-top: 20px">
+                <p>Quản lí công việc đang tuyển dụng</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a th:href="|/employer-infor?emp_id=${emp_id}|" class="nav-link" style="padding-top: 20px">
+                <p>Thông tin công ty</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a th:href="|/change-password|" class="nav-link" style="padding-top: 20px">
+                <p>Đổi mật khẩu</p>
+              </a>
+            </li>
+            <li class="nav-item" style="padding-top: 20px">
+              <a th:href="@{/logout}" class="nav-link ">
+                <p>Đăng xuất</p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="col-lg-9" style="padding: 50px">
+          <table class="table">
+            <thead class="table-primary">
+            <tr>
+              <th>STT</th>
+              <th>Title</th>
+              <th>Salary</th>
+              <th>Update time</th>
+              <th>Dead line</th>
+              <th>State</th>
+              <th>Controller</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="job,iStat:${jobs}">
+              <th th:text="${iStat.index} + 1"></th>
+              <td th:text="${job.title}"></td>
+              <td th:text="${job.salary}"></td>
+              <td th:text="${job.timeCreate}"></td>
+              <td th:text="${job.deadline}"></td>
+              <td th:text="${job.state}"></td>
+              <td width="260px">
+                <a th:href="|/apply-list-in-job?job_id=${job.id}|" class="btn btn-info">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                  </svg>
+                </a>
+                <a th:href="|/change-stasus-active?emp_id=${emp_id}&job_id=${job.id}|" class="btn btn-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
+                  </svg>
+                </a>
+                <a th:href="|/change-stasus-disable?emp_id=${emp_id}&job_id=${job.id}|" class="btn btn-danger">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+                  </svg>
+                </a>
+                <a th:href="|/edit-job?emp_id=${emp_id}&job_id=${job.id}|" class="btn btn-warning">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                  </svg>
+                </a>
+                <a th:href="|/job-detail?job_id=${job.id}|" class="btn btn-light"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-up-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M6.364 13.5a.5.5 0 0 0 .5.5H13.5a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 13.5 1h-10A1.5 1.5 0 0 0 2 2.5v6.636a.5.5 0 1 0 1 0V2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6.864a.5.5 0 0 0-.5.5z"/>
+                  <path fill-rule="evenodd" d="M11 5.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793l-8.147 8.146a.5.5 0 0 0 .708.708L10 6.707V10.5a.5.5 0 0 0 1 0v-5z"/>
+                </svg>
+                </a>
+
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </section>
+
+
+
+  <footer class="site-footer">
+
+    <a href="#top" class="smoothscroll scroll-top">
+      <span class="icon-keyboard_arrow_up"></span>
+    </a>
+
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Search Trending</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Graphic Design</a></li>
+            <li><a href="#">Web Developers</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">HTML5</a></li>
+            <li><a href="#">CSS3</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Company</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Resources</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Support</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Contact Us</h3>
+          <div class="footer-social">
+            <a href="#"><span class="icon-facebook"></span></a>
+            <a href="#"><span class="icon-twitter"></span></a>
+            <a href="#"><span class="icon-instagram"></span></a>
+            <a href="#"><span class="icon-linkedin"></span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <div class="col-12">
+          <p class="copyright"><small>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></small></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- SCRIPTS -->
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{js/isotope.pkgd.min.js}"></script>
+<script th:src="@{js/stickyfill.min.js}"></script>
+<script th:src="@{js/jquery.fancybox.min.js}"></script>
+<script th:src="@{js/jquery.easing.1.3.js}"></script>
+<script th:src="@{js/jquery.waypoints.min.js}"></script>
+<script th:src="@{js/jquery.animateNumber.min.js}"></script>
+<script th:src="@{js/owl.carousel.min.js}"></script>
+<script th:src="@{js/bootstrap-select.min.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script th:src="@{js/quill.min.js}"></script>
+<script th:src="@{js/custom.js}"></script>
+
+
+
+</body>
+</html>

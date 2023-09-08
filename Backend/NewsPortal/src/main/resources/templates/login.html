@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Ashion | Đăng nhập</title>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/admin/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+        integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+  .input-row {
+    margin-bottom: 1.5rem;
+  }
+  .input-row input {
+    width: 100%;
+    border: 1px solid #ccc;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 1rem;
+    outline: none;
+    transition: all 0.3s ease-out;
+  }
+  .input-row input:focus {
+    border: 1px solid #00bfa6;
+    outline: none;
+  }
+  .input__note textarea {
+    width: 100%;
+    min-height: 200px;
+    border: 1px solid #ccc;
+    user-select: none;
+    resize: none;
+    padding: 1rem;
+  }
+  .input__note textarea:focus {
+    border: 1px solid #00bfa6;
+  }
+  .input-row {
+    position: relative;
+  }
+  .input-row:last-child {
+    margin-bottom: 0;
+  }
+  .input-row.success input {
+    border-color: #2ecc71;
+  }
+  .input-row.error input {
+    border-color: #e74c3c;
+  }
+  .input-row small {
+    color: #e74c3c;
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    visibility: hidden;
+    font-size: 12px;
+  }
+  .input-row.error small {
+    visibility: visible;
+  }
+</style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6 justify-content-center pt-5">
+      <img src="https://accounts.haravan.com/img/login_banner.svg" alt="login-img">
+    </div>
+    <div class="col-6">
+      <div class="my-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6 my-5">
+            <h1 class="mb-4 text-center fs-3">Đăng nhập</h1>
+            <p class="text-center" style="font-size: 14px;">Xin chào, vui lòng nhập thông tin đăng nhập</p>
+            <h2 class="text-center fs-3">Shop</h2>
+
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter email..." name="email" style="font-size: 14px;">
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter password..." name="pass" style="font-size: 14px;">
+              </div>
+              <div class="mb-3">
+                <button class="btn btn-primary" type="submit" id="btn-login" style="padding: 8px 110px 8px 110px; font-size: 14px;">Đăng nhập</button>
+              </div>
+              <!-- Button trigger modal -->
+              <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 14px;">
+                Quên mật khẩu
+              </a>
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Bạn quên mật khẩu?</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group input-row my-2">
+                        <label for="forgot-email" style="font-size: 14px;">Nhập email của bạn để tiến hành lấy lại mật khẩu</label>
+                        <input type="email" class="form-control mt-2" id="forgot-email" placeholder="Enter email">
+                        <small>error message</small>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                      <button type="button" class="btn btn-primary" id="forgot-password">Lấy lại mật khẩu</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<!-- toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/admin/custom/js/toastr-config.js"></script>
+
+<!--link axios-->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/admin/custom/js/index.js"></script>
+
+</body>
+</html>
