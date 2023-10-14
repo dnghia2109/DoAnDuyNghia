@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/layout-public :: main-fragment(~{:: title}, ~{}, ~{:: main}, ~{})}">
+<head>
+    <meta charset="UTF-8">
+    <title>VnNews</title>
+</head>
+<body>
+<main class="main">
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-12 mt-05">-->
+<!--                <div class="row py-2 bre-main">-->
+<!--                    <div class="breaking-title">Breaking news</div>-->
+<!--                    <div class="content-breaking">-->
+<!--                        Google Employees Protest Secret Work on Censored Search Engine-->
+<!--                        for China-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row featured-1 mb-5">-->
+<!--                    <div class="col-md-6 pb-05 pt-05 pe-md-05">-->
+<!--                        <div class="image-wrapper">-->
+<!--                            <img-->
+<!--                                    src="https://demo.bootstrap.news/bootnews/assets/img/568x484/img1.jpg"-->
+<!--                                    alt=""-->
+<!--                            />-->
+<!--                            <div class="main-text-title">-->
+<!--                                <a class="heading-letter-spacing" href="#"></a>-->
+<!--                                <h2 class="title-name-br">-->
+<!--                                    The world's first floating farm making waves in-->
+<!--                                    Rotterdam-->
+<!--                                </h2></a-->
+<!--                                    >-->
+<!--                                <div class="news-meta">-->
+<!--                            <span class="news-author">-->
+<!--                                by-->
+<!--                                <a href="#" class="text-white fw-bold">-->
+<!--                                    Duy Nghia-->
+<!--                                </a>-->
+<!--                                <time datetime="2019-10-22" class="news-date">Oct 22, 2019</time>-->
+<!--                            </span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-6 pt-05 ps-md-05">-->
+<!--                        <div class="row newsbox">-->
+<!--                            <div class="col-6">-->
+<!--                                <div class="image-wrapper">-->
+<!--                                    <div class="flickity-viewport">-->
+<!--                                        <img-->
+<!--                                                src="https://demo.bootstrap.news/bootnews/assets/img/282x240/img1.jpg"-->
+<!--                                                alt=""-->
+<!--                                        />-->
+<!--                                        <div class="main-text-title">-->
+<!--                                            <a href="#" class="bg-primary text-white buss">Business</a>-->
+<!--                                            <a href="#">-->
+<!--                                                <h2 class="h6 h4-sm h6-md h5-lg text-white my-1">Should you see the Fantastic Beasts sequel?</h2>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-6">-->
+<!--                                <div class="image-wrapper">-->
+<!--                                    <div class="flickity-viewport">-->
+<!--                                        <img-->
+<!--                                                src="https://demo.bootstrap.news/bootnews/assets/img/282x240/img2.jpg"-->
+<!--                                                alt=""-->
+<!--                                        />-->
+<!--                                        <div class="main-text-title">-->
+<!--                                            <a href="#" class="bg-primary text-white buss">Science</a>-->
+<!--                                            <a href="#">-->
+<!--                                                <h2 class="h6 h4-sm h6-md h5-lg text-white my-1">Three myths about Florida elections recount</h2>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-6">-->
+<!--                                <div class="image-wrapper">-->
+<!--                                    <div class="flickity-viewport">-->
+<!--                                        <img-->
+<!--                                                src="https://demo.bootstrap.news/bootnews/assets/img/282x240/img3.jpg"-->
+<!--                                                alt=""-->
+<!--                                        />-->
+<!--                                        <div class="main-text-title">-->
+<!--                                            <a href="#" class="bg-primary text-white buss">Travel</a>-->
+<!--                                            <a href="#">-->
+<!--                                                <h2 class="h6 h4-sm h6-md h5-lg text-white my-1">Finding Empowerment in Two Wheels and a Helmet</h2>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                            </div>-->
+<!--                            <div class="col-6">-->
+<!--                                <div class="image-wrapper">-->
+<!--                                    <div class="flickity-viewport">-->
+<!--                                        <img-->
+<!--                                                src="https://demo.bootstrap.news/bootnews/assets/img/282x240/img4.jpg"-->
+<!--                                                alt=""-->
+<!--                                        />-->
+<!--                                        <div class="main-text-title">-->
+<!--                                            <a href="#" class="bg-primary text-white buss">Lifestyle</a>-->
+<!--                                            <a href="#">-->
+<!--                                                <h2 class="h6 h4-sm h6-md h5-lg text-white my-1">Ditch receipts and four other tips to be a green shopper</h2>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash;Danh sách các bài viết của mỗi category&ndash;&gt;-->
+<!--            <th:block th:each="category:${categoryList}">-->
+<!--                <div class="col-md-8">-->
+<!--                    <div class="block-area">-->
+<!--                        <div class="block-title-6">-->
+<!--                            <h4 class="h5 border-primary"></h4>-->
+<!--                            <span class="bg-primary text-white" th:text="${category.name}">Sports</span>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-lg-6">-->
+<!--                                <div class="cart-full">-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img1.jpg" class="img-fluid" alt="">-->
+<!--                                    </a>-->
+<!--                                    <div class="card-body">-->
+<!--                                        <h2 class="card-title" th:text="${category.blogs[0].title}">GB's Bankes wins snowboard cross silver at World Champs</h2>-->
+<!--                                        <div class="card-text mb-2 text-muted small">-->
+<!--                                            <span class="d-none d-sm-inline me-1" th:text="${category.blogs[0].user.name}">Duy Nghia</span>-->
+<!--                                            <span datetime="2019-10-22" th:text="${#temporals.format(category.blogs[0].publishedAt, 'dd/MM/yyyy')}" >Oct 22, 2019</span>-->
+<!--                                        </div>-->
+<!--                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-6 main-detal-news">-->
+<!--                                <article class="card card-full hover-a mb-4">-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-3 col-md-4 pe-2 pe-md-0">-->
+<!--                                            <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img1.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="col-9 col-md-8">-->
+<!--                                            <div class="card-body pt-0">-->
+<!--                                                <h3 class="card-title-child h6 h5-sm h6-lg">-->
+<!--                                                    <a href="#">Yankees Party Like It’s 1998, at Least for a Day</a>-->
+<!--                                                </h3>-->
+<!--                                                <div class="card-text small text-muted">-->
+<!--                                                    <time datetime="2019-10-22">Oct 22, 2019</time>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </article>-->
+<!--                                <article class="card card-full hover-a mb-4">-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-3 col-md-4 pe-2 pe-md-0">-->
+<!--                                            <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img2.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="col-9 col-md-8">-->
+<!--                                            <div class="card-body pt-0">-->
+<!--                                                <h3 class="card-title-child h6 h5-sm h6-lg">-->
+<!--                                                    <a href="#">Dale Earnhardt Jr. Returns to the Racetrack and an Old Hobby</a>-->
+<!--                                                </h3>-->
+<!--                                                <div class="card-text small text-muted">-->
+<!--                                                    <time datetime="2019-10-22">Oct 22, 2019</time>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </article>-->
+<!--                                <article class="card card-full hover-a mb-4">-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-3 col-md-4 pe-2 pe-md-0">-->
+<!--                                            <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img3.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="col-9 col-md-8">-->
+<!--                                            <div class="card-body pt-0">-->
+<!--                                                <h3 class="card-title-child h6 h5-sm h6-lg">-->
+<!--                                                    <a href="#">Carmelo Anthony Officially Signs with the Houston Rockets</a>-->
+<!--                                                </h3>-->
+<!--                                                <div class="card-text small text-muted">-->
+<!--                                                    <time datetime="2019-10-22">Oct 22, 2019</time>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </article>-->
+<!--                                <article class="card card-full hover-a mb-4">-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-3 col-md-4 pe-2 pe-md-0">-->
+<!--                                            <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img4.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="col-9 col-md-8">-->
+<!--                                            <div class="card-body pt-0">-->
+<!--                                                <h3 class="card-title-child h6 h5-sm h6-lg">-->
+<!--                                                    <a href="#">Jacob deGrom Goes the Distance as Mets Top the Phillies</a>-->
+<!--                                                </h3>-->
+<!--                                                <div class="card-text small text-muted">-->
+<!--                                                    <time datetime="2019-10-22">Oct 22, 2019</time>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </article>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </th:block>-->
+<!--            <div class="col-md-8">-->
+<!--                <div class="block-area">-->
+<!--                    <div class="block-title-6">-->
+<!--                        <h4 class="h5 border-primary"></h4>-->
+<!--                        <span class="bg-primary text-white">Sports</span>-->
+<!--                    </div>-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-6">-->
+<!--                            <div class="cart-full">-->
+<!--                                <a href="#">-->
+<!--                                    <img src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img1.jpg" class="img-fluid" alt="">-->
+<!--                                </a>-->
+<!--                                <div class="card-body">-->
+<!--                                    <h2 class="card-title">GB's Bankes wins snowboard cross silver at World Champs</h2>-->
+<!--                                    <div class="card-text mb-2 text-muted small">-->
+<!--                                        <span class="d-none d-sm-inline me-1">Duy Nghia</span>-->
+<!--                                        <time datetime="2019-10-22">Oct 22, 2019</time>-->
+<!--                                    </div>-->
+<!--                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-6 main-detal-news">-->
+<!--                            <article class="card card-full hover-a mb-4">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-3 col-md-4 pe-2 pe-md-0">-->
+<!--                                        <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img1.jpg" alt="">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-9 col-md-8">-->
+<!--                                        <div class="card-body pt-0">-->
+<!--                                            <h3 class="card-title-child h6 h5-sm h6-lg">-->
+<!--                                                <a href="#">Yankees Party Like It’s 1998, at Least for a Day</a>-->
+<!--                                            </h3>-->
+<!--                                            <div class="card-text small text-muted">-->
+<!--                                                <time datetime="2019-10-22">Oct 22, 2019</time>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </article>-->
+<!--                            <article class="card card-full hover-a mb-4">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-3 col-md-4 pe-2 pe-md-0">-->
+<!--                                        <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img2.jpg" alt="">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-9 col-md-8">-->
+<!--                                        <div class="card-body pt-0">-->
+<!--                                            <h3 class="card-title-child h6 h5-sm h6-lg">-->
+<!--                                                <a href="#">Dale Earnhardt Jr. Returns to the Racetrack and an Old Hobby</a>-->
+<!--                                            </h3>-->
+<!--                                            <div class="card-text small text-muted">-->
+<!--                                                <time datetime="2019-10-22">Oct 22, 2019</time>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </article>-->
+<!--                            <article class="card card-full hover-a mb-4">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-3 col-md-4 pe-2 pe-md-0">-->
+<!--                                        <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img3.jpg" alt="">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-9 col-md-8">-->
+<!--                                        <div class="card-body pt-0">-->
+<!--                                            <h3 class="card-title-child h6 h5-sm h6-lg">-->
+<!--                                                <a href="#">Carmelo Anthony Officially Signs with the Houston Rockets</a>-->
+<!--                                            </h3>-->
+<!--                                            <div class="card-text small text-muted">-->
+<!--                                                <time datetime="2019-10-22">Oct 22, 2019</time>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </article>-->
+<!--                            <article class="card card-full hover-a mb-4">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-3 col-md-4 pe-2 pe-md-0">-->
+<!--                                        <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img4.jpg" alt="">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-9 col-md-8">-->
+<!--                                        <div class="card-body pt-0">-->
+<!--                                            <h3 class="card-title-child h6 h5-sm h6-lg">-->
+<!--                                                <a href="#">Jacob deGrom Goes the Distance as Mets Top the Phillies</a>-->
+<!--                                            </h3>-->
+<!--                                            <div class="card-text small text-muted">-->
+<!--                                                <time datetime="2019-10-22">Oct 22, 2019</time>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </article>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-md-4 end-sidebar-lg"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <!-- Lặp qua danh sách các danh mục -->
+    <th:block th:each="category : ${categoryList}">
+        <div class="col-md-8">
+            <div class="block-area">
+                <div class="block-title-6">
+                    <h4 class="h5 border-primary"></h4>
+                    <span class="bg-primary text-white" th:text="${category.name}">Sports</span>
+                </div>
+                <div class="row">
+                    <!-- Lặp qua danh sách các bài viết của từng danh mục -->
+                    <div class="col-lg-6" th:each="blog : ${blogList}">
+                        <div th:if="${blog.categories.g.id == category.id and blog.status == true}">
+                            <!-- Kiểm tra nếu đây là bài viết đầu tiên của danh mục, sử dụng thẻ h1, ngược lại sử dụng thẻ h2 -->
+                            <th:block th:if="${blog == #lists.first(category.blogs)}">
+                                <h1 th:text="${blog.title}">GB's Bankes wins snowboard cross silver at World Champs</h1>
+                            </th:block>
+                            <th:block th:unless="${blog == #lists.first(category.blogs)}">
+                                <h2 th:text="${blog.title}">Yankees Party Like It’s 1998, at Least for a Day</h2>
+                            </th:block>
+                            <!-- Nội dung bài viết -->
+                        </div>
+                    </div>
+                    <div class="col-lg-6 main-detal-news">
+                        <!-- Lặp qua danh sách bài viết khác của danh mục và hiển thị bằng thẻ h2 -->
+                        <th:block th:each="blog, iterStat : ${blogList}">
+                            <th:block th:if="${blog.category.id == category.id and blog.status == true and iterStat.index > 0 and iterStat.index < 5}">
+                                <h2 th:text="${blog.title}">Dale Earnhardt Jr. Returns to the Racetrack and an Old Hobby</h2>
+                                <!-- Nội dung bài viết -->
+                            </th:block>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</main>
+
+</body>
+</html>

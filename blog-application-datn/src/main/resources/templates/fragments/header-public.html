@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header id="header">
+    <div class="header">
+        <div class="container">
+            <img src="https://cdn.bongda24h.vn/images/logo-bongda24h.svg" alt="" />
+        </div>
+    </div>
+    <nav class="navication">
+        <div class="container">
+            <a href="#"><i class="bx bx-home"></i></a>
+            <ul>
+                <th:block th:each="category:${categoryList}">
+                    <li class="name-nav-header" th:text="${category.name}">
+                        <a href="#">Video</a>
+                    </li>
+                </th:block>
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Video</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Tin nóng</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Asiad 2023</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Việt Nam</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Anh</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">TBN</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Châu Âu</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Italy</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Đức</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Pháp</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Livescore</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Trực tiếp</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Bình luận</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Nhận định</a>-->
+<!--                </li>-->
+<!--                <li class="name-nav-header">-->
+<!--                    <a href="#">Chuyển nhượng</a>-->
+<!--                </li>-->
+            </ul>
+            <a href="#" class="user-main">
+                <i class="bx bxs-user-circle"></i>
+                <div class="user-pp">
+                    <ul>
+                        <li>Đăng ký/Đăng nhập</li>
+                        <li>Đăng suất</li>
+                        <li>Quản trị</li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

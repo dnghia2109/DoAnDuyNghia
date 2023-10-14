@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<!--    <ul>-->
+<!--       <li th:each="category:${categories}">-->
+<!--&lt;!&ndash;           <th:block th:text="${category.name}">Fantasy</th:block>&ndash;&gt;-->
+<!--           <ul th:text="${category.name}">-->
+<!--               <li th:each="blog:${category.blogs}">-->
+<!--                   <th:block th:text="${blog.title}">Fantasy</th:block>-->
+<!--               </li>-->
+
+<!--           </ul>-->
+<!--       </li>-->
+<!--    </ul>-->
+
+    <th:block th:each="category:${categories}">
+        <p th:text="${category.name}"></p>
+        <ul>
+<!--           <li th:each="blog:${category.blogs}" > &lt;!&ndash; Sử dụng th:limit để lấy số lượng bản ghi tối đa muốn lấy&ndash;&gt;-->
+<!--                <th:block th:text="${blog.title}">Fantasy</th:block>-->
+<!--                <span th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">01/02/2023</span>-->
+<!--           </li>-->
+            <li>
+                <th:block th:text="${category.blogs[0].title}">Fantasy</th:block>
+                <span th:text="${#temporals.format(category.blogs[0].publishedAt, 'dd/MM/yyyy')}">01/02/2023</span>
+            </li>
+        </ul>
+    </th:block>
+
+    <h1>Danh sách bài viết</h1>
+    <h2 th:text="${blogs[0].title}"></h2>
+    <h3 th:text="${blogs[0].description}"></h3>
+
+    <th:block th:each="blog, iterStat : ${blogs}" th:if="${!iterStat.first && iterStat.index<7}">
+        <h3 th:text="${blog.title}"></h3>
+        <p th:text="${blog.description}"></p>
+    </th:block>
+
+
+<!--<th:block th:each="category:${categories}">-->
+<!--    <p th:text="${category.name}"></p>-->
+<!--    <ul>-->
+<!--        <li th:each="blog:${category.blogs}">-->
+<!--            <th:block th:if="${count < 2}">-->
+<!--                <p th:text="${blog.title}"></p>-->
+<!--                &lt;!&ndash; Tăng biến đếm sau khi hiển thị một bài viết &ndash;&gt;-->
+<!--                <th:block th:with="count=${count + 1}"></th:block>-->
+<!--            </th:block>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--    &lt;!&ndash; Đặt lại biến đếm sau khi hiển thị danh sách cho mỗi thể loại &ndash;&gt;-->
+<!--    <th:block th:with="count=0"></th:block>-->
+<!--</th:block>-->
+
+
+</body>
+</html>
