@@ -21,7 +21,7 @@ public class BlogMapper {
         blogDto.setUpdatedAt(blog.getUpdatedAt());
         blogDto.setStatus(blog.getStatus());
         blogDto.setAuthor(new UserDto(blog.getUser()));
-        blogDto.setCategories(blog.getCategories());
+        blogDto.setCategory(blog.getCategory());
         blogDto.setComments(blog.getComments().stream().map(CommentDto::new).collect(Collectors.toList()));
         return blogDto;
     }

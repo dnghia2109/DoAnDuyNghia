@@ -95,7 +95,7 @@ public class Blog {
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -134,7 +134,7 @@ public class Blog {
 
     // Xóa cate thì list cate của blog cũng xóa
     public void removeCategory(Category category) {
-        this.categories.remove(category);
+        this.category = null;
     }
 
     public void removeTag(Tag tag) {

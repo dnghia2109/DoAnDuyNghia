@@ -134,24 +134,15 @@
                                             </option>
                                         </select>
                                     </div>
-<!--                                    <div class="form-group">-->
-<!--                                        <label>Trạng thái</label>-->
-<!--                                        <select id="status" class="form-control">-->
-<!--                                            <option value="false" th:selected="${blog.status == false}" >Nháp</option>-->
-<!--                                            <option value="true" th:selected="${blog.status == true}">Công khai</option>-->
-<!--                                        </select>-->
-<!--                                    </div>-->
                                     <div class="form-group">
-                                        <label>Danh mục</label>
-                                        <div class="select2-purple">
-                                            <select class="select2 form-control" multiple="multiple"
-                                                    id="category">
-                                                <option th:each="category : ${categoryList}" th:value="${category.id}"
-                                                        th:text="${category.name}">
+                                        <label for="category" class="required-label">Danh mục</label>
+                                        <select class="form-control" id="category">
+                                            <th:block th:each="category : ${categoryList}">
+                                                <option th:value="${category.id}" th:text="${category.name}" th:selected="${blog.category.id == category.id}">
                                                     Java
                                                 </option>
-                                            </select>
-                                        </div>
+                                            </th:block>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <div class="thumbnail-preview-container mb-3">
@@ -241,7 +232,7 @@
         const titleEl = document.getElementById("title")
         const descriptionEl = document.getElementById("description")
         const statusEl = document.getElementById("status")
-        const categoryEl = $("#category");
+        const categoryEl = $('#category');
         const thumbnailEl = document.getElementById("thumbnail");
 
         const initData = (data) => {
@@ -249,7 +240,9 @@
             easyMDE.value(data.content);
             descriptionEl.value = data.description;
             statusEl.value = data.status ? "true" : "false";
-            categoryEl.val(data.categories.map(c => `${c.id}`)).trigger("change");
+            // categoryEl.val(data.categories.map(c => `${c.id}`)).trigger("change");
+            //categoryEl.value = data.category.id
+
             thumbnailEl.src = data.thumbnail ? data.thumbnail : "https://placehold.co/600x400";
             console.log(thumbnailEl.src);
         };
@@ -268,7 +261,7 @@
                 const content = easyMDE.value();
                 const description = descriptionEl.value;
                 const status = statusEl.value;
-                const categoryIds = categoryEl.val();
+                const categoryId = parseInt(categoryEl.val());
                 const thumbnailURL = thumbnailEl.src == "https://placehold.co/600x400" ? null : thumbnailEl.src
 
                 // Tạo một đối tượng URL từ URL ban đầu
@@ -290,26 +283,38 @@
                         content,
                         description,
                         status: status === "true" ? true : false,
-                        categoryIds: categoryIds.map(id => parseInt(id)),
+                        // categoryIds: categoryIds.map(id => parseInt(id)),
+                        categoryId,
                         thumbnail
                     };
                     console.log(request);
 
                     // Gọi API
-                    const dataJson = await fetch("/api/v1/admin/blogs/" + blog.id, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(request)
-                    })
-                    const data = await dataJson.json();
-                    // setTimeout(() => {
-                    //     e.preventDefault()
-                    //     location.reload();
-                    // }, 1500);
+                    // const dataJson = await fetch("/api/v1/admin/blogs/" + blog.id, {
+                    //     method: "PUT",
+                    //     headers: {
+                    //         "Content-Type": "application/json"
+                    //     },
+                    //     body: JSON.stringify(request)
+                    // })
+                    // const data = await dataJson.json();
+                    // // setTimeout(() => {
+                    // //     e.preventDefault()
+                    // //     location.reload();
+                    // // }, 1500);
+                    //
+                    // toastr.success("Cập nhật thành công");
 
-                    toastr.success("Cập nhật thành công");
+                    let res = await axios.put("/api/v1/admin/blogs/" + blog.id, request);
+                    if (res.status === 200) {
+                        toastr.success("Cập nhật bài viết thành công");
+                    } else {
+                        toastr.error("Cập nhật bài viết thất bại");
+                    }
+                    setTimeout(() => {
+                        e.preventDefault()
+                        location.reload();
+                    }, 1500);
                 }
 
             } catch (e) {

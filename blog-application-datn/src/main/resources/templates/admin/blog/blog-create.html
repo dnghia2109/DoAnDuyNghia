@@ -118,16 +118,26 @@
                                             </option>
                                         </select>
                                     </div>
+<!--                                    <div class="form-group">-->
+<!--                                        <label>Danh mục</label>-->
+<!--                                        <div class="select2-purple">-->
+<!--                                            <select class="select2 form-control" multiple="multiple" id="category">-->
+<!--                                                <option th:each="category : ${categoryList}" th:value="${category.id}"-->
+<!--                                                        th:text="${category.name}">-->
+<!--                                                    Java-->
+<!--                                                </option>-->
+<!--                                            </select>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                     <div class="form-group">
-                                        <label>Danh mục</label>
-                                        <div class="select2-purple">
-                                            <select class="select2 form-control" multiple="multiple" id="category">
-                                                <option th:each="category : ${categoryList}" th:value="${category.id}"
-                                                        th:text="${category.name}">
+                                        <label for="category" class="required-label">Danh mục</label>
+                                        <select class="form-control" id="category">
+                                            <th:block th:each="category : ${categoryList}">
+                                                <option th:value="${category.id}" th:text="${category.name}">
                                                     Java
                                                 </option>
-                                            </select>
-                                        </div>
+                                            </th:block>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <div class="thumbnail-preview-container mb-3">
@@ -229,7 +239,7 @@
                 const content = easyMDE.value();
                 const description = descriptionEl.value;
                 const status = statusEl.value;
-                const categoryIds = categoryEl.val();
+                const categoryId = categoryEl.val();
                 const thumbnailURL = thumbnailEl.src == "https://placehold.co/600x400" ? null : thumbnailEl.src;
 
                 // Tạo một đối tượng URL từ URL ban đầu
@@ -243,7 +253,7 @@
                     content,
                     description,
                     status : status === "true" ? true : false,
-                    categoryIds : categoryIds.map(id => parseInt(id)),
+                    categoryId : categoryId,
                     thumbnail
                 };
                 console.log(request);

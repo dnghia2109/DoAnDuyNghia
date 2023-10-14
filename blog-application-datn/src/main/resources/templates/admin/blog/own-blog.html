@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{/layout/layout-admin :: main-fragment(~{:: title}, ~{}, ~{:: .content-wrapper}, ~{})}">
+      th:replace="~{/layout/layout-admin :: main-fragment(~{:: title}, ~{}, ~{:: .content-wrapper}, ~{:: #javascript})}">
 
 <head>
     <title>Bài viết của tôi</title>
@@ -46,26 +46,40 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Tiêu đề</th>
-                                    <th>Danh mục</th>
-                                    <th>Trạng thái</th>
-                                    <th>Ngày tạo</th>
+                                    <th class="text-center">Tiêu đề</th>
+                                    <th class="text-center">Danh mục</th>
+                                    <th class="text-center">Phê duyệt</th>
+                                    <th class="text-center">Trạng thái</th>
+                                    <th class="text-center">Ngày tạo</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+<!--                                <th:block th:with="blogList = ${page.getContent()}">-->
+<!--                                    <tr th:each="blog : ${blogList}">-->
+<!--                                        <td>-->
+<!--                                            <a th:href="@{/admin/blogs/{id}/detail  (id=${blog.id})}" th:text="${blog.title}">Khai giảng khóa</a>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <a href="#" th:text="${blog.user.name}">John Doe</a>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <span th:each="category : ${blog.categories}" class="badge bg-info mr-1" th:text="${category.name}"></span>-->
+<!--                                        </td>-->
+<!--                                        <td th:text="${blog.status ? 'Công khai' : 'Nháp'}">Công khai</td>-->
+<!--                                        <td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>-->
+<!--                                    </tr>-->
+<!--                                </th:block>-->
                                 <th:block th:with="blogList = ${page.getContent()}">
                                     <tr th:each="blog : ${blogList}">
                                         <td>
-                                            <a th:href="@{/admin/blogs/{id}/detail  (id=${blog.id})}" th:text="${blog.title}">Khai giảng khóa</a>
+                                            <a th:href="@{/admin/blogs/{id}/detail  (id=${blog.id})}" th:text="${blog.title}">Blog's title</a>
                                         </td>
-                                        <td>
-                                            <a href="#" th:text="${blog.user.name}">John Doe</a>
+                                        <td class="text-center">
+                                            <span class="badge bg-info mr-1" th:text="${blog.category.name}"></span>
                                         </td>
-                                        <td>
-                                            <span th:each="category : ${blog.categories}" class="badge bg-info mr-1" th:text="${category.name}"></span>
-                                        </td>
-                                        <td th:text="${blog.status ? 'Công khai' : 'Nháp'}">Công khai</td>
-                                        <td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>
+                                        <td th:text="${blog.approvalStatus}" class="text-center"></td>
+                                        <td th:text="${blog.status ? 'Công khai' : 'Nháp'}" class="text-center">Công khai</td>
+                                        <td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}" class="text-center">06-07-2022</td>
                                     </tr>
                                 </th:block>
                                 </tbody>
@@ -99,5 +113,17 @@
     </section>
 </div>
 </body>
+<th:block id="javascript">
+    <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+    <script th:src="@{/assets/lib/prism.js}"></script>
+    <script th:inline="javascript">
+
+        console.log(1)
+        console.log("================");
+        const blog = [[${page.getContent()}]];
+        console.log(blog);
+
+    </script>
+</th:block>
 
 </html>

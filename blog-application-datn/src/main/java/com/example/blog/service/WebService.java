@@ -79,7 +79,7 @@ public class WebService {
 
     // Lấy ds blog thuộc category
     public List<BlogPublic> getBlogsOfCategory(String categoryName) {
-        List<Blog> blogList = blogRepository.findByCategories_NameAndStatusOrderByPublishedAtDesc(categoryName, true);
+        List<Blog> blogList = blogRepository.findByCategory_NameAndStatusOrderByPublishedAtDesc(categoryName, true);
 
         return blogList.stream()
                 .map(blog -> BlogPublic.of(blog))

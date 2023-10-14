@@ -78,7 +78,7 @@
                                             <a href="#" th:text="${blog.author.name}">John Doe</a>
                                         </td>
                                         <td>
-                                            <span th:each="category : ${blog.categories}" class="badge bg-info mr-1" th:text="${category.name}"></span>
+                                            <span class="badge bg-info mr-1" th:text="${blog.category.name}"></span>
                                         </td>
                                         <td th:text="${blog.status ? 'Công khai' : 'Nháp'}">Công khai</td>
                                         <td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>

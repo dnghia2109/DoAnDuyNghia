@@ -2,7 +2,6 @@ package com.example.blog.service;
 
 import com.example.blog.constant.EApprovalStatus;
 import com.example.blog.dto.BlogDto;
-import com.example.blog.dto.UserDto;
 import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.entity.Blog;
 import com.example.blog.entity.Category;
@@ -43,16 +42,16 @@ public class BlogService {
         return pageInfo;
     }
 
-    public Page<BlogPublic> getAllOwnBlog(Integer page, Integer pageSize) {
-        User user = iCurrentUser.getUser();
-
-        Page<BlogPublic> pageInfo = blogRepository.findByUser_IdOrderByCreatedAtDesc(
-                user.getId(),
-                PageRequest.of(page - 1, pageSize)
-        );
-
-        return pageInfo;
-    }
+//    public Page<BlogPublic> getAllOwnBlog(Integer page, Integer pageSize) {
+//        User user = iCurrentUser.getUser();
+//
+//        Page<BlogPublic> pageInfo = blogRepository.findByUser_IdOrderByCreatedAtDesc(
+//                user.getId(),
+//                PageRequest.of(page - 1, pageSize)
+//        );
+//
+//        return pageInfo;
+//    }
 
 //    public List<BlogPublic> getAllOwnBlog() {
 //        User user = iCurrentUser.getUser();
@@ -61,35 +60,35 @@ public class BlogService {
 //        return pageInfo;
 //    }
 
-    @Transactional
-    public BlogPublic createBlog(UpsertBlogRequest request) {
-        // TODO: Validate thông tin (nếu cần thiết) - validation
-
-        // Tìm kiếm category
-        List<Category> categories = categoryRepository.findByIdIn(request.getCategoryIds());
-
-        // User đang login
-        User user = iCurrentUser.getUser();
-
-        // Tao blog
-        Slugify slugify = Slugify.builder().build();
-        Blog blog = Blog.builder()
-                .title(request.getTitle())
-                .slug(slugify.slugify(request.getTitle()))
-                .content(request.getContent())
-                .description(request.getDescription())
-                .thumbnail(request.getThumbnail())
-                .status(request.getStatus())
-                .approvalStatus(EApprovalStatus.PENDING)
-                .categories(categories)
-                .comments(new ArrayList<>())
-                .user(user)
-                .build();
-
-        blogRepository.save(blog);
-        BlogDto blogDto = new BlogDto(blog);
-        return BlogPublic.of(blog);
-    }
+//    @Transactional
+//    public BlogPublic createBlog(UpsertBlogRequest request) {
+//        // TODO: Validate thông tin (nếu cần thiết) - validation
+//
+//        // Tìm kiếm category
+//        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(null);
+//
+//        // User đang login
+//        User user = iCurrentUser.getUser();
+//
+//        // Tao blog
+//        Slugify slugify = Slugify.builder().build();
+//        Blog blog = Blog.builder()
+//                .title(request.getTitle())
+//                .slug(slugify.slugify(request.getTitle()))
+//                .content(request.getContent())
+//                .description(request.getDescription())
+//                .thumbnail(request.getThumbnail())
+//                .status(request.getStatus())
+//                .approvalStatus(EApprovalStatus.PENDING)
+//                .category(category)
+//                .comments(new ArrayList<>())
+//                .user(user)
+//                .build();
+//
+//        blogRepository.save(blog);
+//        BlogDto blogDto = new BlogDto(blog);
+//        return BlogPublic.of(blog);
+//    }
 
     public BlogPublic getBlogById(Integer id) {
         Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
@@ -98,29 +97,29 @@ public class BlogService {
         return BlogPublic.of(blog);
     }
 
-    @Transactional
-    public BlogPublic updateBlog(Integer id, UpsertBlogRequest request) {
-        Blog blog = blogRepository.findById(id).orElseThrow(() -> {
-            throw new NotFoundException("Not found blog with id = " + id);
-        });
-
-        // TODO: Validate thông tin (nếu cần thiết) - validation
-
-        // Tìm kiếm category
-        List<Category> categories = categoryRepository.findByIdIn(request.getCategoryIds());
-
-        Slugify slugify = Slugify.builder().build();
-        blog.setTitle(request.getTitle());
-        blog.setSlug(slugify.slugify(request.getTitle()));
-        blog.setDescription(request.getDescription());
-        blog.setContent(request.getContent());
-        blog.setStatus(request.getStatus());
-        blog.setThumbnail(request.getThumbnail());
-        blog.setCategories(categories);
-
-        blogRepository.save(blog);
-        return BlogPublic.of(blog);
-    }
+//    @Transactional
+//    public BlogPublic updateBlog(Integer id, UpsertBlogRequest request) {
+//        Blog blog = blogRepository.findById(id).orElseThrow(() -> {
+//            throw new NotFoundException("Not found blog with id = " + id);
+//        });
+//
+//        // TODO: Validate thông tin (nếu cần thiết) - validation
+//
+//        // Tìm kiếm category
+//        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(null);
+//
+//        Slugify slugify = Slugify.builder().build();
+//        blog.setTitle(request.getTitle());
+//        blog.setSlug(slugify.slugify(request.getTitle()));
+//        blog.setDescription(request.getDescription());
+//        blog.setContent(request.getContent());
+//        blog.setStatus(request.getStatus());
+//        blog.setThumbnail(request.getThumbnail());
+//        blog.setCategory(category);
+//
+//        blogRepository.save(blog);
+//        return BlogPublic.of(blog);
+//    }
 
     @Transactional
     public void deleteBlog(Integer id) {
@@ -139,6 +138,35 @@ public class BlogService {
     *
     * */
 
+//    // Danh sách các blog (ở phía quản trị)
+//    public Page<BlogDto> getBlogDto(Integer page, Integer pageSize) {
+//        return blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
+//    }
+//
+//    // Lấy chi tiết bài viết
+//    public BlogDto getBlogDtoById(Integer id) {
+//        Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
+//            throw new NotFoundException("Not found blog with id = " + id);
+//        });
+//        return BlogMapper.toDto(blog);
+//    }
+
+
+    public List<BlogDto> getBlogDtos() {
+        return blogRepository.getAllBlogDtos();
+    }
+    
+    
+// ============================================================================================================================================================================
+
+    /*
+    * @author: Lai Duy Nghia
+    * @since: 14/10/2023 14:20
+    * @description:  
+    * @update: 
+    *
+    * */
+
     // Danh sách các blog (ở phía quản trị)
     public Page<BlogDto> getBlogDto(Integer page, Integer pageSize) {
         return blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
@@ -152,8 +180,73 @@ public class BlogService {
         return BlogMapper.toDto(blog);
     }
 
-
-    public List<BlogDto> getBlogDtos() {
-        return blogRepository.getAllBlogDtos();
+    // Lấy ra danh sách các bài viết có approve status là pending (admin)
+    public Page<BlogDto> getBlogsWithApproveStatus(Integer page, Integer pageSize, String approvalStatus) {
+        Page<BlogDto> pageInfo = blogRepository.getBlogsWithApproveStatus(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()), EApprovalStatus.valueOf(approvalStatus));
+        return pageInfo;
     }
+
+
+    public Page<BlogDto> getAllOwnBlog(Integer page, Integer pageSize) {
+        User user = iCurrentUser.getUser();
+        Page<BlogDto> pageInfo = blogRepository.findByUser_IdOrderByCreatedAtDesc(user.getId(),
+                PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
+        return pageInfo;
+    }
+
+    @Transactional
+    public BlogDto createBlog(UpsertBlogRequest request) {
+        // TODO: Validate thông tin (nếu cần thiết) - validation
+
+        // Tìm kiếm category
+        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(null);
+
+        // User đang login
+        User user = iCurrentUser.getUser();
+
+        // Tao blog
+        Slugify slugify = Slugify.builder().build();
+        Blog blog = Blog.builder()
+                .title(request.getTitle())
+                .slug(slugify.slugify(request.getTitle()))
+                .content(request.getContent())
+                .description(request.getDescription())
+                .thumbnail(request.getThumbnail())
+                .status(request.getStatus())
+                .approvalStatus(EApprovalStatus.PENDING)
+                .category(category)
+                .comments(new ArrayList<>())
+                .user(user)
+                .build();
+
+        blogRepository.save(blog);
+        BlogDto blogDto = new BlogDto(blog);
+        return BlogMapper.toDto(blog);
+    }
+
+    @Transactional
+    public BlogDto updateBlog(Integer id, UpsertBlogRequest request) {
+        Blog blog = blogRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found blog with id = " + id);
+        });
+
+        // TODO: Validate thông tin (nếu cần thiết) - validation
+
+        // Tìm kiếm category
+        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(null);
+
+        Slugify slugify = Slugify.builder().build();
+        blog.setTitle(request.getTitle());
+        blog.setSlug(slugify.slugify(request.getTitle()));
+        blog.setDescription(request.getDescription());
+        blog.setContent(request.getContent());
+        blog.setStatus(request.getStatus());
+        blog.setThumbnail(request.getThumbnail());
+        blog.setCategory(category);
+
+        blogRepository.save(blog);
+        return BlogMapper.toDto(blog);
+    }
+    
+        
 }

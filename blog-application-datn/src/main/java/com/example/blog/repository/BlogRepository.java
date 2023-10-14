@@ -1,9 +1,11 @@
 package com.example.blog.repository;
 
+import com.example.blog.constant.EApprovalStatus;
 import com.example.blog.dto.BlogDto;
 import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.entity.Blog;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,19 +26,19 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     Optional<Blog> findByIdAndSlugAndStatus(Integer id, String slug, Boolean status);
 
     // Lấy ds blog theo category
-    List<Blog> findByCategories_NameAndStatusOrderByPublishedAtDesc(String name, Boolean status);
+    List<Blog> findByCategory_NameAndStatusOrderByPublishedAtDesc(String name, Boolean status);
 
     @Query(
             value = "select b from Blog b"
     )
     Page<BlogPublic> findBlogs(Pageable pageable);
 
-    Page<BlogPublic> findByUser_IdOrderByCreatedAtDesc(Integer id, Pageable pageable);
+//    Page<BlogPublic> findByUser_IdOrderByCreatedAtDesc(Integer id, Pageable pageable);
 
     List<BlogPublic> findByUser_IdOrderByCreatedAtDesc(Integer id);
 
     // Lấy danh sách blog theo category (dùng ở method xóa category)
-    List<Blog> findByCategories_IdOrderByIdAsc(Integer id);
+    List<Blog> findByCategory_IdOrderByIdAsc(Integer id);
 
     // Lấy danh sách blog theo tag (dùng ở method xóa tag)
     List<Blog> findByTags_IdOrderByIdAsc(Integer id);
@@ -53,7 +55,7 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
 //    @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b where b.status = true and b.categories.")
 //    List<BlogDto> findByCategoryAndStatusIsTrue(Integer id);
 
-    List<Blog> findByStatusTrueAndCategories_Id(Integer id);
+    List<Blog> findByStatusTrueAndCategory_Id(Integer id);
 
 //    Page<BlogDto> findByUser_IdOrderByCreatedAtDesc(Integer id, Pageable pageable);
 
@@ -76,4 +78,10 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b")
     List<BlogDto> getAllBlogDtos();
 
+
+    @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b where b.approvalStatus = ?1")
+    Page<BlogDto> getBlogsWithApproveStatus(Pageable pageable, EApprovalStatus approvalStatus);
+
+    @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b where b.user.id = ?1")
+    Page<BlogDto> findByUser_IdOrderByCreatedAtDesc(Integer id, Pageable pageable);
 }

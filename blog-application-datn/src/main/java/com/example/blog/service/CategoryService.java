@@ -1,6 +1,7 @@
 package com.example.blog.service;
 
 //import com.example.blog.dto.projection.BlogPublic;
+import com.example.blog.dto.CategoryDto;
 import com.example.blog.dto.projection.CategoryPublic;
 import com.example.blog.entity.Blog;
 import com.example.blog.entity.Category;
@@ -79,7 +80,7 @@ public class CategoryService {
             throw new NotFoundException("Not found category with id = " + id);
         });
 
-        List<Blog> blogList = blogRepository.findByCategories_IdOrderByIdAsc(id);
+        List<Blog> blogList = blogRepository.findByCategory_IdOrderByIdAsc(id);
         //blogList.forEach(blog -> blog.removeCategory(category));
         for (Blog blog: blogList) {
             blog.removeCategory(category);
@@ -89,4 +90,20 @@ public class CategoryService {
 
         categoryRepository.delete(category);
     }
+
+// ============================================================================================================================================================================
+    /*
+    * @author: Lai Duy Nghia
+    * @since: 14/10/2023 14:43
+    * @description:  Using CategoryDto
+    * @update:
+    *
+    * */
+
+    // Lấy ra danh sách tất cả các category
+    public List<CategoryDto> getAllCategories() {
+        return categoryRepository.findAll().stream().map(CategoryDto::new).collect(Collectors.toList());
+    }
+
+
 }
