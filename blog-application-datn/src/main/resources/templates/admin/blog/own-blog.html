@@ -48,7 +48,7 @@
                                 <tr>
                                     <th class="text-center">Tiêu đề</th>
                                     <th class="text-center">Danh mục</th>
-                                    <th class="text-center">Phê duyệt</th>
+                                    <th class="text-center">Trạng thái phê duyệt</th>
                                     <th class="text-center">Trạng thái</th>
                                     <th class="text-center">Ngày tạo</th>
                                 </tr>
@@ -75,9 +75,21 @@
                                             <a th:href="@{/admin/blogs/{id}/detail  (id=${blog.id})}" th:text="${blog.title}">Blog's title</a>
                                         </td>
                                         <td class="text-center">
-                                            <span class="badge bg-info mr-1" th:text="${blog.category.name}"></span>
+<!--                                            <span class="badge bg-info mr-1" th:text="${blog.category }  ? ${blog.category.name}:null "></span>-->
+                                            <span class="badge bg-info mr-1" th:text="${blog?.category?.name} != null ? ${blog.category.name} : 'Category is null'"></span>
                                         </td>
-                                        <td th:text="${blog.approvalStatus}" class="text-center"></td>
+                                        <td  class="text-center" >
+                                            <a th:if="${blog.approvalStatus == 'APPROVE'}" class="btn btn-success btn-circle"
+                                               href="#"
+                                               onclick="return confirm('Bạn có muốn phê duyệt bài viết này?')">
+                                                <i class="fas fa-check"></i>
+                                            </a>
+                                            <a th:if="${blog.approvalStatus == 'PENDING'}" class="btn btn-warning btn-circle"
+                                               href="#"
+                                               onclick="return confirm('Are you sure to unactive this user?')">
+                                                <i class="fas fa-exclamation-triangle"> </i>
+                                            </a>
+                                        </td>
                                         <td th:text="${blog.status ? 'Công khai' : 'Nháp'}" class="text-center">Công khai</td>
                                         <td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}" class="text-center">06-07-2022</td>
                                     </tr>
@@ -122,6 +134,8 @@
         console.log("================");
         const blog = [[${page.getContent()}]];
         console.log(blog);
+        console.log(typeof blog[0].approvalStatus)
+        console.log(blog[0].approvalStatus == 'APPROVE')
 
     </script>
 </th:block>

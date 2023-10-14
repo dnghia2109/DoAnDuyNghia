@@ -28,7 +28,7 @@ public class BlogDto {
     private LocalDateTime publishedAt;
     private LocalDateTime updatedAt;
     private Boolean status;
-    private EApprovalStatus approvalStatus;
+    private String approvalStatus;
     private UserDto author;
     private Category category;
     private List<CommentDto> comments;
@@ -41,7 +41,7 @@ public class BlogDto {
         this.content = blog.getContent();
         this.thumbnail = blog.getThumbnail();
         this.status = blog.getStatus();
-        this.approvalStatus = blog.getApprovalStatus();
+        this.approvalStatus = blog.getApprovalStatus().toString();
         this.publishedAt = blog.getPublishedAt();
         this.createdAt = blog.getCreatedAt();
         this.updatedAt = blog.getUpdatedAt();

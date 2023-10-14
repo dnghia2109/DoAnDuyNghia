@@ -85,7 +85,7 @@ public class Blog {
     private Boolean status;
 
     @Column(name = "approve_status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private EApprovalStatus approvalStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -112,8 +112,6 @@ public class Blog {
             joinColumns = @JoinColumn(name = "blog_id"),
             inverseJoinColumns = @JoinColumn(name = "tags_id"))
     private List<Tag> tags = new ArrayList<>();
-
-
 
     @PrePersist
     public void prePersist() {

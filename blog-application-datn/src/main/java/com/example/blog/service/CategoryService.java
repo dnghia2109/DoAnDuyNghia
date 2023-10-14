@@ -79,15 +79,15 @@ public class CategoryService {
         Category category = categoryRepository.findById(id).orElseThrow(() -> {
             throw new NotFoundException("Not found category with id = " + id);
         });
-
+        Category nullCategory = categoryRepository.findByName("NULL_CATEGORY").orElseThrow(null);
         List<Blog> blogList = blogRepository.findByCategory_IdOrderByIdAsc(id);
+
         //blogList.forEach(blog -> blog.removeCategory(category));
         for (Blog blog: blogList) {
             blog.removeCategory(category);
+            blog.setCategory(nullCategory);
             blogRepository.save(blog);
         }
-
-
         categoryRepository.delete(category);
     }
 

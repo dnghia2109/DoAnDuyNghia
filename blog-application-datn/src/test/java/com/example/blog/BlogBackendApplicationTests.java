@@ -1,5 +1,6 @@
 package com.example.blog;
 
+import com.example.blog.constant.EApprovalStatus;
 import com.example.blog.entity.*;
 import com.example.blog.repository.*;
 import com.github.slugify.Slugify;
@@ -86,19 +87,26 @@ class BlogBackendApplicationTests {
 
 //        userRepository.saveAll(users);
         userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        userRepository.save(user4);
     }
 
     @Test
     void save_categories() {
         List<Category> categories = List.of(
-                new Category(null, "Backend"),
-                new Category(null, "Frontend"),
-                new Category(null, "Devops"),
-                new Category(null, "Database"),
-                new Category(null, "Mobile"),
-                new Category(null, "Javascript"),
-                new Category(null, "Java"),
-                new Category(null, "Game")
+                new Category(null, "Thời sự"),
+                new Category(null, "Xã hội"),
+                new Category(null, "Thế giới"),
+                new Category(null, "Kinh tế"),
+                new Category(null, "Thể thao"),
+                new Category(null, "Văn hóa"),
+                new Category(null, "Sức khỏe"),
+                new Category(null, "Pháp luật"),
+                new Category(null, "Giáo dục"),
+                new Category(null, "Xe"),
+                new Category(null, "Du lịch"),
+                new Category(null, "Công nghệ")
         );
         categoryRepository.saveAll(categories);
 
@@ -112,7 +120,7 @@ class BlogBackendApplicationTests {
         List<User> userList = userRepository.findByRoles_NameIn(List.of("ADMIN", "AUTHOR"));
         List<Category> categoryList = categoryRepository.findAll();
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 15; i < 30; i++) {
             // Random 1 user
             User rdUser = userList.get(rd.nextInt(userList.size()));
 
@@ -133,7 +141,8 @@ class BlogBackendApplicationTests {
                     .content("content " + (i + 1))
                     .status(rd.nextInt(2) == 0)
                     .user(rdUser)
-                    .category(categoryList.get(rd.nextInt(8)))
+                    .approvalStatus(EApprovalStatus.PENDING)
+                    .category(categoryList.get(rd.nextInt(12)))
                     .build();
 
             blogRepository.save(blog);
