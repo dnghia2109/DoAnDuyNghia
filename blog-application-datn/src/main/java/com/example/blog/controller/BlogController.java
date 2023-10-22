@@ -73,24 +73,24 @@ public class BlogController {
 
 
     // Danh sách tất cả bài viết
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @GetMapping("/admin/blogs")
+//    public String getBlogPage1(@RequestParam(required = false, defaultValue = "1") Integer page,
+//                              @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+//                              Model model) {
+//        Page<BlogPublic> pageInfo = blogService.getAllBlog(page, pageSize);
+////        model.addAttribute("page", pageInfo);
+//
+//
+//        Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
+//        model.addAttribute("page1", pageInfoDto);
+//        model.addAttribute("currentPage", page);
+//
+//        return "admin/blog/blog-index";
+//    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/admin/blogs")
-    public String getBlogPage1(@RequestParam(required = false, defaultValue = "1") Integer page,
-                              @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                              Model model) {
-        Page<BlogPublic> pageInfo = blogService.getAllBlog(page, pageSize);
-//        model.addAttribute("page", pageInfo);
-
-
-        Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
-        model.addAttribute("page1", pageInfoDto);
-        model.addAttribute("currentPage", page);
-
-        return "admin/blog/blog-index";
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/admin/blogss")
+    @GetMapping("/dashboard/admin/blogs")
     public String getBlogsPage(@RequestParam(required = false, defaultValue = "1") Integer page,
                               @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                               Model model) {
@@ -102,7 +102,7 @@ public class BlogController {
 
     // Danh sách bài viết của tôi
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
-    @GetMapping("/admin/blogs/own-blogs")
+    @GetMapping("/dashboard/blogs/own-blogs")
     public String getOwnBlogsPage(@RequestParam(required = false, defaultValue = "1") Integer page,
                                  @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                                  Model model) {
@@ -116,19 +116,19 @@ public class BlogController {
     // Danh sách bài viết có approvalStatus là PENDING
     // Todo: Cần chỉnh lại trang HTML cho page này
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/admin/blogs/pending")
+    @GetMapping("/dashboard/admin/blogs/pending")
     public String getBlogsPendingPage(@RequestParam(required = false, defaultValue = "1") Integer page,
                               @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                               Model model) {
         Page<BlogDto> pageInfoDto = blogService.getBlogsWithApproveStatus(page, pageSize, "PENDING");
-        model.addAttribute("page1", pageInfoDto);
+        model.addAttribute("page", pageInfoDto);
         model.addAttribute("currentPage", page);
-        return "admin/blog/blog-index";
+        return "admin/blog/blog-pending";
     }
 
     // Tạo bài viết
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
-    @GetMapping("/admin/blogs/create")
+    @GetMapping("/dashboard/blogs/create")
     public String getBlogCreatePage(Model model) {
         //List<CategoryPublic> categoryList = categoryService.getAllCategory();
         List<CategoryDto> categoryList = categoryService.getAllCategories();
@@ -138,7 +138,7 @@ public class BlogController {
 
     // Chi tiết bài viết
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
-    @GetMapping("/admin/blogs/{id}/detail")
+    @GetMapping("/dashboard/blogs/{id}/detail")
     public String getBlogDetailPage(@PathVariable Integer id, Model model) {
         BlogDto blog = blogService.getBlogDtoById(id);
         //List<CategoryPublic> categoryList = categoryService.getAllCategory();
@@ -169,6 +169,20 @@ public class BlogController {
     public ResponseEntity<?> deleteBlog(@PathVariable Integer id) {
         blogService.deleteBlog(id);
         return ResponseEntity.noContent().build(); // 204
+    }
+
+    // 4. Phê duyệt bài viết
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/api/v1/admin/approve/{id}")
+    public ResponseEntity<?> approveBlog(@PathVariable Integer id) {
+        return new ResponseEntity<>(blogService.approveBlog(id), HttpStatus.OK);
+    }
+
+    // 5. Không phê duyêt bài viết
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/api/v1/admin/not-approve/{id}")
+    public ResponseEntity<?> notApproveBlog(@PathVariable Integer id, @RequestBody UpsertBlogRequest request) {
+        return new ResponseEntity<>(blogService.notApproveBlog(id, request), HttpStatus.OK);
     }
 
 //    @PostMapping("/api/v1/blogs-all")

@@ -18,7 +18,7 @@
                             <a href="#">Dashboard</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            <a href>Bài viết của tôi</a>
+                            Bài viết của tôi
                         </li>
                     </ol>
                 </div>
@@ -44,14 +44,15 @@
                     <div class="card">
                         <div class="card-body">
                             <table class="table table-bordered table-hover">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th class="text-center">Tiêu đề</th>
-                                    <th class="text-center">Danh mục</th>
-                                    <th class="text-center">Trạng thái phê duyệt</th>
-                                    <th class="text-center">Trạng thái</th>
-                                    <th class="text-center">Ngày tạo</th>
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Tiêu đề</th>
+                                        <th class="text-center">Danh mục</th>
+                                        <th class="text-center">Trạng thái phê duyệt</th>
+                                        <th class="text-center">Hành động phê duyệt</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-center">Ngày tạo</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
 <!--                                <th:block th:with="blogList = ${page.getContent()}">-->
@@ -76,19 +77,19 @@
                                         </td>
                                         <td class="text-center">
 <!--                                            <span class="badge bg-info mr-1" th:text="${blog.category }  ? ${blog.category.name}:null "></span>-->
-                                            <span class="badge bg-info mr-1" th:text="${blog?.category?.name} != null ? ${blog.category.name} : 'Category is null'"></span>
+                                            <span class="badge bg-info mr-1" th:text="${blog.category.name}"></span>
                                         </td>
-                                        <td  class="text-center" >
-                                            <a th:if="${blog.approvalStatus == 'APPROVE'}" class="btn btn-success btn-circle"
-                                               href="#"
-                                               onclick="return confirm('Bạn có muốn phê duyệt bài viết này?')">
+                                        <td class="text-center">
+                                            <span class="badge bg-primary mr-1" th:text="${blog.approvalStatus}"></span>
+                                        </td>
+                                        <td class="text-center" >
+                                            <button id="btn-approve" class="btn btn-approve btn-success btn-circle" th:onclick="|approveBlog(${blog.id})|">
                                                 <i class="fas fa-check"></i>
-                                            </a>
-                                            <a th:if="${blog.approvalStatus == 'PENDING'}" class="btn btn-warning btn-circle"
-                                               href="#"
-                                               onclick="return confirm('Are you sure to unactive this user?')">
-                                                <i class="fas fa-exclamation-triangle"> </i>
-                                            </a>
+                                            </button>
+                                            <button id="btn-not-approve" class="btn btn-warning btn-circle" th:onclick="|notApproveBlog(${blog.id})|"
+                                                    onclick="return confirm('Bạn có muốn phê duyệt bài viết này?')">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </button>
                                         </td>
                                         <td th:text="${blog.status ? 'Công khai' : 'Nháp'}" class="text-center">Công khai</td>
                                         <td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}" class="text-center">06-07-2022</td>
@@ -101,18 +102,18 @@
                                 <ul class="pagination mb-0">
                                     <li class="paginate_button page-item previous" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
                                         id="example2_previous">
-                                        <a th:href="@{/dashboard/blogs/own-blogs?page={pageNumber} (pageNumber=${currentPage-1})}" aria-controls="example2" data-dt-idx="0" tabindex="0"
+                                        <a th:href="@{/dashboard/admin/blogs/pending?page={pageNumber} (pageNumber=${currentPage-1})}" aria-controls="example2" data-dt-idx="0" tabindex="0"
                                            class="page-link">Previous</a>
                                     </li>
                                     <th:block th:with="numbers = ${T(com.example.blog.utils.Utils).createList(page.getTotalPages())}">
                                         <li th:each="number : ${numbers}" class="paginate_button page-item" th:classappend="${number == currentPage ? 'active' : ''}">
-                                            <a th:href="@{/dashboard/blogs/own-blogs?page={pageNumber} (pageNumber=${number})}" aria-controls="example2" data-dt-idx="1" tabindex="0"
+                                            <a th:href="@{/dashboard/admin/blogs/pending?page={pageNumber} (pageNumber=${number})}" aria-controls="example2" data-dt-idx="1" tabindex="0"
                                                class="page-link" th:text="${number}">1</a>
                                         </li>
                                     </th:block>
                                     <li class="paginate_button page-item next" th:classappend="${currentPage == page.getTotalPages() ? 'disabled' : ''}"
                                         id="example2_next">
-                                        <a th:href="@{/dashboard/blogs/own-blogs?page={pageNumber} (pageNumber=${currentPage+1})}" aria-controls="example2" data-dt-idx="7" tabindex="0"
+                                        <a th:href="@{/dashboard/admin/blogs/pending?page={pageNumber} (pageNumber=${currentPage+1})}" aria-controls="example2" data-dt-idx="7" tabindex="0"
                                            class="page-link">Next</a>
                                     </li>
                                 </ul>
@@ -132,10 +133,39 @@
 
         console.log(1)
         console.log("================");
-        const blog = [[${page.getContent()}]];
-        console.log(blog);
-        console.log(typeof blog[0].approvalStatus)
-        console.log(blog[0].approvalStatus == 'APPROVE')
+        const blogs = [[${page.getContent()}]];
+        console.log(blogs);
+        // console.log(typeof blogs[0].approvalStatus)
+        // console.log(blogs[0].approvalStatus == 'APPROVE')
+
+        const btnApproveBlog = document.querySelectorAll(".btn-approve");
+        let idBlogApprove = null;
+        const approveBlog = (id) => {
+            const blog = blogs.find(b => b.id === id);
+            idBlogApprove = blog.id;
+        }
+
+        btnApproveBlog.forEach(button => {
+            button.addEventListener("click", async () => {
+                try {
+                    console.log(idBlogApprove);
+                    if (confirm("Bạn có muốn phê duyệt bài viết này?")) {
+                        let res = await axios.post(`/api/v1/admin/approve/${idBlogApprove}`);
+                        if(res.status === 200) {
+                            toastr.success("Bài viết đã được phê duyệt.")
+                            setTimeout(() => {
+                                location.reload();
+                            }, 750);
+
+                        }
+                    }
+
+                } catch (e) {
+                    toastr.error(e.response.data.message);
+                    console.log(e);
+                }
+            });
+        });
 
     </script>
 </th:block>

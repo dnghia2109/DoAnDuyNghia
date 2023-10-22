@@ -91,18 +91,18 @@
                                 <ul class="pagination mb-0">
                                     <li class="paginate_button page-item previous" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
                                         id="example2_previous">
-                                        <a th:href="@{/admin/blogs?page={pageNumber} (pageNumber=${currentPage-1})}" aria-controls="example2" data-dt-idx="0" tabindex="0"
+                                        <a th:href="@{/dashboard/admin/blogs?page={pageNumber} (pageNumber=${currentPage-1})}" aria-controls="example2" data-dt-idx="0" tabindex="0"
                                            class="page-link">Previous</a>
                                     </li>
                                     <th:block th:with="numbers = ${T(com.example.blog.utils.Utils).createList(page1.getTotalPages())}">
                                         <li th:each="number : ${numbers}" class="paginate_button page-item" th:classappend="${number == currentPage ? 'active' : ''}">
-                                            <a th:href="@{/admin/blogs?page={pageNumber} (pageNumber=${number})}" aria-controls="example2" data-dt-idx="1" tabindex="0"
+                                            <a th:href="@{/dashboard/admin/blogs?page={pageNumber} (pageNumber=${number})}" aria-controls="example2" data-dt-idx="1" tabindex="0"
                                                class="page-link" th:text="${number}">1</a>
                                         </li>
                                     </th:block>
                                     <li class="paginate_button page-item next" th:classappend="${currentPage == page1.getTotalPages() ? 'disabled' : ''}"
                                         id="example2_next">
-                                        <a th:href="@{/admin/blogs?page={pageNumber} (pageNumber=${currentPage+1})}" aria-controls="example2" data-dt-idx="7" tabindex="0"
+                                        <a th:href="@{/dashboard/admin/blogs?page={pageNumber} (pageNumber=${currentPage+1})}" aria-controls="example2" data-dt-idx="7" tabindex="0"
                                            class="page-link">Next</a>
                                     </li>
                                 </ul>

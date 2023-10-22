@@ -88,6 +88,9 @@ public class Blog {
     @Enumerated(EnumType.STRING)
     private EApprovalStatus approvalStatus;
 
+    @Column(name = "note", length = 300)
+    private String note;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -117,6 +120,7 @@ public class Blog {
     public void prePersist() {
         createdAt = LocalDateTime.now();
         updatedAt = createdAt;
+        note = null;
         if(status) {
             publishedAt = createdAt;
         }

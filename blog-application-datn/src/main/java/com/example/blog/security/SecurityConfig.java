@@ -33,6 +33,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        String[] PUBLIC = {
+                "/",
+                "/roles",
+                "api/v1/auth/*",
+                "api/v1/java03/*",
+                "api/v1/java04/*",
+                "api/v1/mysql/lv01/*","api/v1/mysql/lv02/*"
+        };
         http
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests((authz) -> authz
@@ -53,5 +61,29 @@ public class SecurityConfig {
                 .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+//            .csrf()
+//                .disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers(PUBLIC).permitAll()
+//                .requestMatchers("/admin/blogs/own-blogs", "/admin/blogs/create",
+//                        "/api/v1/admin/blogs").hasAnyRole("AUTHOR", "ADMIN")
+//                .requestMatchers("/admin/blogs", "").hasRole("ADMIN")
+//                //.requestMatchers("/api/v1/java03", /api/v1/java04).hasAuthority("ROLE_AUTHOR")
+//                .anyRequest().authenticated()
+//            .and()
+//                .logout()
+//                    .logoutUrl("/logout-handle")
+//                    .logoutSuccessUrl("/")
+//                    .invalidateHttpSession(true)
+//                    .deleteCookies("JSESSIONID")
+//                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+//                    .permitAll()
+//            .and()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(customAuthenticationEntryPoint)
+//                .accessDeniedHandler(customAccessDenied)
+//            .and()
+//                .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
+//        return http.build();
     }
 }

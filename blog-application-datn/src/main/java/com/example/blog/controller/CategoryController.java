@@ -54,4 +54,13 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ========================================================================================================================================================================
+
+    @GetMapping("api/v1/category")
+    public ResponseEntity<?> getAllCategory() {
+        //categoryService.deleteCategory(id);
+        return ResponseEntity.ok(categoryService.getAllCate());
+    }
+
 }

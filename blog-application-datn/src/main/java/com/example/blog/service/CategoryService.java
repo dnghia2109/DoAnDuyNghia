@@ -105,5 +105,9 @@ public class CategoryService {
         return categoryRepository.findAll().stream().map(CategoryDto::new).collect(Collectors.toList());
     }
 
+    public List<Category> getAllCate() {
+        return categoryRepository.findAll();
+    }
+
 
 }

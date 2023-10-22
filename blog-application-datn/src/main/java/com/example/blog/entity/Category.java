@@ -59,5 +59,11 @@ public class Category {
         updatedAt = LocalDateTime.now();
     }
 
+//    @PreRemove
+//    public void preRemove() {
+//        for (Blog blog : blogs) {
+//            blog.setCategory(null);
+//        }
+//    }
 }
 

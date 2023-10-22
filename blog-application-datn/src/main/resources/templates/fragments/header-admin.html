@@ -68,19 +68,25 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                                <a th:href="@{/admin/blogs}" class="nav-link">
+                                <a th:href="@{/dashboard/admin/blogs}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Tất cả bài viết</p>
                                 </a>
                             </li>
+                            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{/dashboard/admin/blogs/pending}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Bài viết chờ phê duyệt</p>
+                                </a>
+                            </li>
                             <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'AUTHOR')">
-                                <a th:href="@{/admin/blogs/own-blogs}" class="nav-link">
+                                <a th:href="@{/dashboard/blogs/own-blogs}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Bài viết của tôi</p>
                                 </a>
                             </li>
                             <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'AUTHOR')">
-                                <a th:href="@{/admin/blogs/create}" class="nav-link">
+                                <a th:href="@{/dashboard/blogs/create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Tạo bài viết</p>
                                 </a>

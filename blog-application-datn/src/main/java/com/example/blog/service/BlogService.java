@@ -247,6 +247,39 @@ public class BlogService {
         blogRepository.save(blog);
         return BlogMapper.toDto(blog);
     }
-    
+
+    // TODO: Phê duyệt bài viết
+    @Transactional
+    public BlogDto approveBlog(Integer id) {
+        Blog blog = blogRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found blog with id = " + id);
+        });
+
+        blog.setApprovalStatus(EApprovalStatus.APPROVE);
+        blog.setNote(null);
+        blogRepository.save(blog);
+
+        return BlogMapper.toDto(blog);
+    }
+
+    // TODO: Không phê duyện bài viết
+    @Transactional
+    public BlogDto notApproveBlog(Integer id, UpsertBlogRequest request) {
+        Blog blog = blogRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found blog with id = " + id);
+        });
+
+        blog.setApprovalStatus(EApprovalStatus.NOT_APPROVE);
+        blog.setNote(request.getNote());
+        blogRepository.save(blog);
+        return BlogMapper.toDto(blog);
+    }
+
+    // TODO:
+//    @Shcheduled()
+//    public void scheduleFixedDelayTask() {
+//        System.out.println(
+//                "Fixed delay task - " + System.currentTimeMillis() / 1000);
+//    }
         
 }
