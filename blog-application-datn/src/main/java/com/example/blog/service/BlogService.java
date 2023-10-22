@@ -244,11 +244,17 @@ public class BlogService {
         blog.setThumbnail(request.getThumbnail());
         blog.setCategory(category);
 
+        // Trường hợp này sử dụng cho việc update khi các blog bị admin từ chối phê duyệt
+        if (blog.getApprovalStatus() == EApprovalStatus.NOT_APPROVE) {
+            blog.setApprovalStatus(EApprovalStatus.PENDING);
+            blog.setNote(" ");
+        }
+
         blogRepository.save(blog);
         return BlogMapper.toDto(blog);
     }
 
-    // TODO: Phê duyệt bài viết
+    // TODO: Phê duyệt bài viết (ADMIN)
     @Transactional
     public BlogDto approveBlog(Integer id) {
         Blog blog = blogRepository.findById(id).orElseThrow(() -> {
@@ -262,7 +268,7 @@ public class BlogService {
         return BlogMapper.toDto(blog);
     }
 
-    // TODO: Không phê duyện bài viết
+    // TODO: Không phê duyện bài viết (ADMIN)
     @Transactional
     public BlogDto notApproveBlog(Integer id, UpsertBlogRequest request) {
         Blog blog = blogRepository.findById(id).orElseThrow(() -> {
@@ -275,7 +281,19 @@ public class BlogService {
         return BlogMapper.toDto(blog);
     }
 
-    // TODO:
+    // TODO: Danh sách các bài viết của cá nhân bị từ chối phê duyệt (AUTHOR or ADMIN)
+    public Page<BlogDto> getBlogsNotApproveByUser(Integer page, Integer pageSize) {
+        User user = iCurrentUser.getUser();
+//        Page<BlogDto> pageInfo = blogRepository.findByUser_IdOrderByCreatedAtDesc(user.getId(),
+//                PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
+        Page<BlogDto> pageInfo = blogRepository.findByUser_IdAndApprovalStatus(user.getId(), EApprovalStatus.NOT_APPROVE,
+                PageRequest.of(page - 1, pageSize, Sort.by("createdAt").ascending()));
+        return pageInfo;
+    }
+
+
+
+    // TODO: hệ thống gửi mail tự động
 //    @Shcheduled()
 //    public void scheduleFixedDelayTask() {
 //        System.out.println(

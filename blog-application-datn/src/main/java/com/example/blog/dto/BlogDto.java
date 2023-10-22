@@ -24,6 +24,7 @@ public class BlogDto {
     private String description;
     private String content;
     private String thumbnail;
+    private String note;
     private LocalDateTime createdAt;
     private LocalDateTime publishedAt;
     private LocalDateTime updatedAt;
@@ -40,6 +41,7 @@ public class BlogDto {
         this.description = blog.getDescription();
         this.content = blog.getContent();
         this.thumbnail = blog.getThumbnail();
+        this.note = blog.getNote();
         this.status = blog.getStatus();
         this.approvalStatus = blog.getApprovalStatus().toString();
         this.publishedAt = blog.getPublishedAt();

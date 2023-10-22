@@ -78,10 +78,16 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b")
     List<BlogDto> getAllBlogDtos();
 
-
     @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b where b.approvalStatus = ?1")
     Page<BlogDto> getBlogsWithApproveStatus(Pageable pageable, EApprovalStatus approvalStatus);
 
     @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b where b.user.id = ?1")
     Page<BlogDto> findByUser_IdOrderByCreatedAtDesc(Integer id, Pageable pageable);
+
+    @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b where b.user.id = ?1 and b.approvalStatus = ?2")
+    Page<BlogDto> findByUser_IdAndApprovalStatus(Integer id, EApprovalStatus approvalStatus, Pageable pageable);
+
+    //Page<Blog> findByUser_IdOrderByCreatedAtAsc(Integer id, Pageable pageable);
+
+
 }

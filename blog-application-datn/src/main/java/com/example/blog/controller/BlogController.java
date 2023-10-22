@@ -53,7 +53,7 @@ public class BlogController {
         return "public/home";
     }
 
-    // Lấy ra danh sách blog theo ApprovalStatus
+    // TODO: Lấy ra danh sách blog theo ApprovalStatus
     @GetMapping("/api/blogs/approval-status")
     public ResponseEntity<?> getBlogsByApprovalStatus(@RequestParam(required = false, defaultValue = "1") Integer page,
                                                       @RequestParam(required = false, defaultValue = "10") Integer pageSize,
@@ -61,7 +61,7 @@ public class BlogController {
         return new ResponseEntity<>(blogService.getBlogsWithApproveStatus(page, pageSize, approvalStatus), HttpStatus.OK);
     }
 
-    // Lấy ra ds bài viết của người dùng đang đăng nhập
+    // TODO: Lấy ra ds bài viết của người dùng đang đăng nhập
     @GetMapping("/api/blogs/own-blogs")
     public ResponseEntity<?> getBlogsDtoByUserLogin(@RequestParam(required = false, defaultValue = "1") Integer page,
                                         @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
@@ -72,7 +72,7 @@ public class BlogController {
 
 
 
-    // Danh sách tất cả bài viết
+    // TODO: Danh sách tất cả bài viết
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    @GetMapping("/admin/blogs")
 //    public String getBlogPage1(@RequestParam(required = false, defaultValue = "1") Integer page,
@@ -100,7 +100,7 @@ public class BlogController {
         return "admin/blog/blog-index";
     }
 
-    // Danh sách bài viết của tôi
+    // TODO: Danh sách bài viết của tôi
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     @GetMapping("/dashboard/blogs/own-blogs")
     public String getOwnBlogsPage(@RequestParam(required = false, defaultValue = "1") Integer page,
@@ -113,20 +113,32 @@ public class BlogController {
         return "admin/blog/own-blog";
     }
 
-    // Danh sách bài viết có approvalStatus là PENDING
-    // Todo: Cần chỉnh lại trang HTML cho page này
+    // TODO: Danh sách bài viết chờ được phê duyệt có approvalStatus là PENDING (ADMIN)
+    // TODO: Cần chỉnh lại HTML cho page này
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/dashboard/admin/blogs/pending")
     public String getBlogsPendingPage(@RequestParam(required = false, defaultValue = "1") Integer page,
-                              @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                              Model model) {
+                                      @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                                      Model model) {
         Page<BlogDto> pageInfoDto = blogService.getBlogsWithApproveStatus(page, pageSize, "PENDING");
         model.addAttribute("page", pageInfoDto);
         model.addAttribute("currentPage", page);
         return "admin/blog/blog-pending";
     }
 
-    // Tạo bài viết
+    // TODO: Danh sách các bài viết bị từ chối phê duyệt (các tác giả)
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
+    @GetMapping("/dashboard/blogs/not-approve")
+    public String getBlogsNotApprovePage(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                         @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                                         Model model) {
+        Page<BlogDto> pageInfoDto = blogService.getBlogsNotApproveByUser(page, pageSize);
+        model.addAttribute("page", pageInfoDto);
+        model.addAttribute("currentPage", page);
+        return "admin/blog/blog-not-approve";
+    }
+
+    // TODO: Tạo bài viết
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     @GetMapping("/dashboard/blogs/create")
     public String getBlogCreatePage(Model model) {
@@ -136,7 +148,7 @@ public class BlogController {
         return "admin/blog/blog-create";
     }
 
-    // Chi tiết bài viết
+    // TODO: Chi tiết bài viết
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     @GetMapping("/dashboard/blogs/{id}/detail")
     public String getBlogDetailPage(@PathVariable Integer id, Model model) {
