@@ -5,6 +5,7 @@ import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.dto.projection.RolePublic;
 import com.example.blog.dto.projection.UserPublic;
 import com.example.blog.entity.Image;
+import com.example.blog.entity.Role;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.request.CreateUserRequest;
 import com.example.blog.request.UpdateUserRequest;
@@ -32,30 +33,31 @@ public class UserController {
     private UserRepository userRepository;
 
     // Danh sách View
-    @GetMapping("admin/users")
+    @GetMapping("/dashboard/admin/users")
     public String getListUserPage(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int pageSize,
             Model model) {
+        Page<UserDto> pageInfo = userService.getAllUser(page, pageSize);
+        List<Role> roleList = roleService.getAllRole();
 
-//        Page<UserPublic> pageInfo = userService.getAllUser(page, pageSize);
-        Page<UserDto> pageInfo = userService.getAllUser1(page, pageSize);
         model.addAttribute("page", pageInfo);
         model.addAttribute("currentPage", page);
+        model.addAttribute("roleList", roleList);
         return "admin/user/user-index";
     }
 
-    @GetMapping("admin/users/create")
+    @GetMapping("/dashboard/admin/users/create")
     public String getCreateUserPage(Model model) {
-        List<RolePublic> roleList = roleService.getAllRole();
+        List<Role> roleList = roleService.getAllRole();
         model.addAttribute("roleList", roleList);
 
         return "admin/user/user-create";
     }
 
-    @GetMapping("admin/users/{id}")
+    @GetMapping("/dashboard/admin/users/{id}")
     public String getDetailUserPage(@PathVariable Integer id, Model model) {
-        List<RolePublic> roleList = roleService.getAllRole();
+        List<Role> roleList = roleService.getAllRole();
         UserPublic user = userService.getUserById(id);
 
         model.addAttribute("roleList", roleList);
@@ -74,18 +76,14 @@ public class UserController {
 
     // Cập nhật thông tin user
     @PutMapping("api/v1/admin/users/{id}")
-    public ResponseEntity<?> updateUser(
-            @PathVariable Integer id,
-            @RequestBody UpdateUserRequest request) {
+    public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody UpdateUserRequest request) {
         UserPublic user = userService.updateUser(id, request);
         return ResponseEntity.ok(user);
     }
 
     // Upload avatar
     @PostMapping("api/v1/admin/users/{id}/upload-avatar")
-    public ResponseEntity<?> uploadAvatar(
-            @ModelAttribute("file") MultipartFile file,
-            @PathVariable Integer id) {
+    public ResponseEntity<?> uploadAvatar(@ModelAttribute("file") MultipartFile file, @PathVariable Integer id) {
         Image image = userService.uploadAvatar(id, file);
         return ResponseEntity.ok(image);
     }

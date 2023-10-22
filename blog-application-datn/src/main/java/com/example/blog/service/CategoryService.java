@@ -101,6 +101,15 @@ public class CategoryService {
     * */
 
     // Lấy ra danh sách tất cả các category
+
+    // TODO: Lấy danh sách các category (ADMIN)
+    public Page<CategoryDto> getAllCategoryPage(Integer page, Integer pageSize) {
+        Page<CategoryDto> pageInfo = categoryRepository.findAll(PageRequest.of(page - 1, pageSize,
+                                     Sort.by("createdAt").ascending())).map(CategoryDto::new);
+        return pageInfo;
+    }
+
+
     public List<CategoryDto> getAllCategories() {
         return categoryRepository.findAll().stream().map(CategoryDto::new).collect(Collectors.toList());
     }

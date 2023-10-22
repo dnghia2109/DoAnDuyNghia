@@ -79,6 +79,12 @@
                                     <p>Bài viết chờ phê duyệt</p>
                                 </a>
                             </li>
+                            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{/dashboard/blogs/not-approve}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Bài viết không hợp lệ</p>
+                                </a>
+                            </li>
                             <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'AUTHOR')">
                                 <a th:href="@{/dashboard/blogs/own-blogs}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -101,20 +107,19 @@
                             <p>
                                 Quản lý user
                                 <i class="fas fa-angle-left right"></i>
-
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a th:href="@{/admin/users}" class="nav-link">
+                                <a th:href="@{/dashboard/admin/users}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Danh sách tài khoản</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a th:href="@{/admin/users/create}" class="nav-link">
+                                <a th:href="@{/dashboard/admin/users/create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Tạo user</p>
+                                    <p>Tạo tài khoản</p>
                                 </a>
                             </li>
                         </ul>
@@ -131,7 +136,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a th:href="@{/admin/categories}" class="nav-link">
+                                <a th:href="@{/dashboard/admin/categories}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Danh sách category</p>
                                 </a>

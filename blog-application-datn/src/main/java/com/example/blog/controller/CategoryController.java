@@ -1,6 +1,7 @@
 package com.example.blog.controller;
 
 
+import com.example.blog.dto.CategoryDto;
 import com.example.blog.dto.projection.CategoryPublic;
 import com.example.blog.request.UpsertCategoryRequest;
 import com.example.blog.service.CategoryService;
@@ -20,11 +21,12 @@ public class CategoryController {
 
     // Danh sách tất cả category
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/admin/categories")
+    @GetMapping("/dashboard/admin/categories")
     public String getBlogPage(@RequestParam(required = false, defaultValue = "1") Integer page,
                               @RequestParam(required = false, defaultValue = "5") Integer pageSize,
                               Model model) {
-        Page<CategoryPublic> pageInfo = categoryService.getAllCategory(page, pageSize);
+        //Page<CategoryPublic> pageInfo = categoryService.getAllCategory(page, pageSize);
+        Page<CategoryDto> pageInfo = categoryService.getAllCategoryPage(page, pageSize);
         model.addAttribute("page", pageInfo);
         model.addAttribute("currentPage", page);
         return "admin/category/category-list";

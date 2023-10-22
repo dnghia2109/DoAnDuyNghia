@@ -3,7 +3,7 @@
       th:replace="~{/layout/layout-admin :: main-fragment(~{:: title}, ~{}, ~{:: .content-wrapper}, ~{:: #javascript})}">
 
 <head>
-    <title>Bài viết của tôi</title>
+    <title>Bài viết chờ phê duyệt</title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
                             <a href="#">Dashboard</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            Bài viết của tôi
+                            Bài viết chờ phê duyệt
                         </li>
                     </ol>
                 </div>
@@ -46,6 +46,7 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
+                                        <th class="text-center">STT</th>
                                         <th class="text-center">Tiêu đề</th>
                                         <th class="text-center">Danh mục</th>
                                         <th class="text-center">Trạng thái phê duyệt</th>
@@ -71,9 +72,10 @@
 <!--                                    </tr>-->
 <!--                                </th:block>-->
                                 <th:block th:with="blogList = ${page.getContent()}">
-                                    <tr th:each="blog : ${blogList}">
+                                    <tr th:each="blog, iStat : ${blogList}">
+                                        <td class="text-center" th:text="${page.size*(page.number)+(iStat.index+1)}"></td>
                                         <td>
-                                            <a th:href="@{/admin/blogs/{id}/detail (id=${blog.id})}" th:text="${blog.title}">Blog's title</a>
+                                            <a th:href="@{/dashboard/blogs/{id}/detail (id=${blog.id})}" th:text="${blog.title}">Blog's title</a>
                                         </td>
                                         <td class="text-center">
 <!--                                            <span class="badge bg-info mr-1" th:text="${blog.category }  ? ${blog.category.name}:null "></span>-->
@@ -86,7 +88,7 @@
                                             <button id="btn-approve" class="btn btn-approve btn-success btn-circle" th:onclick="|approveBlog(${blog.id})|">
                                                 <i class="fas fa-check"></i>
                                             </button>
-                                            <button id="btn-not-approve" class="btn btn-warning btn-circle" th:onclick="|notApproveBlog(${blog.id})|"
+                                            <button id="btn-not-approve" class="btn btn-warning btn-circle" th:onclick="|openModalNotApproveBlog(${blog.id})|"
                                                     onclick="return confirm('Bạn có muốn phê duyệt bài viết này?')">
                                                 <i class="fas fa-exclamation-triangle"></i>
                                             </button>
@@ -97,6 +99,30 @@
                                 </th:block>
                                 </tbody>
                             </table>
+
+                            <!-- Modal note reason to not approve blog -->
+                            <div class="modal fade" id="modalNotApproveBlog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title fs-5">Nội dung cần lưu ý</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="input-update">Nội dung</label>
+                                            <textarea type="text" class="form-control" id="input-update" placeholder="Enter name">
+                                            </textarea>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                            <button type="button" class="btn btn-primary" id="btn-not-approve-blog">Xác nhận</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="d-flex justify-content-center mt-3" id="pagination">
                                 <ul class="pagination mb-0">
@@ -138,6 +164,7 @@
         // console.log(typeof blogs[0].approvalStatus)
         // console.log(blogs[0].approvalStatus == 'APPROVE')
 
+        // Approve blog
         const btnApproveBlog = document.querySelectorAll(".btn-approve");
         let idBlogApprove = null;
         const approveBlog = (id) => {
@@ -159,7 +186,6 @@
 
                         }
                     }
-
                 } catch (e) {
                     toastr.error(e.response.data.message);
                     console.log(e);
@@ -167,6 +193,42 @@
             });
         });
 
+
+        // Not approve blog
+        let idNotApproveBlog = null;
+        const inputNoteEL = document.getElementById("input-update");
+        const btnNotApproveBlog = document.getElementById("btn-not-approve-blog");
+        const openModalNotApproveBlog = (id) => {
+            const blog = blogs.find(b => b.id === id);
+            inputNoteEL.value = blog.note === " " ? null : blog.note;
+            idNotApproveBlog = blog.id;
+            console.log(`========= \n ${idNotApproveBlog}`)
+            $("#modalNotApproveBlog").modal("show")
+        }
+
+        btnNotApproveBlog.addEventListener("click", async () => {
+            try {
+                const note = inputNoteEL.value;
+                if (!note || note === "") {
+                    toastr.error("Nội dung cần lưu ý không được để chống")
+                    return
+                }
+
+                let res = await axios.post(`/api/v1/admin/not-approve/${idNotApproveBlog}`, { note })
+
+                if(res.status === 200) {
+                    toastr.success("Kiểm duyệt bài viết thành công.")
+                    $("#modalUpdateCategory").modal("hide")
+                    idNotApproveBlog = null;
+                    setTimeout(() => {
+                        location.reload();
+                    }, 750);
+                }
+            } catch (e) {
+                toastr.error(e.response.data.message);
+                console.log(e);
+            }
+        })
     </script>
 </th:block>
 

@@ -14,6 +14,7 @@ import com.example.blog.request.UpdateUserRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,13 +29,8 @@ public class UserService {
     private final ImageService imageService;
     private final PasswordEncoder passwordEncoder;
 
-    public Page<UserPublic> getAllUser(Integer page, Integer pageSize) {
-        Page<UserPublic> pageInfo = userRepository.findUsers(PageRequest.of(page - 1, pageSize));
-        return pageInfo;
-    }
-
-    public Page<UserDto> getAllUser1(Integer page, Integer pageSize) {
-        Page<UserDto> pageInfo = userRepository.findUsers1(PageRequest.of(page - 1, pageSize));
+    public Page<UserDto> getAllUser(Integer page, Integer pageSize) {
+        Page<UserDto> pageInfo = userRepository.findAll(PageRequest.of(page - 1, pageSize, Sort.by("id").ascending())).map(UserDto::new);
         return pageInfo;
     }
 

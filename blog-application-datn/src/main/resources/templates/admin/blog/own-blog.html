@@ -72,7 +72,7 @@
                                 <th:block th:with="blogList = ${page.getContent()}">
                                     <tr th:each="blog : ${blogList}">
                                         <td>
-                                            <a th:href="@{/admin/blogs/{id}/detail (id=${blog.id})}" th:text="${blog.title}">Blog's title</a>
+                                            <a th:href="@{/dashboard/blogs/{id}/detail (id=${blog.id})}" th:text="${blog.title}">Blog's title</a>
                                         </td>
                                         <td class="text-center">
 <!--                                            <span class="badge bg-info mr-1" th:text="${blog.category }  ? ${blog.category.name}:null "></span>-->

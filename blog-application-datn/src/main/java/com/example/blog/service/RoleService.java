@@ -13,10 +13,7 @@ import java.util.List;
 public class RoleService {
     private final RoleRepository roleRepository;
 
-    public List<RolePublic> getAllRole() {
-        return roleRepository.findAll()
-                .stream()
-                .map(role -> RolePublic.of(role))
-                .toList();
+    public List<Role> getAllRole() {
+        return roleRepository.findAll();
     }
 }

@@ -22,8 +22,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     )
     Page<UserPublic> findUsers(Pageable pageable);
 
-    @Query(
-            value = "select u from User u"
-    )
-    Page<UserDto> findUsers1(Pageable pageable);
+//    @Query(
+//            value = "select u from User u"
+//    )
+//    Page<UserDto> findUsers1(Pageable pageable);
 }
