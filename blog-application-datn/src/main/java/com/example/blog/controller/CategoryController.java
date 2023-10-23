@@ -22,9 +22,9 @@ public class CategoryController {
     // Danh sách tất cả category
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/dashboard/admin/categories")
-    public String getBlogPage(@RequestParam(required = false, defaultValue = "1") Integer page,
-                              @RequestParam(required = false, defaultValue = "5") Integer pageSize,
-                              Model model) {
+    public String getCategoryPage(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                  @RequestParam(required = false, defaultValue = "5") Integer pageSize,
+                                  Model model) {
         //Page<CategoryPublic> pageInfo = categoryService.getAllCategory(page, pageSize);
         Page<CategoryDto> pageInfo = categoryService.getAllCategoryPage(page, pageSize);
         model.addAttribute("page", pageInfo);

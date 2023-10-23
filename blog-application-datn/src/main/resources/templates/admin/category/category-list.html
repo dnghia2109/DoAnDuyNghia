@@ -110,7 +110,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body table-responsive-sm">
-                            <table class="table table-bordered table-hover center" style="width: 1000px;">
+                            <table class="table table-bordered table-hover center">
                                 <thead>
                                     <tr>
                                         <th class="text-center">STT</th>
@@ -122,11 +122,11 @@
                                 <tbody>
                                     <th:block th:with="categoryList = ${page.getContent()}">
                                         <tr th:each="category, state : ${categoryList}">
-                                            <td th:text="${(currentPage - 1) * page.getSize() + (state.index + 1)}" class="text-center" style="width: 20px">1</td>
-                                            <td th:text="${category.name}" class="text-center" style="width: 400px">Backend</td>
-                                            <td th:text="${category.status ? 'Công khai' : 'Ẩn'}" class="text-center" style="width: 300px"></td>
+                                            <td th:text="${(currentPage - 1) * page.getSize() + (state.index + 1)}" class="text-center" >1</td>
+                                            <td th:text="${category.name}" class="text-center">Backend</td>
+                                            <td th:text="${category.status ? 'Công khai' : 'Ẩn'}" class="text-center"></td>
 
-                                            <td class="text-center" style="width: 500px">
+                                            <td class="text-center">
                                                 <button class="btn btn-warning"
                                                         th:onclick="|openModalUpdate(${category.id})|">Sửa
                                                 </button>
