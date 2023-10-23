@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layout/layout-admin :: main-fragment(~{:: title}, ~{}, ~{:: .content-wrapper}, ~{:: #javascript})}">
+
+<head>
+    <title>Tags</title>
+</head>
+
+<body>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Tất cả tag
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row py-2">
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateTag">
+                        <i class="fas fa-plus"></i> Tạo tag
+                    </button>
+                    <a th:href="@{/dashboard/admin/categories}" class="btn btn-info">
+                        <i class="fas fa-redo"></i> Refresh
+                    </a>
+                </div>
+            </div>
+
+            <!-- Modal Create tag -->
+            <div class="modal fade" id="modalCreateTag">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Tạo tag</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control" id="input-create" placeholder="Enter name">
+                        </div>
+                        <!--Trạng thái-->
+                        <div class="modal-body form-group">
+                            <label>Trạng thái</label>
+                            <select id="status-create" class="form-control">
+                                <option value="false">
+                                    Ẩn
+                                </option>
+                                <option value="true">
+                                    Công khai
+                                </option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary" id="btn-create-tag">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Update tag -->
+            <div class="modal fade" id="modalUpdateTag">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title fs-5">Cập nhật tag</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control" id="input-update" placeholder="Enter name">
+                        </div>
+                        <!--Trạng thái-->
+                        <div class="modal-body form-group">
+                            <label>Trạng thái</label>
+                            <select id="status-update" class="form-control">
+                                <option value="false">
+                                    Ẩn
+                                </option>
+                                <option value="true">
+                                    Công khai
+                                </option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary" id="btn-update-tag">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body table-responsive-sm">
+                            <table class="table table-bordered table-hover center">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">STT</th>
+                                        <th class="text-center">Tên tag</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-center">Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <th:block th:with="tagList = ${page.getContent()}">
+                                        <tr th:each="tag, state : ${tagList}">
+                                            <td th:text="${(currentPage - 1) * page.getSize() + (state.index + 1)}" class="text-center" >1</td>
+                                            <td th:text="${tag.name}" class="text-center">Backend</td>
+                                            <td th:text="${tag.status ? 'Công khai' : 'Ẩn'}" class="text-center"></td>
+
+                                            <td class="text-center">
+                                                <button class="btn btn-warning"
+                                                        th:onclick="|openModalUpdate(${tag.id})|">Sửa
+                                                </button>
+                                                <button class="btn btn-danger"
+                                                        th:onclick="|deleteTag(${tag.id})|">Xóa
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                </tbody>
+                            </table>
+
+                            <div class="d-flex justify-content-center mt-3" id="pagination">
+                                <ul class="pagination mb-0">
+                                    <li class="paginate_button page-item previous"
+                                        th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                        id="example2_previous">
+                                        <a th:href="@{/dashboard/admin/tags?page={pageNumber} (pageNumber=${currentPage-1})}"
+                                           aria-controls="example2" data-dt-idx="0" tabindex="0"
+                                           class="page-link">Previous</a>
+                                    </li>
+                                    <th:block
+                                            th:with="numbers = ${T(com.example.blog.utils.Utils).createList(page.getTotalPages())}">
+                                        <li th:each="number : ${numbers}" class="paginate_button page-item"
+                                            th:classappend="${number == currentPage ? 'active' : ''}">
+                                            <a th:href="@{/dashboard/admin/tags?page={pageNumber} (pageNumber=${number})}"
+                                               aria-controls="example2" data-dt-idx="1" tabindex="0"
+                                               class="page-link" th:text="${number}">1</a>
+                                        </li>
+                                    </th:block>
+                                    <li class="paginate_button page-item next"
+                                        th:classappend="${currentPage == page.getTotalPages() ? 'disabled' : ''}"
+                                        id="example2_next">
+                                        <a th:href="@{/dashboard//admin/tags?page={pageNumber} (pageNumber=${currentPage+1})}"
+                                           aria-controls="example2" data-dt-idx="7" tabindex="0"
+                                           class="page-link">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<th:block id="javascript">
+    <script th:inline="javascript">
+        let tagList = [[${page.getContent()}]]
+        console.log(tagList);
+
+        // Render Topic
+        const tableContent = document.querySelector("tbody")
+        const renderTags = tagList => {
+            tableContent.innerHTML = "";
+            let html = "";
+            tagList.forEach((tag, index) => {
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${tag.name}</td>
+                        <td>
+                            <button class="btn btn-warning" onclick="openModalUpdate(${tag.id})">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteCategory(${tag.id})">Delete</button>
+                        </td>
+                    </tr>
+                `
+            })
+            tableContent.innerHTML = html;
+        }
+
+        // Tạo chủ đề
+        const btnCreateTag = document.getElementById("btn-create-tag");
+        const inputCreateEl = document.getElementById("input-create");
+        const statusCreateEl = document.getElementById("status-create");
+        btnCreateTag.addEventListener("click", async () => {
+            try {
+                const name = inputCreateEl.value;
+                const status = statusCreateEl.value;
+                if (!name || name === "") {
+                    toastr.error("Tên tag không được để trống")
+                    return
+                }
+
+                let res = await axios.post("/api/v1/admin/tags", { name, status })
+                if(res.status === 200 || res.status === 201) {
+                    // tagList.push(res.data)
+                    // location.reload();
+                    //renderTags(tagList)
+                    $("#modalCreateTag").modal("hide");
+                    toastr.success("Tạo thành công");
+                    location.reload();
+                }
+            } catch (e) {
+                toastr.error(e.response.data.message);
+                console.log(e);
+            }
+        })
+
+        // Cập nhật chủ đề
+        let idTagUpdate = null;
+        const btnUpdateTag = document.getElementById("btn-update-tag");
+        const inputUpdateEl = document.getElementById("input-update");
+        const statusUpdateEl = document.getElementById("status-update");
+
+        $('#modalUpdateTag').on('hidden.bs.modal', function (event) {
+            idTagUpdate = null;
+        })
+
+        const openModalUpdate = (id) => {
+            const tag = tagList.find(t => t.id === id);
+            inputUpdateEl.value = tag.name;
+            statusUpdateEl.value = tag.status ? "true" : "false";
+            idTagUpdate = tag.id;
+            $("#modalUpdateTag").modal("show")
+        }
+
+        btnUpdateTag.addEventListener("click", async () => {
+            try {
+                const name = inputUpdateEl.value;
+                const status = statusUpdateEl.value;
+                if (!name || name === "") {
+                    toastr.error("Tên tag không được để trống")
+                    return;
+                }
+
+                let res = await axios.put(`/api/v1/admin/tags/${idTagUpdate}`, { name, status })
+
+                if(res.status === 200) {
+                    const tag = tagList.find(c => c.id === idTagUpdate)
+                    tag.name = res.data.name
+                    toastr.success("Cập nhật thành công")
+                    location.reload();
+                    //renderCategoies(categoryList)
+                    $("#modalUpdateTag").modal("hide")
+                    idTagUpdate = null;
+
+                }
+            } catch (e) {
+                toastr.error(e.response.data.message);
+                console.log(e);
+            }
+        })
+
+        // Xóa
+        const deleteTag = async (id) => {
+            const isConfirm = window.confirm("Bạn có muốn xóa không")
+            if (isConfirm) {
+                try {
+                    let res = await axios.delete(`/api/v1/admin/tags/${id}`)
+
+                    if(res.status === 200 || res.status === 204) {
+                        tagList = tagList.filter(t => t.id !== id)
+                        location.reload();
+                        //renderCategoies(categoryList)
+                        toastr.success("Xóa thành công")
+                    }
+                } catch (e) {
+                    toastr.error(e.response.data.message);
+                    console.log(e);
+                }
+            }
+        }
+    </script>
+</th:block>
+</body>
+
+</html>

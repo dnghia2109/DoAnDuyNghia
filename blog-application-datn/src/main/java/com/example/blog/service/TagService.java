@@ -1,5 +1,6 @@
 package com.example.blog.service;
 
+import com.example.blog.dto.TagDto;
 import com.example.blog.entity.Blog;
 import com.example.blog.entity.Tag;
 import com.example.blog.exception.BadRequestException;
@@ -20,7 +21,6 @@ import java.util.List;
 @Slf4j
 @Service
 public class TagService {
-
     @Autowired
     private TagRepository tagRepository;
 
@@ -28,7 +28,7 @@ public class TagService {
     private BlogRepository blogRepository;
 
     @Transactional
-    public Tag createTag(TagRequest request) {
+    public TagDto createTag(TagRequest request) {
         if (request.getName() == null || request.getName().equals("")) {
             throw new BadRequestException("Name is required");
         }
@@ -40,11 +40,13 @@ public class TagService {
         Tag tag = new Tag();
         tag.setName(request.getName());
         tag.setStatus(request.getStatus());
-        return tagRepository.save(tag);
+        tagRepository.save(tag);
+
+        return new TagDto(tag);
     }
 
     @Transactional
-    public Tag updateTag(Integer id, TagRequest request) {
+    public TagDto updateTag(Integer id, TagRequest request) {
         Tag tag = tagRepository.findById(id).orElseThrow(() -> {
             throw new NotFoundException("Not found tag with id = " + id);
         });
@@ -53,7 +55,7 @@ public class TagService {
             throw new BadRequestException("Name is required");
         }
 
-        if (tagRepository.findByName(request.getName()).isPresent()) {
+        if (!tag.getName().equalsIgnoreCase(request.getName()) && (tagRepository.findByName(request.getName()).isPresent())) {
             throw new BadRequestException("Tag is exist");
         }
 
@@ -61,7 +63,7 @@ public class TagService {
         tag.setStatus(request.getStatus());
         tagRepository.save(tag);
 
-        return tag;
+        return new TagDto(tag);
     }
 
     public void deleteTag(Integer id) {
@@ -78,8 +80,8 @@ public class TagService {
     }
 
     // Hiển thị danh sách các tag trong hệ thống (dùng cho trang danh sách tag admin)
-    public Page<Tag> getAllTagForAdmin(Integer page, Integer pageSize) {
-        return tagRepository.findAll(PageRequest.of(page - 1, pageSize, Sort.by("id").ascending()));
+    public Page<TagDto> getAllTagForAdmin(Integer page, Integer pageSize) {
+        return tagRepository.findAll(PageRequest.of(page - 1, pageSize, Sort.by("id").ascending())).map(TagDto::new);
     }
 
     public List<Tag> getAllTag() {
