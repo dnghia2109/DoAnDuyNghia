@@ -1,7 +1,9 @@
 package com.example.blog.service;
 
 import com.example.blog.entity.TokenConfirm;
+import com.example.blog.entity.User;
 import com.example.blog.repository.TokenConfirmRepository;
+import com.example.blog.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TokenConfirmService {
     private final TokenConfirmRepository tokenConfirmRepository;
+    private final UserRepository userRepository;
 
     public Map<String, Object> checkConfirmToken(String token) {
         Map<String, Object> info = new HashMap<>();
@@ -38,10 +41,46 @@ public class TokenConfirmService {
             info.put("message", "Token đã hết hạn");
             return info;
         }
-
         tokenConfirm.setConfirmedAt(LocalDateTime.now());
         tokenConfirmRepository.save(tokenConfirm);
         info.put("isValid", true);
         return info;
     }
+
+    public Map<String, Object> checkConfirmTokenRegister(String token) {
+        Map<String, Object> info = new HashMap<>();
+        // Kiểm tra token có hợp lệ hay không
+        Optional<TokenConfirm> optionalTokenConfirm = tokenConfirmRepository.findByToken(token);
+        if(optionalTokenConfirm.isEmpty()) {
+            info.put("isValid", false);
+            info.put("message", "Token không hợp lệ");
+            return info;
+        }
+        // Kiểm tra token đã được kích hoạt hay chưa
+        TokenConfirm tokenConfirm = optionalTokenConfirm.get();
+        if(tokenConfirm.getConfirmedAt() != null) {
+            info.put("isValid", false);
+            info.put("message", "Token đã được kích hoạt");
+            return info;
+        }
+
+        // Kiểm tra token đã hết hạn hay chưa
+        if(tokenConfirm.getExpiredAt().isBefore(LocalDateTime.now())) {
+            info.put("isValid", false);
+            info.put("message", "Token đã hết hạn");
+            return info;
+        }
+        tokenConfirm.setConfirmedAt(LocalDateTime.now());
+        tokenConfirmRepository.save(tokenConfirm);
+
+        // TODO: Kích hoạt tài khoản
+        User user = tokenConfirm.getUser();
+        user.setEnabled(true);
+        userRepository.save(user);
+
+        info.put("isValid", true);
+        return info;
+    }
+
+
 }

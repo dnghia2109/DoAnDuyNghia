@@ -11,5 +11,6 @@ import java.util.List;
 @Setter
 public class UpdateUserRequest {
     private String name;
+    private String password;
     private List<Integer> roleIds;
 }

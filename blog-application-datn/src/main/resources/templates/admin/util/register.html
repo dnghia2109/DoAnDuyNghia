@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE | Log in</title>
+    <title>AdminLTE | Register</title>
 
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
@@ -22,7 +22,15 @@
 
     <div class="card">
         <div class="card-body login-card-body">
-            <form id="form-login">
+            <form id="form-register">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Name" autocomplete="off" required id="name">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="input-group mb-3">
                     <input type="email" class="form-control" placeholder="Email" autocomplete="off" required id="email">
                     <div class="input-group-append">
@@ -32,11 +40,18 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password" autocomplete="off" required
-                           id="password">
+                    <input type="password" class="form-control" placeholder="Password" autocomplete="off" required id="password">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="RePassword" autocomplete="off" required id="password-confirm">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
                         </div>
                     </div>
                 </div>
@@ -49,9 +64,6 @@
             </form>
             <p class="mb-1 mt-2">
                 <a th:href="@{/admin/forgot-password}">Quên mật khẩu</a>
-            </p>
-            <p class="mb-1 mt-2">
-                <a th:href="@{/register}">Đăng kí tài khoản</a>
             </p>
         </div>
 
@@ -82,25 +94,29 @@
         "hideMethod": "fadeOut"
     }
 
-    const formLoginEl = document.getElementById("form-login");
+    const formRegisterEl = document.getElementById("form-register");
+    const nameEl = document.getElementById("name");
     const emailEl = document.getElementById("email");
     const passwordEl = document.getElementById("password");
+    const passwordConfirmEl = document.getElementById("password-confirm");
 
-    formLoginEl.addEventListener("submit", async (e) => {
+    formRegisterEl.addEventListener("submit", async (e) => {
         e.preventDefault();
         try {
             const request = {
+                name: nameEl.value,
                 email: emailEl.value,
-                password: passwordEl.value
+                password: passwordEl.value,
+                confirmPassword: passwordConfirmEl.value
             };
 
-            let res = await axios.post("/api/v1/admin/auth/login", request)
+            let res = await axios.post("/api/v1/auth/register", request)
             if(res.status === 200) {
-                toastr.success("Đăng nhập thành công");
-                setTimeout(() => {
-                    window.location.href = "/dashboard/blogs/own-blogs";
-                    // window.location.href = "/admin/blogs";
-                }, 1500);
+                toastr.success("Hãy kiểm tra email và sử dụng đường link được gửi kèm theo");
+                // setTimeout(() => {
+                //     window.location.href = "/dashboard/blogs/own-blogs";
+                //     // window.location.href = "/admin/blogs";
+                // }, 1500);
             }
         } catch (e) {
             toastr.error(e.response.data.message)

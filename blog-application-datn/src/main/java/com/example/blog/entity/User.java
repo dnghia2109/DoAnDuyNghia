@@ -37,11 +37,14 @@ public class User implements UserDetails {
     @Column(name = "avatar")
     private String avatar;
 
+    @Column(name = "enabled")
+    private Boolean enabled = false;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Blog> blogs = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -81,7 +84,14 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
+    }
+
+    public User(String name, String email, String password, Role userRole) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = List.of(userRole);
     }
 }
 

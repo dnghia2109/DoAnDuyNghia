@@ -6,6 +6,7 @@ import com.example.blog.dto.projection.RolePublic;
 import com.example.blog.dto.projection.UserPublic;
 import com.example.blog.entity.Image;
 import com.example.blog.entity.Role;
+import com.example.blog.entity.User;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.request.CreateUserRequest;
 import com.example.blog.request.UpdateUserRequest;
@@ -70,7 +71,8 @@ public class UserController {
     // Tạo user mới
     @PostMapping("api/v1/admin/users")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
-        UserPublic user = userService.createUser(request);
+//        UserPublic user = userService.createUser(request);
+        User user = userService.createNewUser(request);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
