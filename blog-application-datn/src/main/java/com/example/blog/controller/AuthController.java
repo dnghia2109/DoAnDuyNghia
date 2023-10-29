@@ -4,6 +4,7 @@ import com.example.blog.entity.User;
 import com.example.blog.request.ChangePasswordRequest;
 import com.example.blog.request.ForgotPasswordRequest;
 import com.example.blog.request.LoginRequest;
+import com.example.blog.request.RegisterRequest;
 import com.example.blog.security.ICurrentUser;
 import com.example.blog.service.AuthService;
 import com.example.blog.service.TokenConfirmService;
@@ -46,6 +47,11 @@ public class AuthController {
         return "admin/util/forgot-password";
     }
 
+    @GetMapping("/register")
+    public String getRegisterPage() {
+        return "admin/util/register";
+    }
+
     @GetMapping("/admin/change-password/{token}")
     public String getUpdatePasswordPage(@PathVariable String token, Model model) {
         model.addAttribute("info", tokenConfirmService.checkConfirmToken(token));
@@ -69,5 +75,17 @@ public class AuthController {
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
         authService.changePassword(request);
         return ResponseEntity.ok("Send mail success");
+    }
+
+    @PostMapping("/api/v1/auth/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+
+    @GetMapping("/register/confirm/{token}")
+    public String getRegisterConfirmResultPage(@PathVariable String token, Model model) {
+        model.addAttribute("info", tokenConfirmService.checkConfirmTokenRegister(token));
+        model.addAttribute("token", token);
+        return "admin/util/register-confirm-result";
     }
 }

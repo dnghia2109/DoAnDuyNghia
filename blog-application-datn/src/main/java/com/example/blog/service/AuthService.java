@@ -1,16 +1,21 @@
 package com.example.blog.service;
 
+import com.example.blog.dto.UserDto;
+import com.example.blog.entity.Role;
 import com.example.blog.entity.TokenConfirm;
 import com.example.blog.entity.User;
 import com.example.blog.exception.BadRequestException;
 import com.example.blog.exception.NotFoundException;
+import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.TokenConfirmRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.request.ChangePasswordRequest;
 import com.example.blog.request.ForgotPasswordRequest;
 import com.example.blog.request.LoginRequest;
+import com.example.blog.request.RegisterRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,7 +34,51 @@ public class AuthService {
     private final UserRepository userRepository;
     private final TokenConfirmRepository tokenConfirmRepository;
     private final MailService mailService;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
+
+
+
+    public UserDto register(RegisterRequest request) {
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (!user.getEnabled() && user.getName().equals(request.getName()) && user.getEmail().equals(request.getEmail())) {
+                // Generate ra token va send mail
+                // return link kích hoạt ở đây
+                generateTokenAndSendMail(user);
+                return new UserDto(user);
+            }
+            throw new BadRequestException("Tài khoản đã được kích hoạt");
+        }
+
+        // Tạo user mới
+        Role userRole = roleRepository.findByName("USER").orElse(null);
+        User user = new User(request.getName(), request.getEmail(), passwordEncoder.encode(request.getPassword()), userRole);
+        userRepository.save(user);
+        generateTokenAndSendMail(user);
+
+        return new UserDto(user);
+    }
+
+    private void generateTokenAndSendMail(User user) {
+        TokenConfirm tokenConfirm = TokenConfirm.builder()
+                .token(UUID.randomUUID().toString())
+                .createdAt(LocalDateTime.now())
+                .expiredAt(LocalDateTime.now().plusMinutes(30))
+                .user(user)
+                .build();
+        tokenConfirmRepository.save(tokenConfirm);
+
+        String link = "http://localhost:8080/api/auth/confirm/" + tokenConfirm.getToken();
+        String link1 = "http://localhost:" + 8089 +"/register/confirm/" + tokenConfirm.getToken();
+        // Send email chưa token
+        // Link : http://localhost:8080/doi-mat-khau/hakdiwowjkdkdkdjfffki
+        mailService.sendMail(user.getEmail(), "Xác thực email đăng ký", link1);
+    }
+
 
     public String login(LoginRequest request, HttpSession session) {
         // Tạo đối tượng xác thực
