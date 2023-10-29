@@ -3,6 +3,7 @@ package com.example.blog.controller;
 import com.example.blog.constant.EApprovalStatus;
 import com.example.blog.dto.BlogDto;
 import com.example.blog.dto.CategoryDto;
+import com.example.blog.dto.TagDto;
 import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.dto.projection.CategoryPublic;
 import com.example.blog.entity.User;
@@ -10,6 +11,7 @@ import com.example.blog.request.UpsertBlogRequest;
 import com.example.blog.security.ICurrentUser;
 import com.example.blog.service.BlogService;
 import com.example.blog.service.CategoryService;
+import com.example.blog.service.TagService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,12 +22,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
 public class BlogController {
     private final BlogService blogService;
     private final CategoryService categoryService;
+    private final TagService tagService;
     private final ICurrentUser iCurrentUser;
 
     /*
@@ -70,7 +74,17 @@ public class BlogController {
         return new ResponseEntity<>(blogService.getAllOwnBlog(page, pageSize), HttpStatus.OK);
     }
 
+    // TODO: Test lấy 5 bài viết mới nhất (gửi mail tự động)
+    @GetMapping("/api/blogs/new-blogs")
+    public ResponseEntity<?> getTop5NewestBlogs() {
+        return new ResponseEntity<>(blogService.getTop5NewestBlogs(), HttpStatus.OK);
+    }
 
+    // TODO: Chi tiết bài viết API
+    @GetMapping("/api/blogs/{blogId}/{blogSlug}")
+    public ResponseEntity<?> getTop5NewestBlogs(@PathVariable Integer blogId, @PathVariable String blogSlug) {
+        return new ResponseEntity<>(blogService.getBlogDtoById(blogId), HttpStatus.OK);
+    }
 
     // TODO: Danh sách tất cả bài viết
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -144,7 +158,9 @@ public class BlogController {
     public String getBlogCreatePage(Model model) {
         //List<CategoryPublic> categoryList = categoryService.getAllCategory();
         List<CategoryDto> categoryList = categoryService.getAllCategories();
+        List<TagDto> tagList = tagService.getAllTags().stream().map(TagDto::new).toList();
         model.addAttribute("categoryList", categoryList);
+        model.addAttribute("tagList", tagList);
         return "admin/blog/blog-create";
     }
 

@@ -32,6 +32,7 @@ public class BlogDto {
     private String approvalStatus;
     private UserDto author;
     private Category category;
+    private List<TagDto> tags;
     private List<CommentDto> comments;
 
     public BlogDto(Blog blog) {
@@ -49,6 +50,7 @@ public class BlogDto {
         this.updatedAt = blog.getUpdatedAt();
         this.author = new UserDto(blog.getUser());
         this.category = blog.getCategory();
+        this.tags = blog.getTags().stream().map(TagDto::new).collect(Collectors.toList());
         this.comments = blog.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
     }
 }

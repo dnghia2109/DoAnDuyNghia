@@ -2,6 +2,7 @@ package com.example.blog.mapper;
 
 import com.example.blog.dto.BlogDto;
 import com.example.blog.dto.CommentDto;
+import com.example.blog.dto.TagDto;
 import com.example.blog.dto.UserDto;
 import com.example.blog.entity.Blog;
 
@@ -24,6 +25,7 @@ public class BlogMapper {
         blogDto.setApprovalStatus(String.valueOf(blog.getApprovalStatus()));
         blogDto.setAuthor(new UserDto(blog.getUser()));
         blogDto.setCategory(blog.getCategory());
+        blogDto.setTags(blog.getTags().stream().map(TagDto::new).collect(Collectors.toList()));
         blogDto.setComments(blog.getComments().stream().map(CommentDto::new).collect(Collectors.toList()));
         return blogDto;
     }

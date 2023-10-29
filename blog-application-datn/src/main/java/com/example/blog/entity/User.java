@@ -41,14 +41,26 @@ public class User implements UserDetails {
     private Boolean enabled = false;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Blog> blogs = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<SavedBlog> savedBlogs = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Image> images = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

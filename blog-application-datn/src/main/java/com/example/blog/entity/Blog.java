@@ -14,36 +14,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-//@SqlResultSetMapping(
-//        name = "BlogDtoPublic",
-//        classes = @ConstructorResult(
-//                targetClass = BlogDto.class,
-//                columns = {
-//                        @ColumnResult(name = "id", type = Integer.class),
-//                        @ColumnResult(name = "title", type = String.class),
-//                        @ColumnResult(name = "slug", type = String.class),
-//                        @ColumnResult(name = "description", type = String.class),
-//                        @ColumnResult(name = "content", type = String.class),
-//                        @ColumnResult(name = "thumbnail", type = String.class),
-//                        @ColumnResult(name = "published_at", type = LocalDateTime.class),
-//                        @ColumnResult(name = "user_id"),
-//                        @ColumnResult(name = "category_id"),
-//                        @ColumnResult(name = "comments"),
-//
-//                }
-//        )
-//)
-//
-//@NamedNativeQuery(
-//        name = "getAllBlogDto",
-//        resultSetMapping = "BlogDtoPublic",
-//        query = "SELECT b.id, b.title, b.slug, b.description, b.content, b.thumbnail," +
-//                " b.published_at, b.user_id, bc.category_id, c.id AS 'comment_id' " +
-//                "FROM blog b" +
-//                "INNER JOIN blog_category bc ON bc.blog_id = b.id" +
-//                "INNER JOIN comment c ON c.blog_id = b.id"
-//)
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -101,6 +71,10 @@ public class Blog {
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "blog", orphanRemoval = true)
+    private List<SavedBlog> savedBlogs = new ArrayList<>();
 
 //    @JsonIgnore
 //    @ManyToMany(fetch = FetchType.LAZY)

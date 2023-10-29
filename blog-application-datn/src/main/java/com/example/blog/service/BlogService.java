@@ -2,14 +2,17 @@ package com.example.blog.service;
 
 import com.example.blog.constant.EApprovalStatus;
 import com.example.blog.dto.BlogDto;
+import com.example.blog.dto.BlogSendMailDto;
 import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.entity.Blog;
 import com.example.blog.entity.Category;
+import com.example.blog.entity.Tag;
 import com.example.blog.entity.User;
 import com.example.blog.exception.NotFoundException;
 import com.example.blog.mapper.BlogMapper;
 import com.example.blog.repository.BlogRepository;
 import com.example.blog.repository.CategoryRepository;
+import com.example.blog.repository.TagRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.request.UpsertBlogRequest;
 import com.example.blog.security.ICurrentUser;
@@ -24,17 +27,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class BlogService {
+    private final TagRepository tagRepository;
     private final UserRepository userRepository;
     private final BlogRepository blogRepository;
     private final CategoryRepository categoryRepository;
     private final ICurrentUser iCurrentUser;
-    private final ModelMapper modelMapper;
 
 
     public Page<BlogPublic> getAllBlog(Integer page, Integer pageSize) {
@@ -198,6 +203,9 @@ public class BlogService {
     public BlogDto createBlog(UpsertBlogRequest request) {
         // TODO: Validate thông tin (nếu cần thiết) - validation
 
+        // Tìm kiếm các tags
+        List<Tag> tags = tagRepository.findByIdIn(request.getTagsId());
+
         // Tìm kiếm category
         Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(null);
 
@@ -215,6 +223,7 @@ public class BlogService {
                 .status(request.getStatus())
                 .approvalStatus(EApprovalStatus.PENDING)
                 .category(category)
+                .tags(tags)
                 .comments(new ArrayList<>())
                 .user(user)
                 .build();
@@ -232,6 +241,9 @@ public class BlogService {
 
         // TODO: Validate thông tin (nếu cần thiết) - validation
 
+        // Tìm kiếm các tags
+        List<Tag> tags = tagRepository.findByIdIn(request.getTagsId());
+
         // Tìm kiếm category
         Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(null);
 
@@ -243,6 +255,7 @@ public class BlogService {
         blog.setStatus(request.getStatus());
         blog.setThumbnail(request.getThumbnail());
         blog.setCategory(category);
+        blog.setTags(tags);
 
         // Trường hợp này sử dụng cho việc update khi các blog bị admin từ chối phê duyệt
         if (blog.getApprovalStatus() == EApprovalStatus.NOT_APPROVE) {
@@ -284,8 +297,6 @@ public class BlogService {
     // TODO: Danh sách các bài viết của cá nhân bị từ chối phê duyệt (AUTHOR or ADMIN)
     public Page<BlogDto> getBlogsNotApproveByUser(Integer page, Integer pageSize) {
         User user = iCurrentUser.getUser();
-//        Page<BlogDto> pageInfo = blogRepository.findByUser_IdOrderByCreatedAtDesc(user.getId(),
-//                PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
         Page<BlogDto> pageInfo = blogRepository.findByUser_IdAndApprovalStatus(user.getId(), EApprovalStatus.NOT_APPROVE,
                 PageRequest.of(page - 1, pageSize, Sort.by("createdAt").ascending()));
         return pageInfo;
@@ -293,11 +304,38 @@ public class BlogService {
 
 
 
-    // TODO: hệ thống gửi mail tự động
-//    @Shcheduled()
-//    public void scheduleFixedDelayTask() {
-//        System.out.println(
-//                "Fixed delay task - " + System.currentTimeMillis() / 1000);
+    // TODO: lấy ra 5 bài viết mới nhất (sử dụng cho gửi mail tự động)
+    public List<BlogDto> getTop5NewestBlogs() {
+        return blogRepository.findAll().stream()
+                .filter(blog -> blog.getStatus() && blog.getApprovalStatus() == EApprovalStatus.APPROVE)
+                .sorted(new Comparator<Blog>() {
+                    @Override
+                    public int compare(Blog o1, Blog o2) {
+                        return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+                    }
+                })
+                .map(BlogDto::new)
+                .limit(5)
+                .collect(Collectors.toList());
+    }
+
+    public List<BlogSendMailDto> getTop5NewestBlogss() {
+        return blogRepository.findAll().stream()
+                .filter(blog -> blog.getStatus() && blog.getApprovalStatus() == EApprovalStatus.APPROVE)
+                .sorted(new Comparator<Blog>() {
+                    @Override
+                    public int compare(Blog o1, Blog o2) {
+                        return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+                    }
+                })
+                .map(BlogSendMailDto::new)
+                .limit(5)
+                .collect(Collectors.toList());
+    }
+
+    // TODO: Xóa bài viết
+//    public void deleteBlog(Integer id) {
+//
 //    }
         
 }

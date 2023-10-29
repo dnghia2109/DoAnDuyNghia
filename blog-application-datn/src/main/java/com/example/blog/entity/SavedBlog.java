@@ -1,25 +1,33 @@
 package com.example.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "saved_blog")
+public class SavedBlog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "blog_id")
+    @JsonIgnore
+    private Blog blog;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
@@ -37,10 +45,4 @@ public class Role {
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
-    public Role(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }
-
