@@ -13,5 +13,6 @@ public class UpsertBlogRequest {
     private String thumbnail;
     private Boolean status;
     private String note;
-    private Integer categoryId; // Danh sách id của các category áp dụng
+    private Integer categoryId; // Danh sách id của các category áp
+    private List<Integer> tagsId;
 }

@@ -3,11 +3,14 @@ package com.example.blog;
 import com.example.blog.constant.EApprovalStatus;
 import com.example.blog.entity.*;
 import com.example.blog.repository.*;
+import com.github.javafaker.Faker;
 import com.github.slugify.Slugify;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,21 @@ class BlogBackendApplicationTests {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private Faker faker;
+
+    @Test
+    //@Rollback
+    void test1() {
+        User user = userRepository.findById(1).get();
+        user.setId(11);
+        user.setEmail("nghia1@gmail.com");
+        userRepository.save(user);
+        System.out.println("========");
+        //System.out.println(user.getEmail());
+        System.out.println(user.getId());
+    }
 
     @Test
     void save_roles() {
@@ -120,31 +138,21 @@ class BlogBackendApplicationTests {
         List<User> userList = userRepository.findByRoles_NameIn(List.of("ADMIN", "AUTHOR"));
         List<Category> categoryList = categoryRepository.findAll();
 
-        for (int i = 15; i < 30; i++) {
+        for (int i = 61; i <= 80; i++) {
             // Random 1 user
             User rdUser = userList.get(rd.nextInt(userList.size()));
-
-            // Random 1 ds category tuong ung
-//            List<Category> rdList = new ArrayList<>();
-//            for (int j = 0; j < 3; j++) {
-//                Category rdCategory = categoryList.get(rd.nextInt(categoryList.size()));
-//                if(!rdList.contains(rdCategory)) {
-//                    rdList.add(rdCategory);
-//                }
-//            }
 
             // Tao blog
             Blog blog = Blog.builder()
                     .title("Blog " + (i + 1))
                     .slug(slugify.slugify("Blog " + (i + 1)))
                     .description("description " + (i + 1))
-                    .content("content " + (i + 1))
+                    .content(faker.lorem().sentence(1000))
                     .status(rd.nextInt(2) == 0)
                     .user(rdUser)
-                    .approvalStatus(EApprovalStatus.PENDING)
+                    .approvalStatus(EApprovalStatus.APPROVE)
                     .category(categoryList.get(rd.nextInt(12)))
                     .build();
-
             blogRepository.save(blog);
         }
     }
