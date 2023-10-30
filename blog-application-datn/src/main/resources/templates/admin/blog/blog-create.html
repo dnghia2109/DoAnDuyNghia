@@ -118,17 +118,6 @@
                                             </option>
                                         </select>
                                     </div>
-<!--                                    <div class="form-group">-->
-<!--                                        <label>Danh mục</label>-->
-<!--                                        <div class="select2-purple">-->
-<!--                                            <select class="select2 form-control" multiple="multiple" id="category">-->
-<!--                                                <option th:each="category : ${categoryList}" th:value="${category.id}"-->
-<!--                                                        th:text="${category.name}">-->
-<!--                                                    Java-->
-<!--                                                </option>-->
-<!--                                            </select>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
                                     <div class="form-group">
                                         <label for="category" class="required-label">Danh mục</label>
                                         <select class="form-control" id="category">
@@ -138,6 +127,16 @@
                                                 </option>
                                             </th:block>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tags</label>
+                                        <div class="select2-purple">
+                                            <select class="select2 form-control" multiple="multiple" id="select-tag">
+<!--                                                <th:block th:each="tag:${tagList}">-->
+                                                    <option th:each="tag:${tagList}" th:value="${tag.id}" th:text="${tag.name}" >Alabama</option>
+                                                <!--</th:block>-->
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="thumbnail-preview-container mb-3">
@@ -212,6 +211,8 @@
     <script th:inline="javascript">
         //Initialize Select2 Elements
         $(".select2").select2();
+        const tags = [[${tagList}]];
+        console.log(tags);
 
         // Initialize editor
         const easyMDE = new EasyMDE({
@@ -229,8 +230,22 @@
         const descriptionEl = document.getElementById("description")
         const statusEl = document.getElementById("status")
         const categoryEl = $("#category");
+        // const tagEl = $("#tag");
         const thumbnailEl = document.getElementById("thumbnail");
+        const tagsSelect = document.getElementById("select-tag")
 
+        const getTagsChose = () => {
+            let tagArr = [];
+            let tagOptionEl = tagsSelect.querySelectorAll("#select-tag option");
+            tagOptionEl.forEach(el => {
+                if (el.selected) {
+                    tagArr.push(parseInt(el.value))
+                }
+            })
+            return tagArr;
+        }
+
+        console.log(getTagsChose())
 
         btnCreate.addEventListener("click", async () => {
             try {
@@ -239,7 +254,8 @@
                 const content = easyMDE.value();
                 const description = descriptionEl.value;
                 const status = statusEl.value;
-                const categoryId = categoryEl.val();
+                const categoryId = parseInt(categoryEl.val());
+                const tagsId = getTagsChose();
                 const thumbnailURL = thumbnailEl.src == "https://placehold.co/600x400" ? null : thumbnailEl.src;
 
                 // Tạo một đối tượng URL từ URL ban đầu
@@ -254,6 +270,7 @@
                     description,
                     status : status === "true" ? true : false,
                     categoryId : categoryId,
+                    tagsId,
                     thumbnail
                 };
                 console.log(request);

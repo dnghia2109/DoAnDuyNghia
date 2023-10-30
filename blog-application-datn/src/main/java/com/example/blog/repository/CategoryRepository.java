@@ -1,5 +1,6 @@
 package com.example.blog.repository;
 
+import com.example.blog.dto.CategoryDto;
 import com.example.blog.dto.projection.CategoryPublic;
 import com.example.blog.entity.Category;
 import org.springframework.data.domain.Page;
@@ -23,4 +24,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query("SELECT c FROM Category c JOIN FETCH c.blogs b WHERE b.status = true ORDER BY b.publishedAt DESC")
     List<Category> findAllCategoriesWithLatestBlogs();
+
+    @Query("select c from Category c where c.status = true")
+    List<Category> findAllCategoryPublic();
 }

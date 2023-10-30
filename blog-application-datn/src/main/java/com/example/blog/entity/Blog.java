@@ -73,7 +73,7 @@ public class Blog {
     private Category category;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "blog", orphanRemoval = true)
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.REMOVE)
     private List<SavedBlog> savedBlogs = new ArrayList<>();
 
 //    @JsonIgnore

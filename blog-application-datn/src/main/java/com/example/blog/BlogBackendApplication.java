@@ -4,6 +4,7 @@ import com.example.blog.entity.Role;
 import com.example.blog.entity.User;
 import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.UserRepository;
+import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @SpringBootApplication
 @AllArgsConstructor
+@EnableScheduling
 public class BlogBackendApplication {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -31,6 +34,10 @@ public class BlogBackendApplication {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+    @Bean
+    public Faker faker() {
+        return new Faker();
     }
 
 //    @Bean

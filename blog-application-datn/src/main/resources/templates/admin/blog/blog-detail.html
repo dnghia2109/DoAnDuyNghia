@@ -43,6 +43,8 @@
                 object-fit: cover;
             }
         </style>
+        // CKEDITOR
+        <script src="https://cdn.ckeditor.com/4.23.0-lts/standard/ckeditor.js"></script>
     </th:block>
 </head>
 
@@ -143,6 +145,13 @@
                                                 </option>
                                             </th:block>
                                         </select>
+<!--                                        <select class="form-control" id="category">-->
+<!--                                            <th:block th:each="category : ${categoryList}">-->
+<!--                                                <option th:value="${category.id}" th:text="${category.name}">-->
+<!--                                                    Java-->
+<!--                                                </option>-->
+<!--                                            </th:block>-->
+<!--                                        </select>-->
                                     </div>
                                     <div class="form-group">
                                         <div class="thumbnail-preview-container mb-3">
@@ -206,6 +215,8 @@
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
 
+
+
     <script th:src="@{/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"
             integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw=="
@@ -217,6 +228,9 @@
         console.log(blog);
         //Initialize Select2 Elements
         $(".select2").select2();
+
+
+        // CKEDITOR.replace(document.querySelector( '#content' ));
 
         // Initialize editor
         const easyMDE = new EasyMDE({
@@ -241,7 +255,7 @@
             descriptionEl.value = data.description;
             statusEl.value = data.status ? "true" : "false";
             // categoryEl.val(data.categories.map(c => `${c.id}`)).trigger("change");
-            //categoryEl.value = data.category.id
+            // categoryEl.value = data.category.id;
 
             thumbnailEl.src = data.thumbnail ? data.thumbnail : "https://placehold.co/600x400";
             console.log(thumbnailEl.src);
@@ -262,7 +276,8 @@
                 const description = descriptionEl.value;
                 const status = statusEl.value;
                 const categoryId = parseInt(categoryEl.val());
-                const thumbnailURL = thumbnailEl.src == "https://placehold.co/600x400" ? null : thumbnailEl.src
+                const thumbnailURL = thumbnailEl.src == "https://placehold.co/600x400" ? null : thumbnailEl.src;
+                const tagsId = [1];
 
                 // Tạo một đối tượng URL từ URL ban đầu
                 const url = new URL(thumbnailURL);
@@ -285,7 +300,8 @@
                         status: status === "true" ? true : false,
                         // categoryIds: categoryIds.map(id => parseInt(id)),
                         categoryId,
-                        thumbnail
+                        thumbnail,
+                        tagsId
                     };
                     console.log(request);
 

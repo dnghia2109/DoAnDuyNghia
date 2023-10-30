@@ -2,6 +2,7 @@ package com.example.blog.controller;
 
 import com.example.blog.dto.BlogDto;
 //import com.example.blog.dto.projection.BlogPublic;
+import com.example.blog.dto.CategoryDto;
 import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.dto.projection.CategoryWebPublic;
 import com.example.blog.entity.Blog;
@@ -12,6 +13,7 @@ import com.example.blog.repository.CategoryRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.security.ICurrentUser;
 import com.example.blog.service.BlogService;
+import com.example.blog.service.CategoryService;
 import com.example.blog.service.WebService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +40,7 @@ public class WebController {
     private final CategoryRepository categoryRepository;
     private final BlogService blogService;
     private final BlogRepository blogRepository;
+    private final CategoryService categoryService;
 
 
     @GetMapping("/home")
@@ -139,13 +142,19 @@ public class WebController {
 //        return ResponseEntity.ok(pageInfo);
 //    }
 
+    // TODO: Hiển thị trang chủ
     @GetMapping("/homepage")
     public String getHomePageNew(Model model) {
-        List<Category> categories = categoryRepository.findAll();
-        //List<BlogDto> blogs2 = blogRepository.findByStatusTrueAndCategories_Id(Integer n);
+        List<CategoryDto> categories = categoryService.getAllCategoryPublic();
         List<BlogDto> blogs = blogService.getBlogDtos();
         model.addAttribute("blogList", blogs);
         model.addAttribute("categoryList", categories);
         return "public/homepage";
+    }
+
+    @GetMapping("/api/v1/public/blogs/cate")
+    public ResponseEntity<?> getBlogByCate(@RequestParam String keyword) {
+        List<CategoryDto> categories = categoryService.getAllCategoryPublic();
+        return ResponseEntity.ok(categories);
     }
 }

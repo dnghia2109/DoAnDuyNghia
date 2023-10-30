@@ -41,7 +41,7 @@ public class User implements UserDetails {
     private Boolean enabled = false;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade =  CascadeType.REMOVE)
     private List<Blog> blogs = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -51,15 +51,15 @@ public class User implements UserDetails {
     private List<Role> roles = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<SavedBlog> savedBlogs = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
     @Override

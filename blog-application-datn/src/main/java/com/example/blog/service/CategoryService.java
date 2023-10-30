@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final BlogRepository blogRepository;
+    private final BlogService blogService;
 
     public Page<CategoryPublic> getAllCategory(Integer page, Integer pageSize) {
         Page<CategoryPublic> pageInfo = categoryRepository.findCategories(PageRequest.of(page - 1, pageSize));
@@ -100,7 +101,16 @@ public class CategoryService {
     *
     * */
 
-    // Lấy ra danh sách tất cả các category
+    // TODO: Lấy ra danh sách tất cả các category (USER)
+    public List<CategoryDto> getAllCategoryPublic() {
+        List<CategoryDto> categoryDtos = categoryRepository.findAllCategoryPublic().stream().map(category -> {
+            CategoryDto categoryDto = new CategoryDto(category);
+            categoryDto.setBlogs(blogService.getBlogsEachCate(category.getId()));
+            return categoryDto;
+        }).collect(Collectors.toList());
+        return categoryDtos;
+    }
+
 
     // TODO: Lấy danh sách các category (ADMIN)
     public Page<CategoryDto> getAllCategoryPage(Integer page, Integer pageSize) {

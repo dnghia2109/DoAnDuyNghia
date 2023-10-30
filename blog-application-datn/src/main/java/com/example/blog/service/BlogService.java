@@ -302,6 +302,12 @@ public class BlogService {
         return pageInfo;
     }
 
+    // TODO: Lấy ra 5 bài viết mới nhất cho mỗi category và có trạng thái hợp lệ
+    public List<BlogDto> getBlogsEachCate(Integer categoryId) {
+        return blogRepository.getBlogsByCategory(categoryId).stream()
+                .sorted(Comparator.comparing(Blog::getCreatedAt).reversed())
+                .limit(5).map(BlogDto::new).collect(Collectors.toList());
+    }
 
 
     // TODO: lấy ra 5 bài viết mới nhất (sử dụng cho gửi mail tự động)
