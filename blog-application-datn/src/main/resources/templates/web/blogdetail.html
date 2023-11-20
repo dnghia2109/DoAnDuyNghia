@@ -1,79 +1,59 @@
-<!doctype html>
-<html lang=vi xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/layout-user :: main-fragment(~{:: title}, ~{:: #css}, ~{:: main}, ~{:: #javascript})}">
+<!--<!doctype html>-->
+<!--<html lang=vi xmlns:th="http://www.thymeleaf.org"-->
+<!--      th:replace="~{layout/layout-user :: main-fragment(~{:: title}, ~{:: #css}, ~{:: main}, ~{:: #javascript})}">-->
 
-<head>
-    <title th:text="${blog.title}">Hướng dẫn tạo tài khoản và sử dụng Chat GPT chỉ với 1 cốc trà đá | Kong's Blog</title>
-    <th:block id="css">
-        <link rel="stylesheet" th:href="@{/assets/lib/prism.css}">
-    </th:block>
-</head>
+<!--<head>-->
+<!--    <title th:text="${blog.title}">Hướng dẫn tạo tài khoản và sử dụng Chat GPT chỉ với 1 cốc trà đá | Kong's Blog</title>-->
+<!--    <th:block id="css">-->
+<!--        <link rel="stylesheet" th:href="@{/assets/lib/prism.css}">-->
+<!--    </th:block>-->
+<!--</head>-->
 
-<body id="top">
-<main class="main">
-    <article class="post-single">
-        <header class="post-header">
-            <img th:src="${blog.thumbnail}" alt="Blog thumbnail">
-            <h1 class="post-title" th:text="${blog.title}">Hướng dẫn tạo tài khoản và sử dụng Chat GPT chỉ với 1 cốc trà đá</h1>
-            <div class="post-meta"><span th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">01/02/2023</span></div>
-        </header>
-        <div class="post-content">
-            <p th:utext="${blog.content}"></p>
-            <!--            th:utext là một thuộc tính được sử dụng để hiển thị nội dung không được xử lý HTML. -->
-            <!--            Thuộc tính này tương tự như th:text trong việc hiển thị văn bản động từ biến Thymeleaf, -->
-            <!--            nhưng khác biệt chính là nó không áp dụng xử lý HTML cho nội dung. Nó rất hữu ích khi bạn muốn hiển thị -->
-            <!--            dữ liệu nguyên bản mà không muốn Thymeleaf xử lý các thẻ HTML trong dữ liệu đó.-->
-        </div>
-        <ul>
-            <li th:text="${blog.getUser().id}"></li>
-            <ul >
-                <li th:each="role : ${blog.getUser().roles}" >
-                    <th:block th:text="${role.name}"></th:block>
-                </li>
-            </ul>
-
-            <h4 th:each="role : ${blog.getUser().roles}" th:text="${role.name}"></h4>
-        </ul>
-
-        <h4 class="mb-4">Bình luận về <span th:text="${blog.title}"></span></h4>
-        <th:block th:each="comment:${blog.comments}">
-<!--            <ul>-->
-<!--                <li th:text="${comment.content}"></li>-->
-<!--                <li th:text="${comment.user.name}"></li>-->
+<!--<body id="top">-->
+<!--<main class="main">-->
+<!--    <article class="post-single">-->
+<!--        <header class="post-header">-->
+<!--            <img th:src="${blog.thumbnail}" alt="Blog thumbnail">-->
+<!--            <h1 class="post-title" th:text="${blog.title}">Hướng dẫn tạo tài khoản và sử dụng Chat GPT chỉ với 1 cốc trà đá</h1>-->
+<!--            <div class="post-meta"><span th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">01/02/2023</span></div>-->
+<!--        </header>-->
+<!--        <div class="post-content">-->
+<!--            <p th:text="${blog.content}"></p>-->
+<!--            &lt;!&ndash;            th:utext là một thuộc tính được sử dụng để hiển thị nội dung không được xử lý HTML. &ndash;&gt;-->
+<!--            &lt;!&ndash;            Thuộc tính này tương tự như th:text trong việc hiển thị văn bản động từ biến Thymeleaf, &ndash;&gt;-->
+<!--            &lt;!&ndash;            nhưng khác biệt chính là nó không áp dụng xử lý HTML cho nội dung. Nó rất hữu ích khi bạn muốn hiển thị &ndash;&gt;-->
+<!--            &lt;!&ndash;            dữ liệu nguyên bản mà không muốn Thymeleaf xử lý các thẻ HTML trong dữ liệu đó.&ndash;&gt;-->
+<!--        </div>-->
+<!--        <ul>-->
+<!--            <li th:text="${blog.getUser().id}"></li>-->
+<!--            <ul >-->
+<!--                <li th:each="role : ${blog.getUser().roles}" >-->
+<!--                    <th:block th:text="${role.name}"></th:block>-->
+<!--                </li>-->
 <!--            </ul>-->
-            <div class="row mt-4">-->
-                <div class="col-md-1">
-                    <img class="round-cicrle img-fluid" width="80px" th:src="@{/image/avatar.jpg}">
-                </div>
-                <div class="col-md-6">
-                    <b th:text="${comment.user.name}">User</b>
-                    <p class="mt-1 content-text" th:text="${comment.content}"></p>
-                    <p th:text="${#temporals.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}"></p>
-                </div>
-            </div>
-        </th:block>
-        <form id="formCommentProduct" >
-            <div class="form-group">
-                <span class="invalid-feedback" id="invalid-feedback-description">Mô tả trống</span>
-                <textarea name="product_comment" class="form-control product_comment" id="commentId"
-                          placeholder="Nhập đánh giá của bạn..."></textarea>
-                <span class="invalid-feedback"
-                      id="invalid-feedback-new-category">Bạn chưa nhập nội dung bình luận</span>
-                <span class="invalid-feedback"
-                      id="invalid-feedback-new-comment">Bình luận không được phép vượt quá 255 ký tự</span>
-                <div>
-                    <button type="submit" class="btn btn-primary mt-3">Gửi bình luận
-                    </button>
-                </div>
-            </div>
-        </form>
-    </article>
 
+<!--            <h4 th:each="role : ${blog.getUser().roles}" th:text="${role.name}"></h4>-->
+<!--        </ul>-->
 
-<!--    <section class="products-showcase container">-->
-<!--        <form id="formCommentProduct">-->
+<!--        <h4 class="mb-4">Bình luận về <span th:text="${blog.title}"></span></h4>-->
+<!--        <th:block th:each="comment:${blog.comments}">-->
+<!--&lt;!&ndash;            <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li th:text="${comment.content}"></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li th:text="${comment.user.name}"></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            </ul>&ndash;&gt;-->
+<!--            <div class="row mt-4">&ndash;&gt;-->
+<!--                <div class="col-md-1">-->
+<!--                    <img class="round-cicrle img-fluid" width="80px" th:src="@{/image/avatar.jpg}">-->
+<!--                </div>-->
+<!--                <div class="col-md-6">-->
+<!--                    <b th:text="${comment.user.name}">User</b>-->
+<!--                    <p class="mt-1 content-text" th:text="${comment.content}"></p>-->
+<!--                    <p th:text="${#temporals.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}"></p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </th:block>-->
+<!--        <form id="formCommentProduct" >-->
 <!--            <div class="form-group">-->
-<!--                <h4 class="mb-4">Bình luận về <span th:text="${blog.title}"></span></h4>-->
 <!--                <span class="invalid-feedback" id="invalid-feedback-description">Mô tả trống</span>-->
 <!--                <textarea name="product_comment" class="form-control product_comment" id="commentId"-->
 <!--                          placeholder="Nhập đánh giá của bạn..."></textarea>-->
@@ -87,79 +67,132 @@
 <!--                </div>-->
 <!--            </div>-->
 <!--        </form>-->
+<!--    </article>-->
 
-<!--        <th:block th:each="comment : ${blog.comments}">-->
-<!--            <div class="row mt-4">-->
-<!--                <div class="col-md-1">-->
-<!--                    <img class="round-cicrle img-fluid" width="80px" th:src="@{/image/avatar.jpg}">-->
-<!--                </div>-->
-<!--                <div class="col-md-6">-->
-<!--                    <b th:text="${comment.user.name}">User</b>-->
-<!--                    <p class="mt-1 content-text" th:text="${comment.content}"></p>-->
-<!--                    <p th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}"></p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </th:block>-->
-<!--    </section>-->
+
+<!--&lt;!&ndash;    <section class="products-showcase container">&ndash;&gt;-->
+<!--&lt;!&ndash;        <form id="formCommentProduct">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                <h4 class="mb-4">Bình luận về <span th:text="${blog.title}"></span></h4>&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="invalid-feedback" id="invalid-feedback-description">Mô tả trống</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                <textarea name="product_comment" class="form-control product_comment" id="commentId"&ndash;&gt;-->
+<!--&lt;!&ndash;                          placeholder="Nhập đánh giá của bạn..."></textarea>&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="invalid-feedback"&ndash;&gt;-->
+<!--&lt;!&ndash;                      id="invalid-feedback-new-category">Bạn chưa nhập nội dung bình luận</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="invalid-feedback"&ndash;&gt;-->
+<!--&lt;!&ndash;                      id="invalid-feedback-new-comment">Bình luận không được phép vượt quá 255 ký tự</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button type="submit" class="btn btn-primary mt-3">Gửi bình luận&ndash;&gt;-->
+<!--&lt;!&ndash;                    </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </form>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        <th:block th:each="comment : ${blog.comments}">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="row mt-4">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="col-md-1">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <img class="round-cicrle img-fluid" width="80px" th:src="@{/image/avatar.jpg}">&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="col-md-6">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <b th:text="${comment.user.name}">User</b>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <p class="mt-1 content-text" th:text="${comment.content}"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <p th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </th:block>&ndash;&gt;-->
+<!--&lt;!&ndash;    </section>&ndash;&gt;-->
+<!--</main>-->
+<!--</body>-->
+
+<!--<th:block id="javascript">-->
+<!--    <script type="module" src="https://md-block.verou.me/md-block.js"></script>-->
+<!--    <script th:src="@{/assets/lib/prism.js}"></script>-->
+<!--    <script th:inline="javascript">-->
+<!--        const blog = [[${blog}]];-->
+<!--        console.log(blog);-->
+
+<!--        // comment-->
+<!--        // $("#formCommentProduct").submit(function (e) {-->
+<!--        //     e.preventDefault();-->
+<!--        //     if (isLogined == true) {-->
+<!--        //         let content = $(".product_comment").val();-->
+<!--        //         if (content.length == 0) {-->
+<!--        //             $('#invalid-feedback-new-category').show();-->
+<!--        //             $('#invalid-feedback-new-comment').hide();-->
+<!--        //             return;-->
+<!--        //         }-->
+<!--        //         if (content.length > 255) {-->
+<!--        //             $('#invalid-feedback-new-comment').show();-->
+<!--        //             $('#invalid-feedback-new-category').hide();-->
+<!--        //             return;-->
+<!--        //         }-->
+<!--        //         req = {-->
+<!--        //             content: content-->
+<!--        //         }-->
+<!--        //         var myJson = JSON.stringify(req)-->
+<!--        //         $.ajax({-->
+<!--        //             url: '/api/add-comment/' + productId,-->
+<!--        //             type: 'POST',-->
+<!--        //             data: myJson,-->
+<!--        //             contentType: "application/json; charset=utf-8",-->
+<!--        //             success: function (data) {-->
+<!--        //                 $(".list-comment").append(`-->
+<!--        //                 <div class="row mt-4">-->
+<!--        //                     <div class="col-md-1">-->
+<!--        //                         <img class="round-cicrle img-fluid" width="80px" th:src="@{/image/avatar.jpg}">-->
+<!--        //                     </div>-->
+<!--        //                     <div class="col-md-6 my-date">-->
+<!--        //                         <p class="mt-1 content-text" th:text="${data.content}"></p>-->
+<!--        //                     </div>-->
+<!--        //                 </div>-->
+<!--        //                 `)-->
+<!--        //                 $(".product_comment").val('');-->
+<!--        //                 location.reload();-->
+<!--        //             },-->
+<!--        //         });-->
+<!--        //     } else {-->
+<!--        //         toastr.warning("Vui lòng đăng nhập");-->
+<!--        //         setTimeout(function () {-->
+<!--        //             $('#signInSignUp').modal('show');-->
+<!--        //         }, 1000);-->
+<!--        //     }-->
+<!--        // });-->
+
+
+<!--    </script>-->
+<!--</th:block>-->
+
+<!--</html>-->
+
+<!doctype html>
+<html lang=vi xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: main-fragment(~{:: title}, ~{:: #css}, ~{:: main}, ~{:: #javascript})}">
+
+<head>
+    <title th:text="${blog.title}">Hướng dẫn tạo tài khoản và sử dụng Chat GPT chỉ với 1 cốc trà đá | Kong's Blog</title>
+    <th:block id="css">
+        <link rel="stylesheet" th:href="@{/assets/lib/prism.css}">
+    </th:block>
+</head>
+
+<body id="top">
+<main class="main">
+    <article class="post-single">
+        <header class="post-header">
+            <h1 class="post-title" th:utext="${blog.title}">Hướng dẫn tạo tài khoản và sử dụng Chat GPT chỉ với 1 cốc trà đá</h1>
+            <div class="post-meta"><span th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">01/02/2023</span></div>
+        </header>
+        <div class="post-content">
+            <md-block>
+                <th:block th:utext="${blog.content}"></th:block>
+            </md-block>
+        </div>
+    </article>
 </main>
 </body>
 
 <th:block id="javascript">
     <script type="module" src="https://md-block.verou.me/md-block.js"></script>
     <script th:src="@{/assets/lib/prism.js}"></script>
-    <script th:inline="javascript">
-        const blog = [[${blog}]];
-        console.log(blog);
-
-        // comment
-        // $("#formCommentProduct").submit(function (e) {
-        //     e.preventDefault();
-        //     if (isLogined == true) {
-        //         let content = $(".product_comment").val();
-        //         if (content.length == 0) {
-        //             $('#invalid-feedback-new-category').show();
-        //             $('#invalid-feedback-new-comment').hide();
-        //             return;
-        //         }
-        //         if (content.length > 255) {
-        //             $('#invalid-feedback-new-comment').show();
-        //             $('#invalid-feedback-new-category').hide();
-        //             return;
-        //         }
-        //         req = {
-        //             content: content
-        //         }
-        //         var myJson = JSON.stringify(req)
-        //         $.ajax({
-        //             url: '/api/add-comment/' + productId,
-        //             type: 'POST',
-        //             data: myJson,
-        //             contentType: "application/json; charset=utf-8",
-        //             success: function (data) {
-        //                 $(".list-comment").append(`
-        //                 <div class="row mt-4">
-        //                     <div class="col-md-1">
-        //                         <img class="round-cicrle img-fluid" width="80px" th:src="@{/image/avatar.jpg}">
-        //                     </div>
-        //                     <div class="col-md-6 my-date">
-        //                         <p class="mt-1 content-text" th:text="${data.content}"></p>
-        //                     </div>
-        //                 </div>
-        //                 `)
-        //                 $(".product_comment").val('');
-        //                 location.reload();
-        //             },
-        //         });
-        //     } else {
-        //         toastr.warning("Vui lòng đăng nhập");
-        //         setTimeout(function () {
-        //             $('#signInSignUp').modal('show');
-        //         }, 1000);
-        //     }
-        // });
-
-
-    </script>
 </th:block>
 
 </html>

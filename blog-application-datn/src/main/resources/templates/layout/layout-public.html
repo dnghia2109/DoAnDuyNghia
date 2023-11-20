@@ -18,7 +18,7 @@
     />
 
     <!-- Import file css -->
-    <link rel="stylesheet" th:href="@{/css/style-public-web.css}" />
+<!--    <link rel="stylesheet" th:href="@{/css/style-public-web.css}" />-->
 
     <!-- CSS-->
     <th:block th:replace="${css} ?: ~{}"></th:block>
@@ -75,6 +75,8 @@
         "hideMethod": "fadeOut"
     }
 </script>
+
+<script th:src="@{/js/redirectURL.js}"></script>
 
 <th:block th:replace="${js} ?: ~{}"></th:block>
 </body>

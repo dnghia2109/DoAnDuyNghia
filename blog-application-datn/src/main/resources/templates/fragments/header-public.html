@@ -16,8 +16,8 @@
             <a href="#"><i class="bx bx-home"></i></a>
             <ul>
                 <th:block th:each="category:${categoryList}">
-                    <li class="name-nav-header" th:text="${category.name}">
-                        <a href="#">Video</a>
+                    <li class="name-nav-header" >
+                        <a th:text="${category.name}" href="#">Video</a>
                     </li>
                 </th:block>
 <!--                <li class="name-nav-header">-->
@@ -66,16 +66,25 @@
 <!--                    <a href="#">Chuyển nhượng</a>-->
 <!--                </li>-->
             </ul>
-            <a href="#" class="user-main">
+            <span class="user-main">
                 <i class="bx bxs-user-circle"></i>
                 <div class="user-pp">
                     <ul>
-                        <li>Đăng ký/Đăng nhập</li>
-                        <li>Đăng suất</li>
-                        <li>Quản trị</li>
+                        <li sec:authorize="authenticated" th:text="${user.name}">
+                        </li>
+                        <li sec:authorize="not authenticated">
+                            <a  th:href="@{/admin/login}" th:onclick="saveRedirectUrl()">Đăng nhập</a>
+                        </li>
+                        <li>
+                            Đăng ký
+                        </li>
+                        <li sec:authorize="authenticated">Đăng xuất</li>
+                        <li sec:authorize="hasAnyRole('ADMIN', 'AUTHOR')" >
+                            <a target="_blank" th:href="@{/dashboard/blogs/own-blogs}">Quản trị</a>
+                        </li>
                     </ul>
                 </div>
-            </a>
+            </span>
         </div>
     </nav>
 </header>

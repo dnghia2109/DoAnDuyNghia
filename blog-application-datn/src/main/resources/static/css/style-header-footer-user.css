@@ -9,6 +9,12 @@ body {
     font-family: "Montserrat", sans-serif;
 }
 
+a:hover {
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;

@@ -215,14 +215,29 @@
         console.log(tags);
 
         // Initialize editor
-        const easyMDE = new EasyMDE({
-            element: document.getElementById("content"),
-            spellChecker: false,
-            maxHeight: "500px",
-            renderingConfig: {
-                codeSyntaxHighlighting: true,
-            },
-        });
+        // const easyMDE = new EasyMDE({
+        //     element: document.getElementById("content"),
+        //     spellChecker: false,
+        //     maxHeight: "500px",
+        //     renderingConfig: {
+        //         codeSyntaxHighlighting: true,
+        //     },
+        // });
+
+        let editor = "";
+        $(document).ready(function () {
+            editor = CKEDITOR.replace('content');
+        })
+
+        // ClassicEditor
+        //     .create( document.querySelector( '#content' ), {
+        //         plugins: [ 'Heading', 'Link', 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
+        //     })
+        //     .catch( error => {
+        //         console.error( error );
+        //     } );
+
+
 
         // Tạo bài viết
         const btnCreate = document.getElementById("btn-create");
@@ -251,7 +266,10 @@
             try {
                 // Lấy dữ liệu
                 const title = titleEl.value;
-                const content = easyMDE.value();
+                // const content = easyMDE.value();
+                const content = editor.getData();
+                //const content = CKEDITOR.instances.editor.getData();
+                // var contentForPost = CKEDITOR.instances.editor.getData();
                 const description = descriptionEl.value;
                 const status = statusEl.value;
                 const categoryId = parseInt(categoryEl.val());

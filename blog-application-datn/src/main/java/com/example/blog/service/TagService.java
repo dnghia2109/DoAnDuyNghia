@@ -84,7 +84,7 @@ public class TagService {
         return tagRepository.findAll(PageRequest.of(page - 1, pageSize, Sort.by("id").ascending())).map(TagDto::new);
     }
 
-    public List<Tag> getAllTag() {
+    public List<Tag> getAllTags() {
         return tagRepository.findAll();
     }
 }
