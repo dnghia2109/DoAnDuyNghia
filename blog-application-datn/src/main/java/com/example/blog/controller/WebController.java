@@ -134,22 +134,38 @@ public class WebController {
         return ResponseEntity.ok(blogPublicList);
     }
 
-//    @GetMapping("/api/v1/public/blogs")
-//    public ResponseEntity<?> getAll(@RequestParam(required = false, defaultValue = "1") Integer page,
-//                                    @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
-//
-//        Page<BlogPublic> pageInfo = blogService.getAllBlog(page, pageSize);
-//        return ResponseEntity.ok(pageInfo);
-//    }
-
     // TODO: Hiển thị trang chủ
     @GetMapping("/homepage")
     public String getHomePageNew(Model model) {
         List<CategoryDto> categories = categoryService.getAllCategoryPublic();
         List<BlogDto> blogs = blogService.getBlogDtos();
+        User curUser = webService.getUserDetailPage();
+        model.addAttribute("user", curUser);
         model.addAttribute("blogList", blogs);
         model.addAttribute("categoryList", categories);
         return "public/homepage";
+    }
+
+    // TODO: Hiển thị chi tiết bài viết
+    @GetMapping("/home/blogs/{blogId}/{blogSlug}")
+    public String getDetailBlogPage(@PathVariable Integer blogId, @PathVariable String blogSlug, Model model) {
+        BlogDto blog = blogService.getBlogDtoById(blogId);
+        model.addAttribute("blog", blog);
+        return "public/detail-blog";
+    }
+
+    // TODO: Hiển thị trang tìm kiếm bài viết
+    @GetMapping("/home/blogs")
+    public String getBlogsSearchPage(@RequestParam String keyword) {
+//        Page<BlogDto> blogsSearchResult = blogService.
+        return "public/blogs";
+    }
+
+    // TODO: Hiển thị Trang thông tin tài khoản
+    @GetMapping("/user/{id}/info")
+    public String getUserProfile() {
+
+        return "public/detail-blog";
     }
 
     @GetMapping("/api/v1/public/blogs/cate")
@@ -157,4 +173,5 @@ public class WebController {
         List<CategoryDto> categories = categoryService.getAllCategoryPublic();
         return ResponseEntity.ok(categories);
     }
+
 }

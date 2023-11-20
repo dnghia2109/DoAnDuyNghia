@@ -36,6 +36,10 @@ public class UserReceiveNewsService {
     // TODO: Đăng ký nhân mail
     @Transactional
     public UserReceiveNews subcribe(UserReceiveNewsRequest request) {
+        Optional<UserReceiveNews> userReceiveNewsOptional = userReceiveNewsRepository.findByEmail(request.getEmail());
+        if (userReceiveNewsOptional.isPresent()) {
+            throw new BadRequestException("Email - " + request.getEmail() + " has already subcribe to received news. Please use another email address");
+        }
         UserReceiveNews userReceiveNews = new UserReceiveNews();
         userReceiveNews.setEmail(request.getEmail());
 

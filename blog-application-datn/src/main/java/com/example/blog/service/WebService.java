@@ -93,33 +93,20 @@ public class WebService {
         });
         return BlogPublic.of(blog);
     }
-//    public BlogDto getBlogDetail1(Integer blogId, String blogSlug) {
-////        Blog blog = blogRepository.findByIdAndSlugAndStatus(blogId, blogSlug, true).orElseThrow(() -> {
-////            throw new RuntimeException(String.format("Not found blog with id = %d and slug = %s", blogId, blogSlug));
-////        });
-////        return modelMapper.map(blog, BlogDto.class);
-//        Blog blog = blogRepository.findByIdAndSlugAndStatus(blogId, blogSlug, true).orElseThrow(() -> {
-//            throw new RuntimeException(String.format("Not found blog with id = %d and slug = %s", blogId, blogSlug));
-//        });
-//        List<Category> categories = blog.getCategories();
-//        return BlogDto.builder()
-//                .id(blog.getId())
-//                .title(blog.getTitle())
-//                .content(blog.getContent())
-//                .description(blog.getDescription())
-//                .publishedAt(blog.getPublishedAt())
-//                .slug(blog.getSlug())
-//                .thumbnail(blog.getThumbnail())
-//                .user(modelMapper.map(blog.getUser(), UserDto.class))
-//                .categories(categories)
-//                .build();
-//    }
-
-
 
     // Test BlogPublic trong repo
     public Page<BlogPublic> getAllBlog1(Integer page, Integer pageSize) {
         Page<BlogPublic> pageInfo = blogRepository.findBlogs(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
         return pageInfo;
     }
+
+    /*
+    * @author: Lai Duy Nghia
+    * @since: 19/11/2023 16:16
+    * @description:
+    * @update:
+    *
+    * */
+
+
 }
