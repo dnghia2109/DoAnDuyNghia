@@ -47,84 +47,12 @@ public class BlogService {
         return pageInfo;
     }
 
-//    public Page<BlogPublic> getAllOwnBlog(Integer page, Integer pageSize) {
-//        User user = iCurrentUser.getUser();
-//
-//        Page<BlogPublic> pageInfo = blogRepository.findByUser_IdOrderByCreatedAtDesc(
-//                user.getId(),
-//                PageRequest.of(page - 1, pageSize)
-//        );
-//
-//        return pageInfo;
-//    }
-
-//    public List<BlogPublic> getAllOwnBlog() {
-//        User user = iCurrentUser.getUser();
-//
-//        List<BlogPublic> pageInfo = blogRepository.findByUser_IdOrderByCreatedAtDesc(user.getId());
-//        return pageInfo;
-//    }
-
-//    @Transactional
-//    public BlogPublic createBlog(UpsertBlogRequest request) {
-//        // TODO: Validate thông tin (nếu cần thiết) - validation
-//
-//        // Tìm kiếm category
-//        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(null);
-//
-//        // User đang login
-//        User user = iCurrentUser.getUser();
-//
-//        // Tao blog
-//        Slugify slugify = Slugify.builder().build();
-//        Blog blog = Blog.builder()
-//                .title(request.getTitle())
-//                .slug(slugify.slugify(request.getTitle()))
-//                .content(request.getContent())
-//                .description(request.getDescription())
-//                .thumbnail(request.getThumbnail())
-//                .status(request.getStatus())
-//                .approvalStatus(EApprovalStatus.PENDING)
-//                .category(category)
-//                .comments(new ArrayList<>())
-//                .user(user)
-//                .build();
-//
-//        blogRepository.save(blog);
-//        BlogDto blogDto = new BlogDto(blog);
-//        return BlogPublic.of(blog);
-//    }
-
     public BlogPublic getBlogById(Integer id) {
         Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
             throw new NotFoundException("Not found blog with id = " + id);
         });
         return BlogPublic.of(blog);
     }
-
-//    @Transactional
-//    public BlogPublic updateBlog(Integer id, UpsertBlogRequest request) {
-//        Blog blog = blogRepository.findById(id).orElseThrow(() -> {
-//            throw new NotFoundException("Not found blog with id = " + id);
-//        });
-//
-//        // TODO: Validate thông tin (nếu cần thiết) - validation
-//
-//        // Tìm kiếm category
-//        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(null);
-//
-//        Slugify slugify = Slugify.builder().build();
-//        blog.setTitle(request.getTitle());
-//        blog.setSlug(slugify.slugify(request.getTitle()));
-//        blog.setDescription(request.getDescription());
-//        blog.setContent(request.getContent());
-//        blog.setStatus(request.getStatus());
-//        blog.setThumbnail(request.getThumbnail());
-//        blog.setCategory(category);
-//
-//        blogRepository.save(blog);
-//        return BlogPublic.of(blog);
-//    }
 
     @Transactional
     public void deleteBlog(Integer id) {
@@ -187,7 +115,8 @@ public class BlogService {
 
     // Lấy ra danh sách các bài viết có approve status là pending (admin)
     public Page<BlogDto> getBlogsWithApproveStatus(Integer page, Integer pageSize, String approvalStatus) {
-        Page<BlogDto> pageInfo = blogRepository.getBlogsWithApproveStatus(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()), EApprovalStatus.valueOf(approvalStatus));
+        Page<BlogDto> pageInfo = blogRepository.getBlogsWithApproveStatus(PageRequest.of(page - 1, pageSize,
+                Sort.by("createdAt").descending()), EApprovalStatus.valueOf(approvalStatus));
         return pageInfo;
     }
 

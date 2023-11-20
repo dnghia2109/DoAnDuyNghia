@@ -65,7 +65,7 @@ public class Blog {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne()
