@@ -9,9 +9,7 @@ import com.example.blog.dto.projection.CategoryPublic;
 import com.example.blog.entity.User;
 import com.example.blog.request.UpsertBlogRequest;
 import com.example.blog.security.ICurrentUser;
-import com.example.blog.service.BlogService;
-import com.example.blog.service.CategoryService;
-import com.example.blog.service.TagService;
+import com.example.blog.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -30,6 +28,9 @@ public class BlogController {
     private final BlogService blogService;
     private final CategoryService categoryService;
     private final TagService tagService;
+    private final SavedBlogService savedBlogService;
+    private final CommentService commentService;
+    private final WebService webService;
     private final ICurrentUser iCurrentUser;
 
     /*
@@ -86,6 +87,14 @@ public class BlogController {
         return new ResponseEntity<>(blogService.getBlogDtoById(blogId), HttpStatus.OK);
     }
 
+    // TODO: Tìm kiếm bài vết (test)
+    @GetMapping("/api/blogs/")
+    public ResponseEntity<?> getSearchBlogs(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                            @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                                            @RequestParam(required = false, defaultValue = "id,desc") String sort) {
+        return new ResponseEntity<>(blogService.getSearchBlogs(page, pageSize, sort), HttpStatus.OK);
+    }
+
     // TODO: Danh sách tất cả bài viết
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    @GetMapping("/admin/blogs")
@@ -103,16 +112,49 @@ public class BlogController {
 //        return "admin/blog/blog-index";
 //    }
 
+    /*
+    * @author: Lai Duy Nghia
+    * @since: 22/11/2023 15:55
+    * @description:   API view for user
+    * @update:
+    *
+    * */
+
+    @GetMapping("/homepage/blogs/{blogId}/{blogSlug}")
+    public String getBlogDetail(@PathVariable Integer blogId, @PathVariable String blogSlug, Model model) {
+        List<CategoryDto> categories = categoryService.getAllCategoryPublic();
+        BlogDto blog = blogService.getBlogDtoById(blogId);
+        Boolean isExistInSavedList = savedBlogService.blogIsSaved(blogId);
+        User curUser = webService.getUserDetailPage();
+        model.addAttribute("user", curUser);
+        model.addAttribute("blog", blog);
+        model.addAttribute("isExistInSavedList", isExistInSavedList);
+        model.addAttribute("categoryList", categories);
+        return "public/detail-blog";
+    }
+
+
+
+    /*
+    * @author: Lai Duy Nghia
+    * @since: 22/11/2023 15:55
+    * @description:  API view for admin
+    * @update:
+    *
+    * */
+
+    // TODO: Danh sách tất cả bài viết trong hệ thống
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/dashboard/admin/blogs")
     public String getBlogsPage(@RequestParam(required = false, defaultValue = "1") Integer page,
-                              @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                              Model model) {
+                               @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                               Model model) {
         Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
         model.addAttribute("page1", pageInfoDto);
         model.addAttribute("currentPage", page);
         return "admin/blog/blog-index";
     }
+
 
     // TODO: Danh sách bài viết của tôi
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")

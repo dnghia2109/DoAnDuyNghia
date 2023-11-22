@@ -16,6 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class SavedBlogService {
     @Autowired
@@ -66,5 +69,19 @@ public class SavedBlogService {
                 //.stream().filter(savedBlog -> savedBlog.getBlog().getStatus() && savedBlog.getBlog().getApprovalStatus() == EApprovalStatus.APPROVE)
                 .map(SavedBlogDto::new);
         return pageInfo2;
+    }
+
+    // TODO: Check bài viết đã nằm trong danh sách SavedList chưa
+    public boolean blogIsSaved(Integer blogId) {
+        Blog blog = blogRepository.findById(blogId).orElseThrow(() -> {
+            throw new NotFoundException("Không tìm thấy bài viết có id - " + blogId);
+        });
+        User curUser = iCurrentUser.getUser();
+        Optional<SavedBlog> savedBlogOptional = savedBlogRepository.findByBlogAndUser(blog, curUser);
+
+        if (savedBlogOptional.isPresent()) {
+            return true;
+        }
+        return false;
     }
 }

@@ -272,5 +272,29 @@ public class BlogService {
 //    public void deleteBlog(Integer id) {
 //
 //    }
+
+    // TODO: Tìm kiếm bài viết
+    public Page<BlogDto> getSearchBlogs(Integer page, Integer pageSize, String sort) {
+        Page<BlogDto> blogDtos = blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, parseSortParameter(sort)));
+        return blogDtos;
+    }
+
+    private Sort parseSortParameter(String sort) {
+        // Tách trường và hướng sắp xếp từ chuỗi sort
+        String[] sortParams = sort.split(",");
+
+        // Kiểm tra nếu có trường và hướng sắp xếp
+        if (sortParams.length == 2) {
+            String field = sortParams[0];
+            String direction = sortParams[1];
+
+            // Tạo đối tượng Sort
+            return Sort.by(Sort.Direction.fromString(direction), field);
+        }
+
+        // Trả về Sort không sắp xếp nếu sort không hợp lệ
+        return Sort.unsorted();
+    }
+
         
 }

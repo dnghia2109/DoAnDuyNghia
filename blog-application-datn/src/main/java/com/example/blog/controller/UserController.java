@@ -79,7 +79,7 @@ public class UserController {
     // Cập nhật thông tin user
     @PutMapping("api/v1/admin/users/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody UpdateUserRequest request) {
-        UserPublic user = userService.updateUser(id, request);
+        User user = userService.updateUser(id, request);
         return ResponseEntity.ok(user);
     }
 
@@ -94,5 +94,12 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
         userRepository.delete(userRepository.findById(id).get());
         return ResponseEntity.ok("Đã xóa");
+    }
+    
+    // Người dùng cập nhật thông tin tài khoản
+    @PutMapping("/api/v1/user")
+    public ResponseEntity<?> updateUserProfile(@RequestBody UpdateUserRequest request) {
+        UserDto user = userService.updateProfile(request);
+        return ResponseEntity.ok(user);
     }
 }

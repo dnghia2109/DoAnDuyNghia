@@ -1,13 +1,313 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{layout/layout-public :: main-fragment(~{:: title}, ~{}, ~{:: main}, ~{:: #js})}">
+      th:replace="~{layout/layout-public :: main-fragment(~{:: title}, ~{:: #css}, ~{:: main}, ~{:: #js})}">
 <head>
     <meta charset="UTF-8">
     <title th:text="${blog.title}">VnNews</title>
+    <th:block id="css">
+        <link rel="stylesheet" th:href="@{/css/blog-detail.css}">
+    </th:block>
 </head>
 <body>
 <main class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="huy">
+                    <span>huy</span>/
+                    <span>huy01</span>/
+                    <span>title</span>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <span th:if="${isExistInSavedList}">Đã nằm trong saved list</span>
+                        <span th:if="${!isExistInSavedList}">Không nằm trong saved list</span>
+                    </th:block>
 
+                </div>
+            </div>
+            <div class="col-12 mt-1 mb-3 text-white">
+                <div class="position-relative">
+                    <div class="ratio_1140-535 image-wrapper">
+                        <img class="igm-fluid lazy entered loaded"
+                             src="https://demo.bootstrap.news/bootnews/assets/img/1140x535/img5.jpg" alt="">
+                    </div>
+                    <div class="position-absolute p-3 b-0 w-100 bg-shadow">
+                        <a href="#" class="badge bg-primary text-white rounded-0">Holiday</a>
+                        <h1 class="h1 display-md-4 display-3-lg fw-bold mt-2 text-white">5 Simple Tips to Help
+                            Vegetarian or Vegan
+                            Travelers Eat Well, Anywhere</h1>
+                        <div class="post-atribute mb-3">
+                            <div class="my-3 text-light small">
+									<span class="d-none d-sm-inline">
+										by <a class="fw-bold text-light" href="#l">John Doe</a>
+									</span>
+                                <time class="ms-0 ms-sm-2 ms-md-3" datetime="2019-10-22">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                         fill="currentColor" class="bi bi-calendar-check me-1" viewBox="0 0 16 16">
+                                        <path
+                                                d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z">
+                                        </path>
+                                        <path
+                                                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z">
+                                        </path>
+                                    </svg> Oct 22, 2019
+                                </time>
+                                <span class="ms-2 ms-md-3">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-eye me-1" viewBox="0 0 16 16">
+											<path
+                                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z">
+											</path>
+											<path
+                                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z">
+											</path>
+										</svg> 1.230x view
+									</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+					<span>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
+						classical
+						Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
+						professor at
+						Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,
+						from a Lorem
+						Ipsum passage, and going through the cites of the word in classical literature, discovered the
+						undoubtable
+						source.
+
+						Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The
+						Extremes of Good
+						and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very
+						popular during
+						the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a
+						line in section
+						1.10.32.
+
+						Arrow list
+						At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+						Itaque earum rerum hic tenetur a sapiente delectus
+						which of us ever undertakes laborious physical exercise
+						Et harum quidem rerum facilis est et expedita distinctio
+						Itaque earum rerum hic tenetur a sapiente delectus
+						which of us ever undertakes laborious physical exercise
+						There are many variations of passages of Lorem Ipsum available, but the majority have suffered
+						alteration in
+						some form, by injected humourorem Ipsum is simply dummy text of the printing and typesetting
+						industry. Lorem
+						Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
+						took a
+						galley of type and scrambled it to make a type specimen book. It has survived not only five
+						centuries, but
+						also the leap into electronic typesetting, remaining essentially unchanged. It was popularised
+						in the 1960s
+						with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+						desktop
+						publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+                <div class="entry-footer">
+                    <div class="tags-area">
+                        <ul class="tags-links tagcloud ps-0">
+                            <li><span class="fw-bold me-2">Tags</span></li>
+                            <li><a href="#">travel</a></li>
+                            <li><a href="#">cheap</a></li>
+                            <li><a href="#">holiday</a></li>
+                            <li><a href="#">dollar</a></li>
+                            <li><a href="#">fun</a></li>
+                            <li><a href="#">world</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="related-post mb-4">
+                    <div class="block-title-6">
+                        <h4 class="h5 border-primary border-2">
+                            <span class="bg-primary text-white">Related articles</span>
+                        </h4>
+                    </div>
+
+                    <div class="image-slide-main">
+                        <div class="image-slide"><img
+                                src="	https://demo.bootstrap.news/bootnews/assets/img/337x337/img1.jpg" alt="">
+                        </div>
+                        <div class="image-slide"><img
+                                src="	https://demo.bootstrap.news/bootnews/assets/img/337x337/img1.jpg" alt="">
+                        </div>
+                        <div class="image-slide"><img
+                                src="	https://demo.bootstrap.news/bootnews/assets/img/337x337/img1.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comments">
+                    <div class="block-title-6">
+                        <h4 class="h5 border-primary border-2">
+                            <span class="bg-primary text-white">5 Comments</span>
+                        </h4>
+                    </div>
+                    <ol class="comment-list">
+                        <li>
+                            <div class="user-comment u-hover">
+                                <footer>
+                                    <img class="avatar-md border img-fluid float-start me-3"
+                                         src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar1.png"
+                                         alt="avatar">
+                                    <div class="title-comments">
+                                        <a class="authors" href="#" target="_blank">Jennifer Tan</a>
+                                        <span class="text-muted dates small">
+												<time datetime="2019-10-27">Oct 27, 2019 at 12:11 am</time>
+											</span>
+                                        <div class="comment-content">
+                                            <p>News magazine bootstrap themes!</p>
+                                        </div>
+                                        <div class="btn-reply">
+                                            <a class="comment-reply" href="#">Reply</a>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="user-comment u-hover">
+                                <footer>
+                                    <img class="avatar-md border img-fluid float-start me-3"
+                                         src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar2.png"
+                                         alt="avatar">
+                                    <div class="title-comments">
+                                        <a class="authors" href="#" target="_blank">Jennifer Tan</a>
+                                        <span class="text-muted dates small">
+												<time datetime="2019-10-27">Oct 27, 2019 at 12:11 am</time>
+											</span>
+                                        <div class="comment-content">
+                                            <p>News magazine bootstrap themes!</p>
+                                        </div>
+                                        <div class="btn-reply">
+                                            <a class="comment-reply" href="#">Reply</a>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <aside class="col-md-4 end-sidebar-lg">
+                <div class="stickytop">
+                    <aside class="widget">
+                        <div class="block-title-4">
+                            <h4 class="h5 title-arrow">
+                                <span>Social network</span>
+                            </h4>
+                        </div>
+                        <div class="img-block">
+                            <img src="https://demo.bootstrap.news/bootnews/assets/img/337x337/img7.jpg" alt="">
+                        </div>
+                    </aside>
+
+                    <aside class="widget">
+                        <div class="block-title-4">
+                            <h4 class="h5 title-arrow">
+                                <span>Latest news</span>
+                            </h4>
+                        </div>
+                        <div class="big-post">
+                            <article class="card card-full hover-a mb-4">
+                                <!--thumbnail-->
+                                <div class="ratio_360-202 image-wrapper">
+                                    <a href="#">
+                                        <img class="img-fluid lazy entered loaded"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img55.jpg"
+                                             data-src="../../assets/img/360x202/img55.jpg" alt="Image description"
+                                             data-ll-status="loaded">
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <!--title-->
+                                    <h2 class="card-title h1-sm h3-md">
+                                        <a href="#">MotoGP: Which team needs what in 2019?</a>
+                                    </h2>
+                                    <!-- author & date -->
+                                    <div class="card-text mb-2 text-muted small">
+											<span class="d-none d-sm-inline me-1">
+												<a class="fw-bold" href="#">John Doe</a>
+											</span>
+                                        <time datetime="2019-10-22">Oct 22, 2019</time>
+                                    </div>
+                                    <!--description-->
+                                    <p class="card-text">This is a wider card with supporting text below as a
+                                        natural lead-in to
+                                        additional content. This content is a little bit longer.</p>
+                                </div>
+                            </article>
+                        </div>
+                    </aside>
+                    <div class="small-post">
+                        <!--post list-->
+                        <article class="card card-full hover-a mb-4">
+                            <div class="row">
+                                <!--thumbnail-->
+                                <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                    <div class="ratio_110-77 image-wrapper">
+                                        <a href="#">
+                                            <img class="img-fluid lazy entered loaded"
+                                                 src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img5.jpg"
+                                                 data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
+                                                 data-ll-status="loaded">
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- title & date -->
+                                <div class="col-9 col-md-8">
+                                    <div class="card-body pt-0">
+                                        <h3 class="card-title h6 h5-sm h6-md">
+                                            <a href="#">Take the kids to Windermere Jetty, Lake District</a>
+                                        </h3>
+                                        <div class="card-text small text-muted">
+                                            <time datetime="2019-10-16">Oct 16, 2019</time>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="card card-full hover-a mb-4">
+                            <div class="row">
+                                <!--thumbnail-->
+                                <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                    <div class="ratio_110-77 image-wrapper">
+                                        <a href="#">
+                                            <img class="img-fluid lazy entered loaded"
+                                                 src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img6.jpg"
+                                                 data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
+                                                 data-ll-status="loaded">
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- title & date -->
+                                <div class="col-9 col-md-8">
+                                    <div class="card-body pt-0">
+                                        <h3 class="card-title h6 h5-sm h6-md">
+                                            <a href="#">Take the kids to Windermere Jetty, Lake District</a>
+                                        </h3>
+                                        <div class="card-text small text-muted">
+                                            <time datetime="2019-10-16">Oct 16, 2019</time>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                </div>
+            </aside>
+        </div>
+    </div>
 </main>
 </body>
+<th:block id="js">
+    <script th:inline="javascript">
+        const categories = [[${isExistInSavedList}]]
+        console.log(1)
+        console.log(categories)
+    </script>
+</th:block>
 </html>

@@ -10,6 +10,7 @@ import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.request.CreateUserRequest;
 import com.example.blog.request.UpdateUserRequest;
+import com.example.blog.security.ICurrentUser;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final ICurrentUser iCurrentUser;
     private final RoleRepository roleRepository;
     private final ImageService imageService;
     private final PasswordEncoder passwordEncoder;
@@ -61,20 +63,20 @@ public class UserService {
     }
 
     // Cập nhật thông tin user
-    public UserPublic updateUser(Integer id, UpdateUserRequest request) {
-        User user = userRepository.findById(id).orElseThrow(() -> {
-            throw new NotFoundException("Not found user with id = " + id);
-        });
-
-        // List Role
-        List<Role> roleList = roleRepository.findByIdIn(request.getRoleIds());
-
-        user.setName(request.getName());
-        user.setRoles(roleList);
-
-        userRepository.save(user);
-        return UserPublic.of(user);
-    }
+//    public UserPublic updateUser(Integer id, UpdateUserRequest request) {
+//        User user = userRepository.findById(id).orElseThrow(() -> {
+//            throw new NotFoundException("Not found user with id = " + id);
+//        });
+//
+//        // List Role
+//        List<Role> roleList = roleRepository.findByIdIn(request.getRoleIds());
+//
+//        user.setName(request.getName());
+//        user.setRoles(roleList);
+//
+//        userRepository.save(user);
+//        return UserPublic.of(user);
+//    }
 
     // Thay đổi avatar
     public Image uploadAvatar(Integer id, MultipartFile file) {
@@ -118,7 +120,7 @@ public class UserService {
 
 
     // TODO: Cập nhật thông tin user (admin)
-    public User updateInfoUser(Integer id, UpdateUserRequest request) {
+    public User updateUser(Integer id, UpdateUserRequest request) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {
             throw new NotFoundException("Không tìm thấy user có id: " + id);
@@ -139,5 +141,20 @@ public class UserService {
         });
         userRepository.delete(user);
     }
+
+    /*
+    * @author: Lai Duy Nghia
+    * @since: 21/11/2023 20:56
+    * @description:  Người dùng cập nhật thông tin tài khoản
+    * @update:
+    *
+    * */
+    public UserDto updateProfile(UpdateUserRequest request) {
+        User user = iCurrentUser.getUser();
+        user.setName(request.getName());
+        userRepository.save(user);
+        return new UserDto(user);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.blog.repository;
 
+import com.example.blog.entity.Blog;
 import com.example.blog.entity.SavedBlog;
 import com.example.blog.entity.User;
 import org.springframework.data.domain.Page;
@@ -17,4 +18,7 @@ public interface SavedBlogRepository extends JpaRepository<SavedBlog, Integer> {
 
     @Query("select sb from SavedBlog sb where sb.blog.id = ?1 and sb.user = ?2")
     Optional<SavedBlog> findByIdBlog(Integer savedBlogId, User user);
+
+    Optional<SavedBlog> findByBlogAndUser(Blog blog, User user);
+
 }

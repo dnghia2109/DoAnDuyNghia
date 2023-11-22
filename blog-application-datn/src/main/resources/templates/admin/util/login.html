@@ -63,6 +63,7 @@
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script th:src="@{/js/redirectURL.js}"></script>
 <script th:inline="javascript">
     toastr.options = {
         "closeButton": false,
@@ -98,7 +99,8 @@
             if(res.status === 200) {
                 toastr.success("Đăng nhập thành công");
                 setTimeout(() => {
-                    window.location.href = "/dashboard/blogs/own-blogs";
+                    redirectToSavedUrl();
+                    // window.location.href = "/dashboard/blogs/own-blogs";
                     // window.location.href = "/admin/blogs";
                 }, 1500);
             }

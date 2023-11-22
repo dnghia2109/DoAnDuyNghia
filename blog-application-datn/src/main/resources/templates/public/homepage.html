@@ -130,22 +130,22 @@
                     <div class="row" th:each="blog, iterStat:${category.blogs}" th:if="${iterStat.first}">
                         <div class="col-lg-6">
                             <div class="cart-full">
-                                <a href="#">
+                                <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
                                     <img src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img1.jpg" class="img-fluid" alt="">
-                                </a>
-                                <div class="card-body">
-                                    <h2 class="card-title" th:text="${blog.title}" >GB's Bankes wins snowboard cross silver at World Champs</h2>
-                                    <div class="card-text mb-2 text-muted small">
-                                        <span class="d-none d-sm-inline me-1" th:text="${blog.author.name}">Duy Nghia</span>
-                                        <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">Oct 22, 2019</time>
+                                    <div class="card-body">
+                                        <h2 class="card-title" th:text="${blog.title}" >GB's Bankes wins snowboard cross silver at World Champs</h2>
+                                        <div class="card-text mb-2 text-muted small">
+                                            <span class="d-none d-sm-inline me-1" th:text="${blog.author.name}">Duy Nghia</span>
+                                            <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">Oct 22, 2019</time>
+                                        </div>
+                                        <p class="card-text" >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                                     </div>
-                                    <p class="card-text" >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
+                                </a>
                             </div>
                         </div>
                         <div class="col-lg-6 main-detal-news">
-                            <th:block th:each="blog, iterStat:${category.blogs}" th:if="${!iterStat.first && iterStat.index<6}">
-                                <article class="card card-full hover-a mb-4">
+                            <article class="card card-full hover-a mb-4" th:each="blog, iterStat:${category.blogs}" th:if="${!iterStat.first && iterStat.index<6}">
+                                <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
                                     <div class="row">
                                         <div class="col-3 col-md-4 pe-2 pe-md-0">
                                             <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img1.jpg" alt="">
@@ -153,7 +153,7 @@
                                         <div class="col-9 col-md-8">
                                             <div class="card-body pt-0">
                                                 <h3 class="card-title-child h6 h5-sm h6-lg">
-                                                    <a th:text="${blog.title}" href="#">Yankees Party Like It’s 1998, at Least for a Day</a>
+                                                    <span th:text="${blog.title}" >Yankees Party Like It’s 1998, at Least for a Day</span>
                                                 </h3>
                                                 <div class="card-text small text-muted">
                                                     <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">Oct 22, 2019</time>
@@ -161,19 +161,125 @@
                                             </div>
                                         </div>
                                     </div>
-                                </article>
-                            </th:block>
+                                </a>
+                            </article>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 end-sidebar-lg">
-                <div class="container">
-                    <div class="row" id="square">
-                        <h1>Lastest post</h1>
+                <aside class="widget">
+                    <div class="block-title-4">
+                        <h4 class="h5 title-arrow">
+                            <span>Latest news</span>
+                        </h4>
                     </div>
-
+                    <div class="big-post">
+                        <article class="card card-full hover-a mb-4">
+                            <!--thumbnail-->
+                            <div class="ratio_360-202 image-wrapper">
+                                <a href="#">
+                                    <img class="img-fluid lazy entered loaded"
+                                         src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img55.jpg"
+                                         data-src="../../assets/img/360x202/img55.jpg" alt="Image description"
+                                         data-ll-status="loaded">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <!--title-->
+                                <h2 class="card-title h1-sm h3-md">
+                                    <a href="#">MotoGP: Which team needs what in 2019?</a>
+                                </h2>
+                                <!-- author & date -->
+                                <div class="card-text mb-2 text-muted small">
+										<span class="d-none d-sm-inline me-1">
+											<a class="fw-bold" href="#">John Doe</a>
+										</span>
+                                    <time datetime="2019-10-22">Oct 22, 2019</time>
+                                </div>
+                                <!--description-->
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </article>
+                    </div>
+                </aside>
+                <div class="small-post">
+                    <!--post list-->
+                    <article class="card card-full hover-a mb-4">
+                        <div class="row">
+                            <!--thumbnail-->
+                            <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                <div class="ratio_110-77 image-wrapper">
+                                    <a href="#">
+                                        <img class="img-fluid lazy entered loaded"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img5.jpg"
+                                             data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
+                                             data-ll-status="loaded">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- title & date -->
+                            <div class="col-9 col-md-8">
+                                <div class="card-body pt-0">
+                                    <h3 class="card-title h6 h5-sm h6-md">
+                                        <a href="#">Take the kids to Windermere Jetty, Lake District</a>
+                                    </h3>
+                                    <div class="card-text small text-muted">
+                                        <time datetime="2019-10-16">Oct 16, 2019</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card card-full hover-a mb-4">
+                        <div class="row">
+                            <!--thumbnail-->
+                            <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                <div class="ratio_110-77 image-wrapper">
+                                    <a href="#">
+                                        <img class="img-fluid lazy entered loaded"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img6.jpg"
+                                             data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
+                                             data-ll-status="loaded">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- title & date -->
+                            <div class="col-9 col-md-8">
+                                <div class="card-body pt-0">
+                                    <h3 class="card-title h6 h5-sm h6-md">
+                                        <a href="#">Take the kids to Windermere Jetty, Lake District</a>
+                                    </h3>
+                                    <div class="card-text small text-muted">
+                                        <time datetime="2019-10-16">Oct 16, 2019</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
                 </div>
+                <aside class="widget">
+                    <div class="p-4 border bg-light-dark text-center mb-4">
+                        <h4>Get Updates</h4>
+                        <p class="text-dark-light">Subscribe our newsletter to get the last update into your inbox!
+                        </p>
+                        <div class="mx-auto">
+                            <form id="subscribe" class="needs-validation" action="#" novalidate="">
+                                <div class="input-group">
+                                    <input type="email" class="form-control" name="email" required=""
+                                           aria-label="email form" placeholder="Enter your email address"
+                                           fdprocessedid="909qnm">
+                                    <button class="btn btn-primary" type="submit"
+                                            fdprocessedid="qzu3s">Subscribe</button>
+                                    <div class="invalid-feedback">
+                                        Please insert email address.
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
     </div>
