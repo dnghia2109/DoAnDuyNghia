@@ -1,10 +1,13 @@
 package com.example.blog.service;
 
+import com.example.blog.constant.EReceiveNewsState;
 import com.example.blog.dto.BlogDto;
 import com.example.blog.dto.BlogSendMailDto;
 import com.example.blog.entity.UserReceiveNews;
 import com.example.blog.exception.BadRequestException;
+import com.example.blog.exception.NotFoundException;
 import com.example.blog.repository.UserReceiveNewsRepository;
+import com.example.blog.request.ReceiveNewsRequest;
 import com.example.blog.request.UserReceiveNewsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +38,28 @@ public class UserReceiveNewsService {
 
     // TODO: Đăng ký nhân mail
     @Transactional
-    public UserReceiveNews subcribe(UserReceiveNewsRequest request) {
+    public UserReceiveNews subcribe(ReceiveNewsRequest request) {
         Optional<UserReceiveNews> userReceiveNewsOptional = userReceiveNewsRepository.findByEmail(request.getEmail());
+        // check email đã đki hay chưa:
+        // case 1 : email đã đki và đag có trạng thái là delay thì set lại active
+        // case 2 : email đã đki và đag có trạng thái là avtive thì ném message lỗi đã tồn tại
         if (userReceiveNewsOptional.isPresent()) {
-            throw new BadRequestException("Email - " + request.getEmail() + " has already subcribe to received news. Please use another email address");
+            UserReceiveNews userReceiveNews = userReceiveNewsOptional.get();
+            if ((userReceiveNews.getStatus() == EReceiveNewsState.DELAY_30_DAYS) || (userReceiveNews.getStatus() == EReceiveNewsState.DELAY_UNTIL_TURN_ON)) {
+                userReceiveNews.setStatus(EReceiveNewsState.ACTIVE);
+                return userReceiveNewsRepository.save(userReceiveNews);
+            } else {
+                throw new BadRequestException("Email - " + request.getEmail() + " has already subcribe to received news. Please use another email address");
+            }
         }
         UserReceiveNews userReceiveNews = new UserReceiveNews();
         userReceiveNews.setEmail(request.getEmail());
-
         userReceiveNewsRepository.save(userReceiveNews);
         return userReceiveNews;
     }
 
     // TODO: Hủy nhận mail
-    public String unsubcribe(String email) {
+    public String unSubcribe(String email) {
         Optional<UserReceiveNews> userReceiveNewsOptional = userReceiveNewsRepository.findByEmail(email);
         if (userReceiveNewsOptional.isPresent()) {
             UserReceiveNews userReceiveNews = userReceiveNewsOptional.get();
@@ -59,7 +70,20 @@ public class UserReceiveNewsService {
         return "Hủy đăng ký nhận tin thành công.";
     }
 
-    // TODO: Tự động gửi mail
+    // TODO: Cập nhật trạng thái tần suất nhận mail
+    public UserReceiveNews updateStatusReceiveNews(String email, EReceiveNewsState status) {
+        Optional<UserReceiveNews> userReceiveNewsOptional = userReceiveNewsRepository.findByEmail(email);
+        if (userReceiveNewsOptional.isPresent()) {
+            UserReceiveNews userReceiveNews = userReceiveNewsOptional.get();
+            userReceiveNews.setStatus(status);
+            userReceiveNewsRepository.save(userReceiveNews);
+        } else {
+            throw new NotFoundException("Email chưa đăng ký dịch vụ nhận tin tức.");
+        }
+        return userReceiveNewsOptional.get();
+    }
+
+//    // TODO: Tự động gửi mail
 //    @Scheduled(fixedRate = 6100000)
 //    @Async
 //    public void autoSendMail() {
@@ -74,6 +98,7 @@ public class UserReceiveNewsService {
 //
 //        for (UserReceiveNews userReceiveNews : userReceiveNewsList) {
 //            mailService.sendMail(userReceiveNews.getEmail(), "Danh sách bài viết mới" ,listURLs.toString());
+//
 //            System.out.println("=============");
 //            System.out.println(userReceiveNews.getEmail() + listURLs);
 //            log.info("User - {}", userReceiveNews.getEmail());

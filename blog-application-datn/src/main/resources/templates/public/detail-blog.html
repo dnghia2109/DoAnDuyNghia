@@ -32,13 +32,13 @@
                     </div>
                     <div class="position-absolute p-3 b-0 w-100 bg-shadow">
                         <a href="#" class="badge bg-primary text-white rounded-0">Holiday</a>
-                        <h1 class="h1 display-md-4 display-3-lg fw-bold mt-2 text-white">5 Simple Tips to Help
+                        <h1 th:text="${blog.title}" class="h1 display-md-4 display-3-lg fw-bold mt-2 text-white">5 Simple Tips to Help
                             Vegetarian or Vegan
                             Travelers Eat Well, Anywhere</h1>
                         <div class="post-atribute mb-3">
                             <div class="my-3 text-light small">
 									<span class="d-none d-sm-inline">
-										by <a class="fw-bold text-light" href="#l">John Doe</a>
+										by <a class="fw-bold text-light" href="#l" th:text="${blog.author}">John Doe</a>
 									</span>
                                 <time class="ms-0 ms-sm-2 ms-md-3" datetime="2019-10-22">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
@@ -68,7 +68,8 @@
                 </div>
             </div>
             <div class="col-md-8">
-					<span>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
+                <div class="row">
+                    <span th:utext="${blog.content}">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
 						classical
 						Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
 						professor at
@@ -105,91 +106,101 @@
 						in the 1960s
 						with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
 						desktop
-						publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
-                <div class="entry-footer">
-                    <div class="tags-area">
-                        <ul class="tags-links tagcloud ps-0">
-                            <li><span class="fw-bold me-2">Tags</span></li>
-                            <li><a href="#">travel</a></li>
-                            <li><a href="#">cheap</a></li>
-                            <li><a href="#">holiday</a></li>
-                            <li><a href="#">dollar</a></li>
-                            <li><a href="#">fun</a></li>
-                            <li><a href="#">world</a></li>
-                        </ul>
-                    </div>
+						publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </span>
                 </div>
-                <div class="related-post mb-4">
-                    <div class="block-title-6">
-                        <h4 class="h5 border-primary border-2">
-                            <span class="bg-primary text-white">Related articles</span>
-                        </h4>
-                    </div>
-
-                    <div class="image-slide-main">
-                        <div class="image-slide"><img
-                                src="	https://demo.bootstrap.news/bootnews/assets/img/337x337/img1.jpg" alt="">
-                        </div>
-                        <div class="image-slide"><img
-                                src="	https://demo.bootstrap.news/bootnews/assets/img/337x337/img1.jpg" alt="">
-                        </div>
-                        <div class="image-slide"><img
-                                src="	https://demo.bootstrap.news/bootnews/assets/img/337x337/img1.jpg" alt="">
+                <div class="row">
+                    <div class="entry-footer">
+                        <div class="tags-area">
+                            <ul class="tags-links tagcloud ps-0">
+                                <li><span class="fw-bold me-2">Tags</span></li>
+                                <li><a href="#">travel</a></li>
+                                <li><a href="#">cheap</a></li>
+                                <li><a href="#">holiday</a></li>
+                                <li><a href="#">dollar</a></li>
+                                <li><a href="#">fun</a></li>
+                                <li><a href="#">world</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="comments">
-                    <div class="block-title-6">
-                        <h4 class="h5 border-primary border-2">
-                            <span class="bg-primary text-white">5 Comments</span>
-                        </h4>
+                <div class="row">
+                    <div class="related-post mb-4">
+                        <div class="block-title-6">
+                            <h4 class="h5 border-primary border-2">
+                                <span class="bg-primary text-white">Related articles</span>
+                            </h4>
+                        </div>
+
+                        <div class="image-slide-main">
+                            <div class="image-slide"><img
+                                    src="	https://demo.bootstrap.news/bootnews/assets/img/337x337/img1.jpg" alt="">
+                            </div>
+                            <div class="image-slide"><img
+                                    src="	https://demo.bootstrap.news/bootnews/assets/img/337x337/img1.jpg" alt="">
+                            </div>
+                            <div class="image-slide"><img
+                                    src="	https://demo.bootstrap.news/bootnews/assets/img/337x337/img1.jpg" alt="">
+                            </div>
+                        </div>
                     </div>
-                    <ol class="comment-list">
-                        <li>
-                            <div class="user-comment u-hover">
-                                <footer>
-                                    <img class="avatar-md border img-fluid float-start me-3"
-                                         src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar1.png"
-                                         alt="avatar">
-                                    <div class="title-comments">
-                                        <a class="authors" href="#" target="_blank">Jennifer Tan</a>
-                                        <span class="text-muted dates small">
-												<time datetime="2019-10-27">Oct 27, 2019 at 12:11 am</time>
-											</span>
-                                        <div class="comment-content">
-                                            <p>News magazine bootstrap themes!</p>
-                                        </div>
-                                        <div class="btn-reply">
-                                            <a class="comment-reply" href="#">Reply</a>
-                                        </div>
-                                    </div>
-                                </footer>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="user-comment u-hover">
-                                <footer>
-                                    <img class="avatar-md border img-fluid float-start me-3"
-                                         src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar2.png"
-                                         alt="avatar">
-                                    <div class="title-comments">
-                                        <a class="authors" href="#" target="_blank">Jennifer Tan</a>
-                                        <span class="text-muted dates small">
-												<time datetime="2019-10-27">Oct 27, 2019 at 12:11 am</time>
-											</span>
-                                        <div class="comment-content">
-                                            <p>News magazine bootstrap themes!</p>
-                                        </div>
-                                        <div class="btn-reply">
-                                            <a class="comment-reply" href="#">Reply</a>
-                                        </div>
-                                    </div>
-                                </footer>
-                            </div>
-                        </li>
-                    </ol>
                 </div>
+
+                <div class="row">
+                    <div class="col-12 comments">
+                        <div class="block-title-6">
+                            <h4 class="h5 border-primary border-2">
+                                <span class="bg-primary text-white">5 Comments</span>
+                            </h4>
+                        </div>
+                        <ol class="comment-list">
+                            <li>
+                                <div class="user-comment u-hover">
+                                    <footer>
+                                        <img class="avatar-md border img-fluid float-start me-3"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar1.png"
+                                             alt="avatar">
+                                        <div class="title-comments">
+                                            <a class="authors" href="#" target="_blank">Jennifer Tan</a>
+                                            <span class="text-muted dates small">
+												<time datetime="2019-10-27">Oct 27, 2019 at 12:11 am</time>
+											</span>
+                                            <div class="comment-content">
+                                                <p>News magazine bootstrap themes!</p>
+                                            </div>
+                                            <div class="btn-reply">
+                                                <a class="comment-reply" href="#">Reply</a>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="user-comment u-hover">
+                                    <footer>
+                                        <img class="avatar-md border img-fluid float-start me-3"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar2.png"
+                                             alt="avatar">
+                                        <div class="title-comments">
+                                            <a class="authors" href="#" target="_blank">Jennifer Tan</a>
+                                            <span class="text-muted dates small">
+												<time datetime="2019-10-27">Oct 27, 2019 at 12:11 am</time>
+											</span>
+                                            <div class="comment-content">
+                                                <p>News magazine bootstrap themes!</p>
+                                            </div>
+                                            <div class="btn-reply">
+                                                <a class="comment-reply" href="#">Reply</a>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
             </div>
             <aside class="col-md-4 end-sidebar-lg">
                 <div class="stickytop">

@@ -23,7 +23,8 @@ public class BlogMapper {
         blogDto.setUpdatedAt(blog.getUpdatedAt());
         blogDto.setStatus(blog.getStatus());
         blogDto.setApprovalStatus(String.valueOf(blog.getApprovalStatus()));
-        blogDto.setAuthor(new UserDto(blog.getUser()));
+//        blogDto.setAuthor(new UserDto(blog.getUser()));
+        blogDto.setAuthor(blog.getUser().getName());
         blogDto.setCategory(blog.getCategory());
         blogDto.setTags(blog.getTags().stream().map(TagDto::new).collect(Collectors.toList()));
         blogDto.setComments(blog.getComments().stream().map(CommentDto::new).collect(Collectors.toList()));

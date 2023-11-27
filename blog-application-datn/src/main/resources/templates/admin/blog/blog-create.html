@@ -7,10 +7,12 @@
 
 
     <th:block id="css">
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/summernote/summernote-bs4.min.css}"/>
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/select2/css/select2.min.css}"/>
         <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
 
-        <link rel="stylesheet" th:href="@{/admin-lte/plugins/select2/css/select2.min.css}"/>
+<!--        <link rel="stylesheet" th:href="@{/admin-lte/plugins/select2/css/select2.min.css}"/>-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
               integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
               crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -198,10 +200,11 @@
 
 <th:block id="js">
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-
+    <script th:src="@{/assets/js/custom.js}"></script>
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
 
-    <script th:src="@{/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/summernote/summernote-bs4.min.js}"></script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"
             integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -211,6 +214,22 @@
     <script th:inline="javascript">
         //Initialize Select2 Elements
         $(".select2").select2();
+
+        $('#content').summernote({
+            height: 500,
+        })
+
+        $('#content').css({
+            'display': 'block',
+            'height': '0',
+            'padding': '0',
+            'border': 'none'
+        })
+
+        $('#content').on('summernote.change', function(we, contents, $editable) {
+            $("#content").html(contents);
+        });
+
         const tags = [[${tagList}]];
         console.log(tags);
 
@@ -223,21 +242,6 @@
         //         codeSyntaxHighlighting: true,
         //     },
         // });
-
-        let editor = "";
-        $(document).ready(function () {
-            editor = CKEDITOR.replace('content');
-        })
-
-        // ClassicEditor
-        //     .create( document.querySelector( '#content' ), {
-        //         plugins: [ 'Heading', 'Link', 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
-        //     })
-        //     .catch( error => {
-        //         console.error( error );
-        //     } );
-
-
 
         // Tạo bài viết
         const btnCreate = document.getElementById("btn-create");
@@ -257,6 +261,9 @@
                     tagArr.push(parseInt(el.value))
                 }
             })
+            if (tagArr.length === 0) {
+                tagArr = null;
+            }
             return tagArr;
         }
 
@@ -267,9 +274,7 @@
                 // Lấy dữ liệu
                 const title = titleEl.value;
                 // const content = easyMDE.value();
-                const content = editor.getData();
-                //const content = CKEDITOR.instances.editor.getData();
-                // var contentForPost = CKEDITOR.instances.editor.getData();
+                const content = $('#content').summernote('code')
                 const description = descriptionEl.value;
                 const status = statusEl.value;
                 const categoryId = parseInt(categoryEl.val());
@@ -304,9 +309,9 @@
                 const data = await dataJson.json();
 
                 toastr.success("Tạo bài viết thành công");
-                // setTimeout(() => {
-                //     window.location.href = `/admin/blogs/${data.id}/detail`;
-                // }, 1500) // 1500ms = 1.5s
+                setTimeout(() => {
+                    window.location.href = `/admin/blogs/${data.id}/detail`;
+                }, 1500) // 1500ms = 1.5s
             } catch (err) {
                 console.log(err)
             }

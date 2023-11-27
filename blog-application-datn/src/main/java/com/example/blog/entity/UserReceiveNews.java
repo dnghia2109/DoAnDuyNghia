@@ -1,8 +1,10 @@
 package com.example.blog.entity;
 
+import com.example.blog.constant.EReceiveNewsState;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 /*
 * @author: Lai Duy Nghia
@@ -12,9 +14,9 @@ import lombok.Setter;
 *
 * */
 
-
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "user_subcribe")
 public class UserReceiveNews {
@@ -26,5 +28,26 @@ public class UserReceiveNews {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private EReceiveNewsState status;
+
+    @Column(name = "subcribedAt", columnDefinition = "TIMESTAMP")
+    private LocalDateTime subcribedAt;
+
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        status = EReceiveNewsState.ACTIVE;
+        subcribedAt = LocalDateTime.now();
+        updatedAt = subcribedAt;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
 }

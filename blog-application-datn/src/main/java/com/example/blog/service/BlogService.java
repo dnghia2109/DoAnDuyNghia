@@ -26,6 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -143,19 +144,36 @@ public class BlogService {
 
         // Tao blog
         Slugify slugify = Slugify.builder().build();
-        Blog blog = Blog.builder()
-                .title(request.getTitle())
-                .slug(slugify.slugify(request.getTitle()))
-                .content(request.getContent())
-                .description(request.getDescription())
-                .thumbnail(request.getThumbnail())
-                .status(request.getStatus())
-                .approvalStatus(EApprovalStatus.PENDING)
-                .category(category)
-                .tags(tags)
-                .comments(new ArrayList<>())
-                .user(user)
-                .build();
+
+        Blog blog = new Blog();
+        blog.setTitle(request.getTitle());
+        blog.setSlug(slugify.slugify(request.getTitle()));
+        blog.setDescription(request.getDescription());
+        blog.setContent(request.getContent());
+        blog.setThumbnail(request.getThumbnail());
+        blog.setStatus(request.getStatus());
+        if (!request.getStatus()) {
+            blog.setApprovalStatus(EApprovalStatus.NOT_READY);
+        }
+        blog.setApprovalStatus(EApprovalStatus.PENDING);
+        blog.setCategory(category);
+        blog.setTags(tags);
+        blog.setUser(user);
+
+
+//        Blog blog = Blog.builder()
+//                .title(request.getTitle())
+//                .slug(slugify.slugify(request.getTitle()))
+//                .content(request.getContent())
+//                .description(request.getDescription())
+//                .thumbnail(request.getThumbnail())
+//                .status(request.getStatus())
+//                .approvalStatus(EApprovalStatus.PENDING)
+//                .category(category)
+//                .tags(tags)
+//                .comments(new ArrayList<>())
+//                .user(user)
+//                .build();
 
         blogRepository.save(blog);
         BlogDto blogDto = new BlogDto(blog);
@@ -274,22 +292,27 @@ public class BlogService {
 //    }
 
     // TODO: Tìm kiếm bài viết
-    public Page<BlogDto> getSearchBlogs(Integer page, Integer pageSize, String sort) {
-        Page<BlogDto> blogDtos = blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, parseSortParameter(sort)));
-        return blogDtos;
+    public Page<BlogDto> getSearchBlogs(Integer page, Integer pageSize, String sortField, String sortDirection, String keyword, LocalDateTime startDate, LocalDateTime endDate ) {
+//        if (sortField == null) {
+//            Page<BlogDto> blogDtos = blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id")));
+//            return blogDtos;
+//        }
+        Page<BlogDto> blogDtos = blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
+        Page<BlogDto> searchResult = blogRepository.searchBlogs(keyword, startDate, endDate, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
+        return searchResult;
     }
 
-    private Sort parseSortParameter(String sort) {
-        // Tách trường và hướng sắp xếp từ chuỗi sort
-        String[] sortParams = sort.split(",");
+    private Sort parseSortParameter(String sortField, String sortDirection) {
+        if (!sortField.isEmpty() && sortField.equalsIgnoreCase("user")) {
+            sortField = "user.name";
+        }
 
-        // Kiểm tra nếu có trường và hướng sắp xếp
-        if (sortParams.length == 2) {
-            String field = sortParams[0];
-            String direction = sortParams[1];
+        if (!sortField.isEmpty() && sortField.equalsIgnoreCase("category")) {
+            sortField = "category.name";
+        }
 
-            // Tạo đối tượng Sort
-            return Sort.by(Sort.Direction.fromString(direction), field);
+        if (!sortField.isEmpty()) {
+            return Sort.by(Sort.Direction.fromString(sortDirection), sortField);
         }
 
         // Trả về Sort không sắp xếp nếu sort không hợp lệ

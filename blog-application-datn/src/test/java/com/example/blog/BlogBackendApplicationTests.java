@@ -138,7 +138,7 @@ class BlogBackendApplicationTests {
         List<User> userList = userRepository.findByRoles_NameIn(List.of("ADMIN", "AUTHOR"));
         List<Category> categoryList = categoryRepository.findAll();
 
-        for (int i = 61; i <= 80; i++) {
+        for (int i = 21; i <= 40; i++) {
             // Random 1 user
             User rdUser = userList.get(rd.nextInt(userList.size()));
 

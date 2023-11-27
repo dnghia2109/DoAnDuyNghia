@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>VnNews</title>
-    <th:block id="css">
-        <link rel="stylesheet" th:href="@{/css/style-public-web.css}">
-    </th:block>
+<!--    <th:block id="css">-->
+<!--        <link rel="stylesheet" th:href="@{/css/style-public-web.css}">-->
+<!--    </th:block>-->
 </head>
 <body>
 <main class="main">
@@ -135,7 +135,7 @@
                                     <div class="card-body">
                                         <h2 class="card-title" th:text="${blog.title}" >GB's Bankes wins snowboard cross silver at World Champs</h2>
                                         <div class="card-text mb-2 text-muted small">
-                                            <span class="d-none d-sm-inline me-1" th:text="${blog.author.name}">Duy Nghia</span>
+                                            <span class="d-none d-sm-inline me-1" th:text="${blog.author}">Duy Nghia</span>
                                             <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">Oct 22, 2019</time>
                                         </div>
                                         <p class="card-text" >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -265,18 +265,18 @@
                         <p class="text-dark-light">Subscribe our newsletter to get the last update into your inbox!
                         </p>
                         <div class="mx-auto">
-                            <form id="subscribe" class="needs-validation" action="#" novalidate="">
+                            <div id="subscribe" class="needs-validation" novalidate="">
                                 <div class="input-group">
-                                    <input type="email" class="form-control" name="email" required=""
+                                    <input id="email-subcribe" type="email" class="form-control" name="email" required=""
                                            aria-label="email form" placeholder="Enter your email address"
                                            fdprocessedid="909qnm">
-                                    <button class="btn btn-primary" type="submit"
+                                    <button id="btn-subcribe" class="btn btn-primary"
                                             fdprocessedid="qzu3s">Subscribe</button>
                                     <div class="invalid-feedback">
                                         Please insert email address.
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </aside>
@@ -287,9 +287,61 @@
 
 <th:block id="js">
     <script th:inline="javascript">
-        const categories = [[${categoryList}]]
-        console.log(1)
-        console.log(categories)
+        let isValid = true;
+        const btnSubcribe = document.getElementById("btn-subcribe");
+        const emailSubcribeEl = document.getElementById("email-subcribe");
+
+        btnSubcribe.addEventListener("click", async (e) => {
+            try {
+                const emailVal = emailSubcribeEl.value;
+                console.log(emailVal)
+                if (emailVal.length === 0) {
+                    toastr.error("Bạn chưa nhập email!");
+                    isValid = false;
+                }
+                const request = {
+                    emailVal
+                }
+                if (isValid) {
+                    let res = await axios.post("/api/v1/user/subcribe-news",{
+                        'email' : emailVal
+                    });
+                    console.log(emailVal)
+                    if (res.status === 200) {
+                        e.preventDefault()
+                        toastr.success("Đăng ký nhận tin tức thành công");
+                        // alert(`Đăng ký thành công bạn sẽ nhận được các bài báo mới vào 6 giờ sáng mỗi ngày tại địa chỉ email - ${emailVal}`)
+                    } else {
+                        toastr.error("Không thành công")
+                    }
+                }
+            } catch (err) {
+                toastr.warning(err.response.data.message);
+                console.log(err);
+            }
+            // const emailVal = emailSubcribeEl.value;
+            // console.log(emailVal)
+            // if (emailVal.length === 0) {
+            //     toastr.error("Bạn chưa nhập email!");
+            //     isValid = false;
+            // }
+            // const request = {
+            //     email:emailVal
+            // }
+            // axios.post("/api/v1/user/subcribe-news", request)
+            //     .then((res) => {
+            //         // toastr.success("Tạo bài viết thành công");
+            //         // setTimeout(() => {
+            //         //     window.location.href = `/admin/blogs/${res.data.id}/detail`
+            //         // }, 1500);
+            //         alert("Thành công")
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //         toastr.error(err.response.data.message);
+            //     });
+        })
+
     </script>
 </th:block>
 

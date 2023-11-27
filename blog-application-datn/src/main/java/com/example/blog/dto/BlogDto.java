@@ -30,7 +30,7 @@ public class BlogDto {
     private LocalDateTime updatedAt;
     private Boolean status;
     private String approvalStatus;
-    private UserDto author;
+    private String author;
     private Category category;
     private List<TagDto> tags;
     private List<CommentDto> comments;
@@ -48,7 +48,8 @@ public class BlogDto {
         this.publishedAt = blog.getPublishedAt();
         this.createdAt = blog.getCreatedAt();
         this.updatedAt = blog.getUpdatedAt();
-        this.author = new UserDto(blog.getUser());
+//        this.author = new UserDto(blog.getUser());
+        this.author = blog.getUser().getName();
         this.category = blog.getCategory();
         this.tags = blog.getTags().stream().map(TagDto::new).collect(Collectors.toList());
         this.comments = blog.getComments().stream().map(CommentDto::new).collect(Collectors.toList());

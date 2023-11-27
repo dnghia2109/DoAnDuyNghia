@@ -8,8 +8,9 @@
     <th:block id="css">
         <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/summernote/summernote-bs4.min.css}"/>
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/select2/css/select2.min.css}"/>
 
-        <link rel="stylesheet" th:href="@{/admin-lte/plugins/select2/css/select2.min.css}"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
               integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
               crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -43,8 +44,6 @@
                 object-fit: cover;
             }
         </style>
-        // CKEDITOR
-        <script src="https://cdn.ckeditor.com/4.23.0-lts/standard/ckeditor.js"></script>
     </th:block>
 </head>
 
@@ -110,7 +109,7 @@
 
                                     <div class="form-group">
                                         <label>Nội dung</label>
-                                        <textarea id="content"></textarea>
+                                        <textarea th:text="${blog.content}" id="content"></textarea>
                                         <!--<label>Nội dung</label>-->
                                         <!--<textarea id="content" th:text="${blog.content}"></textarea>-->
                                     </div>
@@ -212,12 +211,13 @@
 </div>
 
 <th:block id="js">
-    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<!--    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
 
+    <script th:src="@{/admin-assets/admin-lte/plugins/summernote/summernote-bs4.min.js}"></script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
 
-
-    <script th:src="@{/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
+<!--    <script th:src="@{/admin-lte/plugins/select2/js/select2.full.min.js}"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"
             integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -229,18 +229,45 @@
         //Initialize Select2 Elements
         $(".select2").select2();
 
+        $('#content').summernote({
+            height: 500,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontNames', ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']],
+            ],
+        })
+
+        $('#content').css({
+            'display': 'block',
+            'height': '0',
+            'padding': '0',
+            'border': 'none'
+        })
+
+        $('#content').on('summernote.change', function(we, contents, $editable) {
+            $("#content").html(contents);
+        });
+
 
         // CKEDITOR.replace(document.querySelector( '#content' ));
 
         // Initialize editor
-        const easyMDE = new EasyMDE({
-            element: document.getElementById("content"),
-            spellChecker: false,
-            maxHeight: "500px",
-            renderingConfig: {
-                codeSyntaxHighlighting: true,
-            },
-        });
+        // const easyMDE = new EasyMDE({
+        //     element: document.getElementById("content"),
+        //     spellChecker: false,
+        //     maxHeight: "500px",
+        //     renderingConfig: {
+        //         codeSyntaxHighlighting: true,
+        //     },
+        // });
 
         // Initialize data
         const titleEl = document.getElementById("title")
@@ -251,7 +278,7 @@
 
         const initData = (data) => {
             titleEl.value = data.title;
-            easyMDE.value(data.content);
+            // easyMDE.value(data.content);
             descriptionEl.value = data.description;
             statusEl.value = data.status ? "true" : "false";
             // categoryEl.val(data.categories.map(c => `${c.id}`)).trigger("change");
@@ -272,7 +299,8 @@
 
                 // Lấy dữ liệu
                 const title = titleEl.value;
-                const content = easyMDE.value();
+                // const content = easyMDE.value();
+                const content = $('#content').summernote('code')
                 const description = descriptionEl.value;
                 const status = statusEl.value;
                 const categoryId = parseInt(categoryEl.val());

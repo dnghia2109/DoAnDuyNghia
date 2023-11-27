@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,10 +88,20 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b where b.user.id = ?1 and b.approvalStatus = ?2")
     Page<BlogDto> findByUser_IdAndApprovalStatus(Integer id, EApprovalStatus approvalStatus, Pageable pageable);
 
-    @Query("select b from Blog b where b.category.id = ?1 and b.status = true and b.approvalStatus = 'APPROVE'")
+    @Query(value = "select b from Blog b where b.category.id = ?1 and b.status = true and b.approvalStatus = 'APPROVE'")
     List<Blog> getBlogsByCategory(Integer categoryId);
 
     //Page<Blog> findByUser_IdOrderByCreatedAtAsc(Integer id, Pageable pageable);
+
+    @Query("SELECT b " +
+            "FROM Blog b " +
+            "WHERE (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "  AND (:startDate IS NULL OR b.publishedAt >= :startDate) " +
+            "  AND (:endDate IS NULL OR b.publishedAt <= :endDate)")
+    Page<BlogDto> searchBlogs(@Param("keyword") String keyword,
+                              @Param("startDate") LocalDateTime startDate,
+                              @Param("endDate") LocalDateTime endDate,
+                              Pageable pageable);
 
 
 }

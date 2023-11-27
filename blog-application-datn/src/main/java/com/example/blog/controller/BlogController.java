@@ -12,6 +12,7 @@ import com.example.blog.security.ICurrentUser;
 import com.example.blog.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,49 +93,15 @@ public class BlogController {
     @GetMapping("/api/blogs/")
     public ResponseEntity<?> getSearchBlogs(@RequestParam(required = false, defaultValue = "1") Integer page,
                                             @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                                            @RequestParam(required = false, defaultValue = "id,desc") String sort) {
-        return new ResponseEntity<>(blogService.getSearchBlogs(page, pageSize, sort), HttpStatus.OK);
+                                            @RequestParam(required = false, defaultValue = "id") String sortField,
+                                            @RequestParam(required = false, defaultValue = "asc") String sortDir,
+                                            @RequestParam(required = false, defaultValue = "") String keyword,
+                                            @RequestParam(name = "startDate", required = false)
+                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                            @RequestParam(name = "endDate", required = false)
+                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+        return new ResponseEntity<>(blogService.getSearchBlogs(page, pageSize, sortField, sortDir, keyword, startDate, endDate), HttpStatus.OK);
     }
-
-    // TODO: Danh sách tất cả bài viết
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @GetMapping("/admin/blogs")
-//    public String getBlogPage1(@RequestParam(required = false, defaultValue = "1") Integer page,
-//                              @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-//                              Model model) {
-//        Page<BlogPublic> pageInfo = blogService.getAllBlog(page, pageSize);
-////        model.addAttribute("page", pageInfo);
-//
-//
-//        Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
-//        model.addAttribute("page1", pageInfoDto);
-//        model.addAttribute("currentPage", page);
-//
-//        return "admin/blog/blog-index";
-//    }
-
-    /*
-    * @author: Lai Duy Nghia
-    * @since: 22/11/2023 15:55
-    * @description:   API view for user
-    * @update:
-    *
-    * */
-
-    @GetMapping("/homepage/blogs/{blogId}/{blogSlug}")
-    public String getBlogDetail(@PathVariable Integer blogId, @PathVariable String blogSlug, Model model) {
-        List<CategoryDto> categories = categoryService.getAllCategoryPublic();
-        BlogDto blog = blogService.getBlogDtoById(blogId);
-        Boolean isExistInSavedList = savedBlogService.blogIsSaved(blogId);
-        User curUser = webService.getUserDetailPage();
-        model.addAttribute("user", curUser);
-        model.addAttribute("blog", blog);
-        model.addAttribute("isExistInSavedList", isExistInSavedList);
-        model.addAttribute("categoryList", categories);
-        return "public/detail-blog";
-    }
-
-
 
     /*
     * @author: Lai Duy Nghia
@@ -148,10 +116,22 @@ public class BlogController {
     @GetMapping("/dashboard/admin/blogs")
     public String getBlogsPage(@RequestParam(required = false, defaultValue = "1") Integer page,
                                @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                               @RequestParam(required = false, defaultValue = "id") String sortField,
+                               @RequestParam(required = false, defaultValue = "asc") String sortDir,
+                               @RequestParam(required = false, defaultValue = "") String keyword,
+                               @RequestParam(name = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                               @RequestParam(name = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
                                Model model) {
-        Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
+//        Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
+        Page<BlogDto> pageInfoDto = blogService.getSearchBlogs(page, pageSize, sortField, sortDir, keyword, startDate, endDate);
+        String sortReverseDirection = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
         model.addAttribute("page1", pageInfoDto);
         model.addAttribute("currentPage", page);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortReverseDir", sortReverseDirection);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
         return "admin/blog/blog-index";
     }
 
@@ -259,4 +239,5 @@ public class BlogController {
 //    public ResponseEntity<?> getBlogs() {
 //        return ResponseEntity.ok(blogService.getBlogById());
 //    }
+
 }
