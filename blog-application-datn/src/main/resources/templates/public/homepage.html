@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>VnNews</title>
-<!--    <th:block id="css">-->
+    <th:block id="css">
 <!--        <link rel="stylesheet" th:href="@{/css/style-public-web.css}">-->
-<!--    </th:block>-->
+        <link rel="stylesheet" th:href="@{/css/default.css}">
+    </th:block>
 </head>
 <body>
 <main class="main">
@@ -131,7 +132,7 @@
                         <div class="col-lg-6">
                             <div class="cart-full">
                                 <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
-                                    <img src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img1.jpg" class="img-fluid" alt="">
+                                    <img th:src="${blog.thumbnail}" src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img1.jpg" class="img-fluid" alt="">
                                     <div class="card-body">
                                         <h2 class="card-title" th:text="${blog.title}" >GB's Bankes wins snowboard cross silver at World Champs</h2>
                                         <div class="card-text mb-2 text-muted small">
@@ -310,6 +311,7 @@
                     if (res.status === 200) {
                         e.preventDefault()
                         toastr.success("Đăng ký nhận tin tức thành công");
+                        emailSubcribeEl.value = "";
                         // alert(`Đăng ký thành công bạn sẽ nhận được các bài báo mới vào 6 giờ sáng mỗi ngày tại địa chỉ email - ${emailVal}`)
                     } else {
                         toastr.error("Không thành công")

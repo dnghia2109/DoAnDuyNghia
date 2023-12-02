@@ -310,7 +310,7 @@
 
                 toastr.success("Tạo bài viết thành công");
                 setTimeout(() => {
-                    window.location.href = `/admin/blogs/${data.id}/detail`;
+                    window.location.href = `/dashboard/blogs/${data.id}/detail`;
                 }, 1500) // 1500ms = 1.5s
             } catch (err) {
                 console.log(err)

@@ -104,82 +104,75 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
 
     <!-- Css Styles -->
-    <!--    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">-->
     <link rel="stylesheet" href="/admin-assets/vendor/bootstrap/css/bootstrap.min.css">
-    <!--    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">-->
     <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-    <!--    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">-->
     <link rel="stylesheet" href="/css/toastr.min.css" type="text/css">
-    <!--    <link rel="stylesheet" href="/css/style.css" type="text/css">-->
-
-    <link rel="stylesheet" href="/css/default.css">
-    <link rel="stylesheet" href="/css/style-public-web.css">
+    <link rel="stylesheet" href="/css/header.css">
 
     <!--CSS tự viết-->
     <th:block th:replace="${css} ?: ~{}"></th:block>
 </head>
 <body>
-<!--Header-->
-<!--<th:block th:replace="~{web/fragments/header :: header(${categories}, ${cart}, ${wishList})}"></th:block>-->
-<th:block th:replace="~{fragments/header-public :: #header}"></th:block>
+    <!--Header-->
+    <th:block th:replace="~{fragments/header-public :: #header}"></th:block>
 
 
-<!--Content-->
-<th:block th:replace="${content} ?: ~{}"></th:block>
+    <!--Content-->
+    <th:block th:replace="${content} ?: ~{}"></th:block>
 
-<!--Footer-->
-<!--<th:block th:replace="~{web/fragments/footer :: footer}"></th:block>-->
+    <!--Footer-->
+    <!--<th:block th:replace="~{web/fragments/footer :: footer}"></th:block>-->
 
-<!-- Js Plugins -->
-<!--<script src="/js/new-js/jquery-3.3.1.min.js"></script>-->
-<!--<script src="/js/new-js/bootstrap.min.js"></script>-->
-<!--<script src="/js/new-js/owl.carousel.min.js"></script>-->
-<!--<script src="/js/new-js/axios.min.js"></script>-->
-<!--<script src="/js/new-js/toastr.min.js"></script>-->
-<!--<script src="/js/new-js/jquery.validate.min.js"></script>-->
-<!--<script src="/js/new-js/additional-methods.min.js"></script>-->
-<!--<script src="/js/new-js/main.js"></script>-->
+    <!-- Js Plugins -->
+    <!--<script src="/js/new-js/jquery-3.3.1.min.js"></script>-->
+    <!--<script src="/js/new-js/bootstrap.min.js"></script>-->
+    <!--<script src="/js/new-js/owl.carousel.min.js"></script>-->
+    <!--<script src="/js/new-js/axios.min.js"></script>-->
+    <!--<script src="/js/new-js/toastr.min.js"></script>-->
+    <!--<script src="/js/new-js/jquery.validate.min.js"></script>-->
+    <!--<script src="/js/new-js/additional-methods.min.js"></script>-->
+    <!--<script src="/js/new-js/main.js"></script>-->
 
-<script th:src="@{/admin-assets/admin-lte/plugins/jquery/jquery.min.js}"></script>
-<script th:src="@{/admin-assets/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/admin-assets/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
-<script th:src="@{/admin-assets/admin-lte/plugins/jquery-validation/jquery.validate.min.js}"></script>
-<script th:src="@{/admin-assets/admin-lte/plugins/jquery-validation/additional-methods.min.js}"></script>
-<script th:src="@{/admin-assets/admin-lte/plugins/toastr/toastr.min.js}"></script>
-<script th:src="@{/admin-assets/admin-lte/plugins/axios/axios.min.js}"></script>
-<!--<script th:src="@{/admin-assets/admin-lte/plugins/pagination/pagination.min.js}"></script>-->
-<script th:src="@{/admin-assets/admin-lte/dist/js/adminlte.js}"></script>
-<script th:src="@{/admin-assets/assets/js/main.js}"></script>
-<script>
-    toastr.options = {
-        "closeButton": false,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
-</script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/jquery/jquery.min.js}"></script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/jquery-validation/jquery.validate.min.js}"></script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/jquery-validation/additional-methods.min.js}"></script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/toastr/toastr.min.js}"></script>
+    <script th:src="@{/admin-assets/admin-lte/plugins/axios/axios.min.js}"></script>
+    <!--<script th:src="@{/admin-assets/admin-lte/plugins/pagination/pagination.min.js}"></script>-->
+    <script th:src="@{/admin-assets/admin-lte/dist/js/adminlte.js}"></script>
+<!--    <script th:src="@{/admin-assets/assets/js/main.js}"></script>-->
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    </script>
 
 
-<!--JS tự viết-->
-<script th:inline="javascript">
-    // const currentUser = [[${currentUser}]];
-    // const isLogin = [[${isLogin}]];
-    // let cart = [[${cart}]];
-    // let wishList = [[${wishList}]];
-    // console.log({cart, wishList, currentUser, isLogin});
-</script>
-<th:block th:replace="${js} ?: ~{}"></th:block>
-<script src="/js/new-js/utils.js"></script>
+    <!--JS tự viết-->
+    <script th:inline="javascript">
+        // const currentUser = [[${currentUser}]];
+        // const isLogin = [[${isLogin}]];
+        // let cart = [[${cart}]];
+        // let wishList = [[${wishList}]];
+        // console.log({cart, wishList, currentUser, isLogin});
+    </script>
+    <th:block th:replace="${js} ?: ~{}"></th:block>
+    <script src="/js/new-js/utils.js"></script>
 </body>
 </html>

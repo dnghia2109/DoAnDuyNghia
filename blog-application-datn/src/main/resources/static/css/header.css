@@ -1,0 +1,203 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*body {*/
+/*    font-family: "Montserrat", sans-serif;*/
+/*    font-family: "Poppins", sans-serif;*/
+/*}*/
+
+a {
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
+.container {
+    max-width: 1200px;
+    padding: 0 16px;
+    margin: 0 auto;
+}
+
+ul li {
+    list-style: none;
+}
+
+/* Todo: Start Search */
+
+.header-main-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-main-top i{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.search-box {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.btn-search {
+    border: none;
+    background-color: #fff;
+}
+
+.main-content-search {
+    display: flex;
+}
+
+.search-title {
+    font-size: 16px;
+}
+
+.input-search-top ::placeholder {
+    font-size: 13px;
+}
+
+.input-search-top {
+    position: relative;
+    margin-bottom: 15px;
+    /* width: 77%; */
+}
+
+.input-search-top i {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    font-size: 20px;
+    transform: translate(-50%, -50%);
+    color: #bdbdbd;
+    cursor: pointer;
+}
+
+.input-search-top input {
+    padding: 10px 50px 10px 12px;
+    border: 1px solid #E5E5E5;
+    border-radius: 3px;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+}
+
+.search-main {
+
+}
+
+.inp-lable {
+    margin-right: 15px;
+}
+
+.title-input {
+    font-size: 14px;
+    color: #757575;
+}
+
+#input-form{
+    font-size: 14px;
+    padding: 10px 5px;
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+}
+
+
+.main-content-search label{
+    width: 30%;
+
+}
+
+
+/* Todo: End Search */
+
+/* --------------------------- */
+
+/* Todo: Start Header */
+div.header {
+    margin: 0 auto;
+    padding: 10px 0;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+}
+.navication ul {
+    display: flex;
+    gap: 15px;
+    font-size: 15px;
+    width: 100%;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.name-nav-header {
+    white-space: nowrap; /* Ngăn các mục xuống dòng */
+    font-weight: 600;
+}
+
+.bx-home,
+.bxs-user-circle {
+    font-size: 19px;
+}
+
+.navication .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Thiết lập kích thước của thanh cuộn dọc (vertical scrollbar) */
+.navication ul::-webkit-scrollbar {
+    width: 6px; /* Kích thước chiều rộng của thanh cuộn */
+}
+
+/* Thiết lập kích thước của thanh cuộn ngang (horizontal scrollbar) */
+.navication ul::-webkit-scrollbar {
+    height: 6px; /* Kích thước chiều cao của thanh cuộn */
+}
+
+.user-main {
+    position: relative;
+}
+
+.user-main:hover {
+    color: #000;
+}
+.user-pp {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    right: 0%;
+    top: 50px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 8px;
+    z-index: 999;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+}
+
+.user-main:hover .user-pp {
+    opacity: 1;
+    visibility: visible;
+    top: 100%;
+}
+
+.user-pp ul {
+    display: flex;
+    white-space: nowrap;
+    flex-direction: column;
+}
+
+.user-pp ul li:hover {
+    color: blue;
+}
+
+
+/* Todo: End Header */
+
+/* --------------------------------------------------------------------- */

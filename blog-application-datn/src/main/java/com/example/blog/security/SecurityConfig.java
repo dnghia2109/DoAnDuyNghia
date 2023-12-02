@@ -1,6 +1,7 @@
 package com.example.blog.security;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,7 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -42,6 +45,15 @@ public class SecurityConfig {
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
+//    @Bean
+//    public AuthenticationEntryPoint authenticationEntryPoint() {
+//        return new CustomAuthenticationEntryPoint();
+//    }
+//
+//    @Bean
+//    public AccessDeniedHandler accessDeniedHandler() {
+//        return new CustomAccessDenied();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -70,37 +82,13 @@ public class SecurityConfig {
                     .invalidateHttpSession(true)
                     .permitAll()
             )
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-                    .accessDeniedHandler(customAccessDenied)
-                    .authenticationEntryPoint(customAuthenticationEntryPoint)
-            )
+//            .exceptionHandling(exceptionHandling -> exceptionHandling
+//                    .accessDeniedHandler(customAccessDenied)
+//                    .authenticationEntryPoint(customAuthenticationEntryPoint)
+//            )
             //.authenticationProvider(authenticationProvider)
             .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-//            .csrf()
-//                .disable()
-//                .authorizeHttpRequests()
-//                .requestMatchers(PUBLIC).permitAll()
-//                .requestMatchers("/admin/blogs/own-blogs", "/admin/blogs/create",
-//                        "/api/v1/admin/blogs").hasAnyRole("AUTHOR", "ADMIN")
-//                .requestMatchers("/admin/blogs", "").hasRole("ADMIN")
-//                //.requestMatchers("/api/v1/java03", /api/v1/java04).hasAuthority("ROLE_AUTHOR")
-//                .anyRequest().authenticated()
-//            .and()
-//                .logout()
-//                    .logoutUrl("/logout-handle")
-//                    .logoutSuccessUrl("/")
-//                    .invalidateHttpSession(true)
-//                    .deleteCookies("JSESSIONID")
-//                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-//                    .permitAll()
-//            .and()
-//                .exceptionHandling()
-//                .authenticationEntryPoint(customAuthenticationEntryPoint)
-//                .accessDeniedHandler(customAccessDenied)
-//            .and()
-//                .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
     }
 }
