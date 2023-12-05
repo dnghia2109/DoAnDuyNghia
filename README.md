@@ -1,2 +1,1 @@
-# DoAnDuyNghia
-Đồ án tốt nghiệp
+# Source code news portal using Spring Boot + Thymleaf + MySQL +Docker
