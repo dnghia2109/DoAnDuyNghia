@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/layout-public :: main-fragment(~{:: title}, ~{:: #css}, ~{:: main}, ~{:: #js})}">
+<head>
+    <meta charset="UTF-8">
+    <title>VnNews</title>
+    <th:block id="css">
+<!--        <link rel="stylesheet" th:href="@{/css/style-public-web.css}">-->
+        <link rel="stylesheet" th:href="@{/css/default.css}">
+    </th:block>
+</head>
+<body>
+<main class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-05">
+                <div class="row py-2 bre-main">
+                    <div class="breaking-title">Breaking news</div>
+                    <div class="content-breaking">
+                        Google Employees Protest Secret Work on Censored Search Engine
+                        for China
+                    </div>
+                </div>
+                <div class="row featured-1 mb-5">
+                    <div class="col-md-6 pb-05 pt-05 pe-md-05">
+                        <div class="image-wrapper">
+                            <img
+                                    src="https://demo.bootstrap.news/bootnews/assets/img/568x484/img1.jpg"
+                                    alt=""
+                            />
+                            <div class="main-text-title">
+                                <a class="heading-letter-spacing" href="#"></a>
+                                <h2 class="title-name-br">
+                                    The world's first floating farm making waves in
+                                    Rotterdam
+                                </h2></a
+                                    >
+                                <div class="news-meta">
+                                <span class="news-author">
+                                    by
+                                    <a href="#" class="text-white fw-bold">
+                                        Duy Nghia
+                                    </a>
+                                    <time datetime="2019-10-22" class="news-date">Oct 22, 2019</time>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pt-05 ps-md-05">
+                        <div class="row newsbox">
+                            <div class="col-6">
+                                <div class="image-wrapper">
+                                    <div class="flickity-viewport">
+                                        <img
+                                                src="https://demo.bootstrap.news/bootnews/assets/img/282x240/img1.jpg"
+                                                alt=""
+                                        />
+                                        <div class="main-text-title">
+                                            <a href="#" class="bg-primary text-white buss">Business</a>
+                                            <a href="#">
+                                                <h2 class="h6 h4-sm h6-md h5-lg text-white my-1">Should you see the Fantastic Beasts sequel?</h2>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="image-wrapper">
+                                    <div class="flickity-viewport">
+                                        <img
+                                                src="https://demo.bootstrap.news/bootnews/assets/img/282x240/img2.jpg"
+                                                alt=""
+                                        />
+                                        <div class="main-text-title">
+                                            <a href="#" class="bg-primary text-white buss">Science</a>
+                                            <a href="#">
+                                                <h2 class="h6 h4-sm h6-md h5-lg text-white my-1">Three myths about Florida elections recount</h2>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="image-wrapper">
+                                    <div class="flickity-viewport">
+                                        <img
+                                                src="https://demo.bootstrap.news/bootnews/assets/img/282x240/img3.jpg"
+                                                alt=""
+                                        />
+                                        <div class="main-text-title">
+                                            <a href="#" class="bg-primary text-white buss">Travel</a>
+                                            <a href="#">
+                                                <h2 class="h6 h4-sm h6-md h5-lg text-white my-1">Finding Empowerment in Two Wheels and a Helmet</h2>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="image-wrapper">
+                                    <div class="flickity-viewport">
+                                        <img
+                                                src="https://demo.bootstrap.news/bootnews/assets/img/282x240/img4.jpg"
+                                                alt=""
+                                        />
+                                        <div class="main-text-title">
+                                            <a href="#" class="bg-primary text-white buss">Lifestyle</a>
+                                            <a href="#">
+                                                <h2 class="h6 h4-sm h6-md h5-lg text-white my-1">Ditch receipts and four other tips to be a green shopper</h2>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--    </div>-->
+<!--    <div class="container" >-->
+        <div class="row" >
+            <div class="col-md-8" >
+                <div class="block-area" th:each="category:${categoryList}">
+                    <div class="block-title-6" >
+                        <h4 class="h5 border-primary"></h4>
+                        <span class="bg-primary text-white" th:text=" ${category.name}">Sports</span>
+                    </div>
+                    <div class="row" th:each="blog, iterStat:${category.blogs}" th:if="${iterStat.first}">
+                        <div class="col-lg-6">
+                            <div class="cart-full">
+                                <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
+                                    <img th:src="${blog.thumbnail}" src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img1.jpg" class="img-fluid" alt="">
+                                    <div class="card-body">
+                                        <h2 class="card-title" th:text="${blog.title}" >GB's Bankes wins snowboard cross silver at World Champs</h2>
+                                        <div class="card-text mb-2 text-muted small">
+                                            <span class="d-none d-sm-inline me-1" th:text="${blog.author}">Duy Nghia</span>
+                                            <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">Oct 22, 2019</time>
+                                        </div>
+                                        <p class="card-text" >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 main-detal-news">
+                            <article class="card card-full hover-a mb-4" th:each="blog, iterStat:${category.blogs}" th:if="${!iterStat.first && iterStat.index<6}">
+                                <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
+                                    <div class="row">
+                                        <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                            <img src="https://demo.bootstrap.news/bootnews/assets/img/115x80/img1.jpg" alt="">
+                                        </div>
+                                        <div class="col-9 col-md-8">
+                                            <div class="card-body pt-0">
+                                                <h3 class="card-title-child h6 h5-sm h6-lg">
+                                                    <span th:text="${blog.title}" >Yankees Party Like It’s 1998, at Least for a Day</span>
+                                                </h3>
+                                                <div class="card-text small text-muted">
+                                                    <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}">Oct 22, 2019</time>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 end-sidebar-lg">
+                <aside class="widget">
+                    <div class="block-title-4">
+                        <h4 class="h5 title-arrow">
+                            <span>Latest news</span>
+                        </h4>
+                    </div>
+                    <div class="big-post">
+                        <article class="card card-full hover-a mb-4">
+                            <!--thumbnail-->
+                            <div class="ratio_360-202 image-wrapper">
+                                <a href="#">
+                                    <img class="img-fluid lazy entered loaded"
+                                         src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img55.jpg"
+                                         data-src="../../assets/img/360x202/img55.jpg" alt="Image description"
+                                         data-ll-status="loaded">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <!--title-->
+                                <h2 class="card-title h1-sm h3-md">
+                                    <a href="#">MotoGP: Which team needs what in 2019?</a>
+                                </h2>
+                                <!-- author & date -->
+                                <div class="card-text mb-2 text-muted small">
+										<span class="d-none d-sm-inline me-1">
+											<a class="fw-bold" href="#">John Doe</a>
+										</span>
+                                    <time datetime="2019-10-22">Oct 22, 2019</time>
+                                </div>
+                                <!--description-->
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </article>
+                    </div>
+                </aside>
+                <div class="small-post">
+                    <!--post list-->
+                    <article class="card card-full hover-a mb-4">
+                        <div class="row">
+                            <!--thumbnail-->
+                            <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                <div class="ratio_110-77 image-wrapper">
+                                    <a href="#">
+                                        <img class="img-fluid lazy entered loaded"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img5.jpg"
+                                             data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
+                                             data-ll-status="loaded">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- title & date -->
+                            <div class="col-9 col-md-8">
+                                <div class="card-body pt-0">
+                                    <h3 class="card-title h6 h5-sm h6-md">
+                                        <a href="#">Take the kids to Windermere Jetty, Lake District</a>
+                                    </h3>
+                                    <div class="card-text small text-muted">
+                                        <time datetime="2019-10-16">Oct 16, 2019</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card card-full hover-a mb-4">
+                        <div class="row">
+                            <!--thumbnail-->
+                            <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                <div class="ratio_110-77 image-wrapper">
+                                    <a href="#">
+                                        <img class="img-fluid lazy entered loaded"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img6.jpg"
+                                             data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
+                                             data-ll-status="loaded">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- title & date -->
+                            <div class="col-9 col-md-8">
+                                <div class="card-body pt-0">
+                                    <h3 class="card-title h6 h5-sm h6-md">
+                                        <a href="#">Take the kids to Windermere Jetty, Lake District</a>
+                                    </h3>
+                                    <div class="card-text small text-muted">
+                                        <time datetime="2019-10-16">Oct 16, 2019</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <aside class="widget">
+                    <div class="p-4 border bg-light-dark text-center mb-4">
+                        <h4>Get Updates</h4>
+                        <p class="text-dark-light">Subscribe our newsletter to get the last update into your inbox!
+                        </p>
+                        <div class="mx-auto">
+                            <div id="subscribe" class="needs-validation" novalidate="">
+                                <div class="input-group">
+                                    <input id="email-subcribe" type="email" class="form-control" name="email" required=""
+                                           aria-label="email form" placeholder="Enter your email address"
+                                           fdprocessedid="909qnm">
+                                    <button id="btn-subcribe" class="btn btn-primary"
+                                            fdprocessedid="qzu3s">Subscribe</button>
+                                    <div class="invalid-feedback">
+                                        Please insert email address.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js">
+    <script th:inline="javascript">
+        let isValid = true;
+        const btnSubcribe = document.getElementById("btn-subcribe");
+        const emailSubcribeEl = document.getElementById("email-subcribe");
+
+        btnSubcribe.addEventListener("click", async (e) => {
+            try {
+                const emailVal = emailSubcribeEl.value;
+                console.log(emailVal)
+                if (emailVal.length === 0) {
+                    toastr.error("Bạn chưa nhập email!");
+                    isValid = false;
+                }
+                const request = {
+                    emailVal
+                }
+                if (isValid) {
+                    let res = await axios.post("/api/v1/user/subcribe-news",{
+                        'email' : emailVal
+                    });
+                    console.log(emailVal)
+                    if (res.status === 200) {
+                        e.preventDefault()
+                        toastr.success("Đăng ký nhận tin tức thành công");
+                        emailSubcribeEl.value = "";
+                        // alert(`Đăng ký thành công bạn sẽ nhận được các bài báo mới vào 6 giờ sáng mỗi ngày tại địa chỉ email - ${emailVal}`)
+                    } else {
+                        toastr.error("Không thành công")
+                    }
+                }
+            } catch (err) {
+                toastr.warning(err.response.data.message);
+                console.log(err);
+            }
+            // const emailVal = emailSubcribeEl.value;
+            // console.log(emailVal)
+            // if (emailVal.length === 0) {
+            //     toastr.error("Bạn chưa nhập email!");
+            //     isValid = false;
+            // }
+            // const request = {
+            //     email:emailVal
+            // }
+            // axios.post("/api/v1/user/subcribe-news", request)
+            //     .then((res) => {
+            //         // toastr.success("Tạo bài viết thành công");
+            //         // setTimeout(() => {
+            //         //     window.location.href = `/admin/blogs/${res.data.id}/detail`
+            //         // }, 1500);
+            //         alert("Thành công")
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //         toastr.error(err.response.data.message);
+            //     });
+        })
+
+    </script>
+</th:block>
+
+</body>
+</html>

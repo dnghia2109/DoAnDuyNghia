@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header id="header">
+    <div class="header header-logo">
+        <div class="container header-main-top">
+            <img src="https://cdn.bongda24h.vn/images/logo-bongda24h.svg" alt="" />
+            <a href="./search.html">
+                <i class='bx bx-search'></i>
+            </a>
+        </div>
+    </div>
+    <nav class="navication">
+        <div class="container">
+            <a href="#"><i class="bx bx-home"></i></a>
+            <ul>
+                <th:block th:each="category:${categoryList}">
+                    <li class="name-nav-header" >
+                        <a th:text="${category.name}" href="#">Video</a>
+                    </li>
+                </th:block>
+            </ul>
+            <span class="user-main">
+                <i class="bx bxs-user-circle"></i>
+                <div class="user-pp">
+                    <ul>
+                        <li sec:authorize="authenticated" th:text="${user.name}">
+                        </li>
+                        <li sec:authorize="not authenticated">
+                            <a  th:href="@{/admin/login}" th:onclick="saveRedirectUrl()">Đăng nhập</a>
+                        </li>
+                        <li>
+                            Đăng ký
+                        </li>
+                        <li sec:authorize="authenticated">Đăng xuất</li>
+                        <li sec:authorize="hasAnyRole('ADMIN', 'AUTHOR')" >
+                            <a target="_blank" th:href="@{/dashboard/blogs/own-blogs}">Quản trị</a>
+                        </li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </nav>
+</header>
+</body>
+</html>
