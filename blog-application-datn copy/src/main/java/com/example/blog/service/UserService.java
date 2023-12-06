@@ -107,6 +107,15 @@ public class UserService {
         return pageInfo;
     }
 
+    public UserDto getUserDetail(Integer id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
+            throw new NotFoundException("Không tìm thấy user có id: " + id);
+        }
+        User currentUser = userOptional.get();
+        return new UserDto(currentUser);
+    }
+
     // TODO: Tạo mới user
     public User createNewUser(CreateUserRequest request) {
         User user = new User();

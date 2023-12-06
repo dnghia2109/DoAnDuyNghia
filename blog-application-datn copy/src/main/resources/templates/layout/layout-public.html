@@ -108,6 +108,7 @@
     <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="/css/toastr.min.css" type="text/css">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer-public.css">
 
     <!--CSS tự viết-->
     <th:block th:replace="${css} ?: ~{}"></th:block>
@@ -121,7 +122,7 @@
     <th:block th:replace="${content} ?: ~{}"></th:block>
 
     <!--Footer-->
-    <!--<th:block th:replace="~{web/fragments/footer :: footer}"></th:block>-->
+    <th:block th:replace="~{fragments/footer-public :: .footer}"></th:block>
 
     <!-- Js Plugins -->
     <!--<script src="/js/new-js/jquery-3.3.1.min.js"></script>-->

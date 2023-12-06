@@ -7,8 +7,8 @@
     <th:block id="css">
         <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
-
-        <link rel="stylesheet" th:href="@{/admin-lte/plugins/select2/css/select2.min.css}"/>
+        
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/select2/css/select2.min.css}"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
               integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
               crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -57,10 +57,10 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>STT</th>
-                                    <th>Tên</th>
-                                    <th>Email</th>
-                                    <th>Roles</th>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Tên</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Roles</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -68,7 +68,7 @@
                                     <tr th:each="user, state : ${userList}">
                                         <td th:text="${(currentPage - 1) * page.getSize() + (state.index + 1)}">1</td>
                                         <td>
-                                            <a th:href="@{/admin/users/{id} (id=${user.id})}"
+                                            <a th:href="@{/dashboard/admin/users/{id} (id=${user.id})}"
                                                th:text="${user.name}">Nguyen Van A</a>
                                         </td>
                                         <td th:text="${user.email}">a@gmail.com</td>
@@ -86,7 +86,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Thông tin nhân viên</h4>
+                                            <h4 class="modal-title">Thông tin tài khoản</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">×</span>
                                             </button>
@@ -108,9 +108,9 @@
                                                 <label>Roles</label>
                                                 <div class="select2-purple">
                                                     <select class="select2" multiple="multiple"
-                                                            data-placeholder="Select roles" style="width: 100%;" id="select-roles">
+                                                            data-placeholder="Chọn role" style="width: 100%;" id="select-roles">
                                                         <th:block th:each="role:${roleList}">
-                                                            <option th:value="${role.id}" th:text="${role.name}">Alabama</option>
+                                                            <option th:value="${role.id}" th:text="${role.name}">USER</option>
                                                         </th:block>
                                                     </select>
                                                 </div>
@@ -167,14 +167,17 @@
 <th:block id="js">
 
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
-    <script th:src="@{/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
+<!--    <script th:src="@{/admin-lte/plugins/select2/js/select2.full.min.js}"></script>-->
+    <script th:src="@{/admin-assets/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"
             integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
     <script th:inline="javascript">
-        $(".select2").select2();
+        $(".select2").select2({
+            placeholder: "Chọn role",
+        });
         console.log(1)
         // create new account
         const nameInput = document.getElementById("createName")

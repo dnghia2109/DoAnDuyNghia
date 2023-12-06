@@ -1,10 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layout/layout-admin :: main-fragment(~{:: title}, ~{:: #css}, ~{:: .content-wrapper}, ~{:: #js})}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Chi tiết user</title>
+    <th:block id="css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
+        
+<!--        <link rel="stylesheet" th:href="@{/admin-lte/plugins/select2/css/select2.min.css}"/>-->
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/select2/css/select2.min.css}"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
+              integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        
+        <link rel="stylesheet" th:href="@{/admin-lte/dist/css/style.css}">
+    </th:block>
 </head>
 <body>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/dashboard">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/dashboard/admin/users">User</a>
+                        </li>
+                        <li class="breadcrumb-item active" th:text="${user.name}">
+                            Duy Nghia
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row py-2">
+                <div class="col-6">
+                    <a href="/dashboard/admin/users" type="button" class="btn btn-default">
+                        <i class="fas fa-chevron-left"></i> Quay lại
+                    </a>
+                    <button type="button" class="btn btn-info px-4" id="btn-update">
+                        Cập nhật
+                    </button>
+                    <button type="button" class="btn btn-warning px-4" id="btn-reset-password">
+                        Reset mật khẩu
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+<!--                            <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">-->
+<!--                                <li class="nav-item">-->
+<!--                                    <a class="nav-link active" id="custom-content-below-home-tab" data-toggle="pill"-->
+<!--                                       href="#custom-content-below-home" role="tab"-->
+<!--                                       aria-controls="custom-content-below-home" aria-selected="true">Thông tin cá-->
+<!--                                        nhân</a>-->
+<!--                                </li>-->
+<!--                                <li class="nav-item">-->
+<!--                                    <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill"-->
+<!--                                       href="#custom-content-below-profile" role="tab"-->
+<!--                                       aria-controls="custom-content-below-profile" aria-selected="false">Danh sách đơn-->
+<!--                                        hàng</a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+                            <div class="tab-content" id="custom-content-below-tabContent">
+                                <div class="tab-pane fade active show" id="custom-content-below-home" role="tabpanel"
+                                     aria-labelledby="custom-content-below-home-tab">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <form id="form-update-user">
+                                                <div class="form-group mt-4">
+                                                    <label>Họ tên</label>
+                                                    <input type="text" class="form-control" id="username"
+                                                           th:value="${user.name}" name="username"/>
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <label>Email</label>
+                                                    <input type="text" class="form-control" id="email"
+                                                           th:value="${user.email}" disabled/>
+                                                </div>
+                                                
+<!--                                                <div class="form-group">-->
+<!--                                                    <label>Số điện thoại</label>-->
+<!--                                                    <input type="text" class="form-control" id="phone"-->
+<!--                                                           th:value="${user.phone}" name="phone"/>-->
+<!--                                                </div>-->
+                                                <div class="form-group">
+                                                    <label>Quyền</label>
+                                                    <div class="select2-purple">
+                                                        <select class="select2 form-control" multiple="multiple" id="roles" name="roles">
+                                                            <option th:each="role : ${roleList}"
+                                                                    th:value="${role.id}"
+                                                                    th:text="${role.name}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mt-4">
+                                                <label>Avatar</label>
+                                                <div class="user-avatar-container d-flex align-items-center">
+                                                    <img id="avatar-preview" th:src="${user.avatar}" alt="">
+                                                    <label for="avatar">Đổi Avatar</label>
+                                                    <input type="file" id="avatar" class="d-none">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<th:block id="js">
+    <script th:src="@{/admin-assets/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
 
+    
+    <script th:inline="javascript">
+        const roles = [[${roleList}]];
+        const user = [[${user}]];
+        console.log({roles, user});
+
+        $(".select2").select2({
+            placeholder: "Chọn role",
+        });
+
+        // Reset password
+        const btnResetPassword = document.getElementById('btn-reset-password');
+        btnResetPassword.addEventListener('click', async () => {
+            const isConfirm = confirm('Bạn có chắc chắn muốn reset mật khẩu?');
+            if (!isConfirm) return;
+            try {
+                let res = await axios.put(`/api/v1/admin/users/${user.userId}/reset-password`);
+                if (res.status === 200) {
+                    toastr.success(`Reset mật khẩu thành công. Mật khẩu mới là: ${res.data}`);
+                }
+            } catch (e) {
+                toastr.error('Reset mật khẩu thất bại');
+            }
+        })
+    </script>
+    <script th:src="@{/admin-assets/assets/js/user/detail.js}"></script>
+</th:block>
 </body>
 </html>

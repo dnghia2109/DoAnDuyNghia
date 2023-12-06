@@ -68,7 +68,7 @@ public class UserController {
     @GetMapping("/dashboard/admin/users/{id}")
     public String getDetailUserPage(@PathVariable Integer id, Model model) {
         List<Role> roleList = roleService.getAllRole();
-        UserPublic user = userService.getUserById(id);
+        UserDto user = userService.getUserDetail(id);
 
         model.addAttribute("roleList", roleList);
         model.addAttribute("user", user);

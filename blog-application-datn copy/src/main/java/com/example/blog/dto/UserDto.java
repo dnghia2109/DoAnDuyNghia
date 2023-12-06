@@ -15,12 +15,14 @@ public class UserDto {
     private Integer id;
     private String name;
     private String email;
+    private String avatar;
     private List<Role> roles;
 
     public UserDto(User user) {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
+        this.avatar = user.getAvatar();
         this.roles = user.getRoles();
     }
 }

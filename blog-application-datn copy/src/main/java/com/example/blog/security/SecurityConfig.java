@@ -152,11 +152,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/dashboard/blogs/own-blogs", "/dashboard/admin/blogs",
+                .antMatchers("/dashboard/blogs/own-blogs",
                         "/dashboard/blogs/create", "/dashboard/blogs/{id}/detail",
                         "/api/v1/admin/blogs/**")
                     .hasAnyRole("AUTHOR", "ADMIN")
-                .antMatchers("/api/v1/admin/").hasRole("ADMIN")
+                .antMatchers("/api/v1/admin/","/dashboard/admin/users").hasRole("ADMIN")
 //                .antMatchers("/profile").hasRole("USER")
 //                .antMatchers("/admin/blogs").hasAnyRole("EDITOR", "ADMIN")
 //                .antMatchers("/admin/users").hasRole("ADMIN")

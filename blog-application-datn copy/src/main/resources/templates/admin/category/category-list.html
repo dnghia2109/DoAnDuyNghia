@@ -253,7 +253,7 @@
                     return
                 }
 
-                let res = await axios.put(`/api/v1/admin/categories/${idCategoryUpdate}`, { name })
+                let res = await axios.put(`/api/v1/admin/categories/${idCategoryUpdate}`, { name,status })
 
                 if(res.status === 200) {
                     const category = categoryList.find(c => c.id === idCategoryUpdate)

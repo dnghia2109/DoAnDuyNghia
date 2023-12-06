@@ -1,10 +1,254 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/layout-public :: main-fragment(~{:: title}, ~{:: #css}, ~{:: main}, ~{:: #js})}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Danh sách bài viết</title>
+    <th:block id="css">
+        <!--        <link rel="stylesheet" th:href="@{/css/style-public-web.css}">-->
+        <link rel="stylesheet" th:href="@{/css/default.css}">
+        <link rel="stylesheet" th:href="@{/css/search.css}">
+    </th:block>
 </head>
 <body>
-
+<main class="main">
+    <div class="container search-title-main-top">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="search-box">
+                    <h1 class="search-title">Tìm Kiếm</h1>
+                    <div class="search-main">
+                        <div class="input-search-top">
+                            <input type="text" placeholder="Nhập tìm kiếm...." id="input-text">
+                            <i class='bx bx-search'></i>
+                        </div>
+                        <div class="main-content-search">
+                            <label class="inp-lable">
+                                <h3 class="title-input">
+                                    Thời gian
+                                </h3>
+                                <select name="" id="input-time" class="input-form">
+                                    <option value="all">Tat ca</option>
+                                    <option value="day">1 ngay qua</option>
+                                    <option value="week">1 tuan qua</option>
+                                    <option value="month">1 thang qua</option>
+                                    <option value="year">1 nam qua</option>
+                                </select>
+                            </label>
+                            <label >
+                                <h3 class="title-input">Ngày</h3>
+                                <input type="date" class="date input-form" name="" id="input-form inputDateFrom">
+<!--                                <input type="date" id="myDate">-->
+                            </label>
+                            <label>
+                                <h3 class="title-input">
+                                    Chuyên mục
+                                </h3>
+                                <select name="" id="input-category" class="input-form">
+                                    <option value="all">Tat ca</option>
+                                    <option value="text">Bai viet</option>
+                                    <option value="image">Anh</option>
+                                    <option value="video">Video</option>
+                                    <option value="topic">Chu de</option>
+                                </select>
+                            </label>
+                        </div>
+                        <button class="btn btn-group" onclick="searchButtonClick()">Tìm kiếm</button>
+                    </div>
+                    <!-- <input type="text" class="input-search" placeholder="Type to Search..."> -->
+                </div>
+                <div class="block-area container">
+                    <div class="content-search">
+                        <h4>
+                            <span>Search result for: </span>
+                            <span class="content-search-main-he">"news today"</span>
+                        </h4>
+                    </div>
+                    <aside class="card-search-main row">
+                        <div class="col-sm-6 col-md-12 col-lg-5">
+                            <a href="#">
+                                <img class="img-search"
+                                     src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img55.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-12 col-lg-7">
+                            <div class="card-body">
+                                <h2 class="card-title-search">GB's Bankes wins snowboard cross silver at World Champs
+                                </h2>
+                                <div class="card-text mb-2 text-muted small">
+                                    <span class="d-none d-sm-inline me-1">Duy Nghia</span>
+                                    <time datetime="2019-10-22">Oct 22, 2019</time>
+                                </div>
+                                <p class="card-text">This is a wider card with supporting text below as a
+                                    natural lead-in to additional content. This content is a little bit longer.
+                                </p>
+                            </div>
+                        </div>
+                    </aside>
+                    <aside class="card-search-main row">
+                        <div class="col-sm-6 col-md-12 col-lg-5">
+                            <a href="#">
+                                <img class="img-search"
+                                     src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img17.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-12 col-lg-7">
+                            <div class="card-body">
+                                <h2 class="card-title-search">GB's Bankes wins snowboard cross silver at World Champs
+                                </h2>
+                                <div class="card-text mb-2 text-muted small">
+                                    <span class="d-none d-sm-inline me-1">Duy Nghia</span>
+                                    <time datetime="2019-10-22">Oct 22, 2019</time>
+                                </div>
+                                <p class="card-text">This is a wider card with supporting text below as a
+                                    natural lead-in to additional content. This content is a little bit longer.
+                                </p>
+                            </div>
+                        </div>
+                    </aside>
+                    <aside class="card-search-main row">
+                        <div class="col-sm-6 col-md-12 col-lg-5">
+                            <a href="#">
+                                <img class="img-search"
+                                     src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img17.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-12 col-lg-7">
+                            <div class="card-body">
+                                <h2 class="card-title-search">GB's Bankes wins snowboard cross silver at World Champs
+                                </h2>
+                                <div class="card-text mb-2 text-muted small">
+                                    <span class="d-none d-sm-inline me-1">Duy Nghia</span>
+                                    <time datetime="2019-10-22">Oct 22, 2019</time>
+                                </div>
+                                <p class="card-text">This is a wider card with supporting text below as a
+                                    natural lead-in to additional content. This content is a little bit longer.
+                                </p>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+            <div class="col-md-4 end-sidebar-lg">
+                <aside class="qc">
+                    <img id="changingImage"
+                         src="https://images.kienthuc.net.vn/zoom/800/Uploaded/nguyenvan/2019_07_11/craftyglisteningcanary-max-1mb_HWXB.gif"
+                         alt="">
+                </aside>
+                <aside class="widget">
+                    <div class="block-title-4">
+                        <h4 class="h5 title-arrow">
+                            <span>Latest news</span>
+                        </h4>
+                    </div>
+                    <div class="big-post">
+                        <article class="card card-full hover-a mb-4">
+                            <!--thumbnail-->
+                            <div class="ratio_360-202 image-wrapper">
+                                <a href="#">
+                                    <img class="img-fluid lazy entered loaded"
+                                         src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img55.jpg"
+                                         data-src="../../assets/img/360x202/img55.jpg" alt="Image description"
+                                         data-ll-status="loaded">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <!--title-->
+                                <h2 class="card-title h1-sm h3-md">
+                                    <a href="#">MotoGP: Which team needs what in 2019?</a>
+                                </h2>
+                                <!-- author & date -->
+                                <div class="card-text mb-2 text-muted small">
+                                    <span class="d-none d-sm-inline me-1">
+                                        <a class="fw-bold" href="#">John Doe</a>
+                                    </span>
+                                    <time datetime="2019-10-22">Oct 22, 2019</time>
+                                </div>
+                                <!--description-->
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </article>
+                    </div>
+                </aside>
+                <div class="small-post">
+                    <!--post list-->
+                    <article class="card card-full hover-a mb-4">
+                        <div class="row">
+                            <!--thumbnail-->
+                            <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                <div class="ratio_110-77 image-wrapper">
+                                    <a href="#">
+                                        <img class="img-fluid lazy entered loaded"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img5.jpg"
+                                             data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
+                                             data-ll-status="loaded">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- title & date -->
+                            <div class="col-9 col-md-8">
+                                <div class="card-body pt-0">
+                                    <h3 class="card-title h6 h5-sm h6-md">
+                                        <a href="#">Take the kids to Windermere Jetty, Lake District</a>
+                                    </h3>
+                                    <div class="card-text small text-muted">
+                                        <time datetime="2019-10-16">Oct 16, 2019</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card card-full hover-a mb-4">
+                        <div class="row">
+                            <!--thumbnail-->
+                            <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                <div class="ratio_110-77 image-wrapper">
+                                    <a href="#">
+                                        <img class="img-fluid lazy entered loaded"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img6.jpg"
+                                             data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
+                                             data-ll-status="loaded">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- title & date -->
+                            <div class="col-9 col-md-8">
+                                <div class="card-body pt-0">
+                                    <h3 class="card-title h6 h5-sm h6-md">
+                                        <a href="#">Take the kids to Windermere Jetty, Lake District</a>
+                                    </h3>
+                                    <div class="card-text small text-muted">
+                                        <time datetime="2019-10-16">Oct 16, 2019</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <aside class="widget">
+                    <div class="p-4 border bg-light-dark text-center mb-4">
+                        <h4>Get Updates</h4>
+                        <p class="text-dark-light">Subscribe our newsletter to get the last update into your inbox!
+                        </p>
+                        <div class="mx-auto">
+                            <form id="subscribe" class="needs-validation" action="#" novalidate="">
+                                <div class="input-group">
+                                    <input type="email" class="form-control" name="email" required=""
+                                           aria-label="email form" placeholder="Enter your email address"
+                                           fdprocessedid="909qnm">
+                                    <button class="btn btn-primary" type="submit"
+                                            fdprocessedid="qzu3s">Subscribe</button>
+                                    <div class="invalid-feedback">
+                                        Please insert email address.
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,26 +45,26 @@ public class BlogService {
     private final ICurrentUser iCurrentUser;
 
 
-    public Page<BlogPublic> getAllBlog(Integer page, Integer pageSize) {
-        Page<BlogPublic> pageInfo = blogRepository.findBlogs(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
-        return pageInfo;
-    }
-
-    public BlogPublic getBlogById(Integer id) {
-        Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
-            throw new NotFoundException("Not found blog with id = " + id);
-        });
-        return BlogPublic.of(blog);
-    }
-
-    @Transactional
-    public void deleteBlog(Integer id) {
-        Blog blog = blogRepository.findById(id).orElseThrow(() -> {
-            throw new NotFoundException("Not found blog with id = " + id);
-        });
-
-        blogRepository.delete(blog);
-    }
+//    public Page<BlogPublic> getAllBlog(Integer page, Integer pageSize) {
+//        Page<BlogPublic> pageInfo = blogRepository.findBlogs(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
+//        return pageInfo;
+//    }
+//
+//    public BlogPublic getBlogById(Integer id) {
+//        Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
+//            throw new NotFoundException("Not found blog with id = " + id);
+//        });
+//        return BlogPublic.of(blog);
+//    }
+//
+//    @Transactional
+//    public void deleteBlog(Integer id) {
+//        Blog blog = blogRepository.findById(id).orElseThrow(() -> {
+//            throw new NotFoundException("Not found blog with id = " + id);
+//        });
+//
+//        blogRepository.delete(blog);
+//    }
 
     /*
     * @author: Lai Duy Nghia
@@ -87,6 +88,7 @@ public class BlogService {
 //    }
 
 
+    // TODO: Lấy ra các bài viết cho trang chủ
     public List<BlogDto> getBlogDtos() {
         return blogRepository.getAllBlogDtos();
     }
@@ -160,21 +162,6 @@ public class BlogService {
         blog.setCategory(category);
         blog.setTags(tags);
         blog.setUser(user);
-
-
-//        Blog blog = Blog.builder()
-//                .title(request.getTitle())
-//                .slug(slugify.slugify(request.getTitle()))
-//                .content(request.getContent())
-//                .description(request.getDescription())
-//                .thumbnail(request.getThumbnail())
-//                .status(request.getStatus())
-//                .approvalStatus(EApprovalStatus.PENDING)
-//                .category(category)
-//                .tags(tags)
-//                .comments(new ArrayList<>())
-//                .user(user)
-//                .build();
 
         blogRepository.save(blog);
         BlogDto blogDto = new BlogDto(blog);
@@ -250,15 +237,23 @@ public class BlogService {
         return pageInfo;
     }
 
-    // TODO: Lấy ra 5 bài viết mới nhất cho mỗi category và có trạng thái hợp lệ
+    // TODO: Lấy ra 5 bài viết mới nhất cho mỗi category và có trạng thái hợp lệ (client)
     public List<BlogDto> getBlogsEachCate(Integer categoryId) {
         return blogRepository.getBlogsByCategory(categoryId).stream()
                 .sorted(Comparator.comparing(Blog::getCreatedAt).reversed())
                 .limit(5).map(BlogDto::new).collect(Collectors.toList());
     }
 
+    // TODO: Lấy ra 5 bài viết mới nhất trong hệ thống (client)
+    public List<BlogDto> getLastestNew() {
+        return blogRepository.getLastestNewsOrderByPublish(EApprovalStatus.APPROVE, Pageable.ofSize(5))
+                .stream()
+                .map(BlogDto::new)
+                .collect(Collectors.toList());
+    }
 
-    // TODO: lấy ra 5 bài viết mới nhất (sử dụng cho gửi mail tự động)
+
+    // TODO: lấy ra 5 bài viết mới nhất (sử dụng cho gửi mail tự động) (client)
     public List<BlogDto> getTop5NewestBlogs() {
         return blogRepository.findAll().stream()
                 .filter(blog -> blog.getStatus() && blog.getApprovalStatus() == EApprovalStatus.APPROVE)
@@ -288,9 +283,9 @@ public class BlogService {
     }
 
     // TODO: Xóa bài viết
-//    public void deleteBlog(Integer id) {
-//
-//    }
+    public void deleteBlog(Integer id) {
+
+    }
 
     // TODO: Tìm kiếm bài viết
     public Page<BlogDto> getSearchBlogs(Integer page, Integer pageSize, String sortField, String sortDirection, String keyword, LocalDateTime startDate, LocalDateTime endDate) {
@@ -300,7 +295,7 @@ public class BlogService {
 //        }
         Page<BlogDto> blogDtos = blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
         Page<BlogDto> searchResult = blogRepository.searchBlogs(keyword, startDate, endDate, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
-        return blogDtos;
+        return searchResult;
     }
 
     private Sort parseSortParameter(String sortField, String sortDirection) {

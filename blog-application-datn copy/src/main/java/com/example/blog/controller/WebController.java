@@ -18,6 +18,7 @@ import com.example.blog.service.WebService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -139,11 +141,13 @@ public class WebController {
     public String getHomePageNew(Model model) {
         List<CategoryDto> categories = categoryService.getAllCategoryPublic();
         List<BlogDto> blogs = blogService.getBlogDtos();
+        List<BlogDto> lastestBlogs = blogService.getLastestNew();
         User curUser = webService.getUserDetailPage();
         model.addAttribute("user", curUser);
         model.addAttribute("blogList", blogs);
+        model.addAttribute("blogLastestList", lastestBlogs);
         model.addAttribute("categoryList", categories);
-        return "public/homepage";
+        return "public/homepage1";
     }
 
     // TODO: Hiển thị chi tiết bài viết
@@ -155,10 +159,19 @@ public class WebController {
     }
 
     // TODO: Hiển thị trang tìm kiếm bài viết
-    @GetMapping("/home/blogs")
-    public String getBlogsSearchPage(@RequestParam String keyword) {
+    @GetMapping("/blogs")
+    public String getBlogsSearchPage(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                     @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                                     @RequestParam(required = false, defaultValue = "id") String sortField,
+                                     @RequestParam(required = false, defaultValue = "asc") String sortDir,
+                                     @RequestParam(required = false, defaultValue = "") String keyword,
+                                     @RequestParam(name = "startDate", required = false)
+                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                     @RequestParam(name = "endDate", required = false)
+                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                                     Model model) {
 //        Page<BlogDto> blogsSearchResult = blogService.
-        return "public/blogs";
+        return "public/search";
     }
 
     // TODO: Hiển thị Trang thông tin tài khoản
