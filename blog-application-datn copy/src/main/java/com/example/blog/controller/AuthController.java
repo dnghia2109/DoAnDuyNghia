@@ -61,19 +61,19 @@ public class AuthController {
         return "admin/util/change-password";
     }
 
-    @PostMapping("/api/v1/admin/auth/login")
+    @PostMapping("/api/v1/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpSession session) {
         return ResponseEntity.ok(authService.login(request, session));
     }
 
-    @PostMapping("/api/v1/admin/auth/forgot-password")
+    @PostMapping("/api/v1/auth/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest request) {
         log.info("ForgotPasswordRequest : {}", request);
         authService.forgotPassword(request);
         return ResponseEntity.ok("Send mail success");
     }
 
-    @PostMapping("/api/v1/admin/auth/change-password")
+    @PostMapping("/api/v1/auth/change-password")
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
         authService.changePassword(request);
         return ResponseEntity.ok("Send mail success");

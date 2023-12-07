@@ -153,10 +153,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/dashboard/blogs/own-blogs",
-                        "/dashboard/blogs/create", "/dashboard/blogs/{id}/detail",
-                        "/api/v1/admin/blogs/**")
+                             "/dashboard/blogs/create", "/dashboard/blogs/{id}/detail",
+                             "/api/v1/admin/blogs/**")
                     .hasAnyRole("AUTHOR", "ADMIN")
-                .antMatchers("/api/v1/admin/","/dashboard/admin/users").hasRole("ADMIN")
+                .antMatchers("/api/v1/admin/**","/dashboard/admin/**").hasRole("ADMIN")
 //                .antMatchers("/profile").hasRole("USER")
 //                .antMatchers("/admin/blogs").hasAnyRole("EDITOR", "ADMIN")
 //                .antMatchers("/admin/users").hasRole("ADMIN")
