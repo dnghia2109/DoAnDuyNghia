@@ -96,7 +96,7 @@
                 password: passwordEl.value
             };
 
-            let res = await axios.post("/api/v1/admin/auth/login", request)
+            let res = await axios.post("/api/v1/auth/login", request)
             if(res.status === 200) {
                 toastr.success("Đăng nhập thành công");
                 setTimeout(() => {
