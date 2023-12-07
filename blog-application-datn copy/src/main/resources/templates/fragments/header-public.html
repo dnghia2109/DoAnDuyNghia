@@ -8,7 +8,8 @@
 <header id="header">
     <div class="header header-logo">
         <div class="container header-main-top">
-            <img src="https://cdn.bongda24h.vn/images/logo-bongda24h.svg" alt="" />
+<!--            <img src="https://cdn.bongda24h.vn/images/logo-bongda24h.svg" alt="" />-->
+            <img src="/img/homepage/logo2.png" alt="" />
             <a th:href="@{/blogs}">
                 <i class='bx bx-search'></i>
             </a>
@@ -28,13 +29,12 @@
                 <i class="bx bxs-user-circle"></i>
                 <div class="user-pp">
                     <ul>
-                        <li sec:authorize="authenticated" th:text="${user.name}">
-                        </li>
+                        <li sec:authorize="authenticated" th:text="${user.name}"></li>
                         <li sec:authorize="not authenticated">
-                            <a  th:href="@{/admin/login}" th:onclick="saveRedirectUrl()">Đăng nhập</a>
+                            <a th:href="@{/admin/login}" th:onclick="saveRedirectUrl()">Đăng nhập</a>
                         </li>
                         <li>
-                            Đăng ký
+                            <a th:href="@{/register}">Đăng ký</a>
                         </li>
                         <li sec:authorize="authenticated">Đăng xuất</li>
                         <li sec:authorize="hasAnyRole('ADMIN', 'AUTHOR')" >
