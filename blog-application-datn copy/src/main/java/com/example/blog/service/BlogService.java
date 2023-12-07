@@ -109,11 +109,20 @@ public class BlogService {
         return blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
     }
 
-    // Lấy chi tiết bài viết
+    // Lấy chi tiết bài viết phía quản trị
     public BlogDto getBlogDtoById(Integer id) {
         Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
             throw new NotFoundException("Not found blog with id = " + id);
         });
+        return BlogMapper.toDto(blog);
+    }
+
+    // Lấy ra chi tiết bài viết dành cho phía client
+    public BlogDto getBlogDtoByIdForPublic(Integer id) {
+        Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found blog with id = " + id);
+        });
+        blog.setViews(blog.getViews());
         return BlogMapper.toDto(blog);
     }
 

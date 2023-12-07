@@ -60,35 +60,6 @@ public class BlogController {
         return "public/home";
     }
 
-    // TODO: Lấy ra danh sách blog theo ApprovalStatus
-    @GetMapping("/api/blogs/approval-status")
-    public ResponseEntity<?> getBlogsByApprovalStatus(@RequestParam(required = false, defaultValue = "1") Integer page,
-                                                      @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                                                      @RequestParam String approvalStatus) {
-        return new ResponseEntity<>(blogService.getBlogsWithApproveStatus(page, pageSize, approvalStatus), HttpStatus.OK);
-    }
-
-    // TODO: Lấy ra ds bài viết của người dùng đang đăng nhập
-    @GetMapping("/api/blogs/own-blogs")
-    public ResponseEntity<?> getBlogsDtoByUserLogin(@RequestParam(required = false, defaultValue = "1") Integer page,
-                                        @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
-        //List<BlogDto> list = blogService.getBlogDto(page, pageSize).getContent();
-
-        return new ResponseEntity<>(blogService.getAllOwnBlog(page, pageSize), HttpStatus.OK);
-    }
-
-    // TODO: Test lấy 5 bài viết mới nhất (gửi mail tự động)
-    @GetMapping("/api/blogs/new-blogs")
-    public ResponseEntity<?> getTop5NewestBlogs() {
-        return new ResponseEntity<>(blogService.getTop5NewestBlogs(), HttpStatus.OK);
-    }
-
-    // TODO: Chi tiết bài viết API
-    @GetMapping("/api/blogs/{blogId}/{blogSlug}")
-    public ResponseEntity<?> getTop5NewestBlogs(@PathVariable Integer blogId, @PathVariable String blogSlug) {
-        return new ResponseEntity<>(blogService.getBlogDtoById(blogId), HttpStatus.OK);
-    }
-
     // TODO: Tìm kiếm bài vết (test)
     @GetMapping("/api/blogs/")
     public ResponseEntity<?> getSearchBlogs(@RequestParam(required = false, defaultValue = "1") Integer page,
@@ -102,46 +73,6 @@ public class BlogController {
                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
         return new ResponseEntity<>(blogService.getSearchBlogs(page, pageSize, sortField, sortDir, keyword, startDate, endDate), HttpStatus.OK);
     }
-
-    // TODO: Danh sách tất cả bài viết
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @GetMapping("/admin/blogs")
-//    public String getBlogPage1(@RequestParam(required = false, defaultValue = "1") Integer page,
-//                              @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-//                              Model model) {
-//        Page<BlogPublic> pageInfo = blogService.getAllBlog(page, pageSize);
-////        model.addAttribute("page", pageInfo);
-//
-//
-//        Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
-//        model.addAttribute("page1", pageInfoDto);
-//        model.addAttribute("currentPage", page);
-//
-//        return "admin/blog/blog-index";
-//    }
-
-    /*
-    * @author: Lai Duy Nghia
-    * @since: 22/11/2023 15:55
-    * @description:   API view for user
-    * @update:
-    *
-    * */
-
-    @GetMapping("/homepage/blogs/{blogId}/{blogSlug}")
-    public String getBlogDetail(@PathVariable Integer blogId, @PathVariable String blogSlug, Model model) {
-        List<CategoryDto> categories = categoryService.getAllCategoryPublic();
-        BlogDto blog = blogService.getBlogDtoById(blogId);
-        Boolean isExistInSavedList = savedBlogService.blogIsSaved(blogId);
-        User curUser = webService.getUserDetailPage();
-        model.addAttribute("user", curUser);
-        model.addAttribute("blog", blog);
-        model.addAttribute("isExistInSavedList", isExistInSavedList);
-        model.addAttribute("categoryList", categories);
-        return "public/detail-blog";
-    }
-
-
 
     /*
     * @author: Lai Duy Nghia
@@ -238,6 +169,16 @@ public class BlogController {
         return "admin/blog/blog-detail";
     }
 
+// ================================================================================================================================================
+    /*
+    * @author: Lai Duy Nghia
+    * @since: 07/12/2023 15:02
+    * @description:  Danh sách RestAPI thao tác với blog
+    * @update:
+    *
+    * */
+
+
     // Danh sách API
     // 1. Tạo bài viết
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
@@ -275,9 +216,33 @@ public class BlogController {
         return new ResponseEntity<>(blogService.notApproveBlog(id, request), HttpStatus.OK);
     }
 
-//    @PostMapping("/api/v1/blogs-all")
-//    public ResponseEntity<?> getBlogs() {
-//        return ResponseEntity.ok(blogService.getBlogById());
-//    }
 
+    // TODO: Lấy ra danh sách blog theo ApprovalStatus
+    @GetMapping("/api/blogs/approval-status")
+    public ResponseEntity<?> getBlogsByApprovalStatus(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                                      @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                                                      @RequestParam String approvalStatus) {
+        return new ResponseEntity<>(blogService.getBlogsWithApproveStatus(page, pageSize, approvalStatus), HttpStatus.OK);
+    }
+
+    // TODO: Lấy ra ds bài viết của người dùng đang đăng nhập
+    @GetMapping("/api/blogs/own-blogs")
+    public ResponseEntity<?> getBlogsDtoByUserLogin(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                                    @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        //List<BlogDto> list = blogService.getBlogDto(page, pageSize).getContent();
+
+        return new ResponseEntity<>(blogService.getAllOwnBlog(page, pageSize), HttpStatus.OK);
+    }
+
+    // TODO: Test lấy 5 bài viết mới nhất (gửi mail tự động)
+    @GetMapping("/api/blogs/new-blogs")
+    public ResponseEntity<?> getTop5NewestBlogs() {
+        return new ResponseEntity<>(blogService.getTop5NewestBlogs(), HttpStatus.OK);
+    }
+
+    // TODO: Chi tiết bài viết API
+    @GetMapping("/api/blogs/{blogId}/{blogSlug}")
+    public ResponseEntity<?> getTop5NewestBlogs(@PathVariable Integer blogId, @PathVariable String blogSlug) {
+        return new ResponseEntity<>(blogService.getBlogDtoById(blogId), HttpStatus.OK);
+    }
 }

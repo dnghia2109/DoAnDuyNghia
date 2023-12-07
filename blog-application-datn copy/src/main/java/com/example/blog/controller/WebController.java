@@ -14,6 +14,7 @@ import com.example.blog.repository.UserRepository;
 import com.example.blog.security.ICurrentUser;
 import com.example.blog.service.BlogService;
 import com.example.blog.service.CategoryService;
+import com.example.blog.service.SavedBlogService;
 import com.example.blog.service.WebService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,7 @@ public class WebController {
     private final BlogService blogService;
     private final BlogRepository blogRepository;
     private final CategoryService categoryService;
+    private final SavedBlogService savedBlogService;
 
 
     @GetMapping("/home")
@@ -151,10 +153,16 @@ public class WebController {
     }
 
     // TODO: Hiển thị chi tiết bài viết
-    @GetMapping("/home/blogs/{blogId}/{blogSlug}")
-    public String getDetailBlogPage(@PathVariable Integer blogId, @PathVariable String blogSlug, Model model) {
-        BlogDto blog = blogService.getBlogDtoById(blogId);
+    @GetMapping("/homepage/blogs/{blogId}/{blogSlug}")
+    public String getBlogDetailPublic(@PathVariable Integer blogId, @PathVariable String blogSlug, Model model) {
+        List<CategoryDto> categories = categoryService.getAllCategoryPublic();
+        BlogDto blog = blogService.getBlogDtoByIdForPublic(blogId);
+        Boolean isExistInSavedList = savedBlogService.blogIsSaved(blogId);
+        User curUser = webService.getUserDetailPage();
+        model.addAttribute("user", curUser);
         model.addAttribute("blog", blog);
+        model.addAttribute("isExistInSavedList", isExistInSavedList);
+        model.addAttribute("categoryList", categories);
         return "public/detail-blog";
     }
 

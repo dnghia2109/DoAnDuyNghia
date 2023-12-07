@@ -18,6 +18,7 @@ public class BlogMapper {
         blogDto.setContent(blog.getContent());
         blogDto.setThumbnail(blog.getThumbnail());
         blogDto.setNote(blog.getNote());
+        blogDto.setViews(blog.getViews());
         blogDto.setCreatedAt(blog.getCreatedAt());
         blogDto.setPublishedAt(blog.getPublishedAt());
         blogDto.setUpdatedAt(blog.getUpdatedAt());

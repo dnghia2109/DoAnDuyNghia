@@ -42,6 +42,9 @@ public class Blog {
     @Column(name = "thumbnail")
     private String thumbnail;
 
+    @Column(name = "views")
+    private int views;
+
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
@@ -95,6 +98,7 @@ public class Blog {
         createdAt = LocalDateTime.now();
         updatedAt = createdAt;
         note = null;
+        views = 0;
         if(status) {
             publishedAt = createdAt;
         }
