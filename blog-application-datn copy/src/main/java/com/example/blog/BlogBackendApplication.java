@@ -4,6 +4,7 @@ import com.example.blog.entity.Role;
 import com.example.blog.entity.User;
 import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.UserRepository;
+import com.example.blog.service.UserService;
 import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,13 @@ public class BlogBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(BlogBackendApplication.class, args);
     }
+
+//    @Bean
+//    public CommandLineRunner commandLineRunner(UserService myService) {
+//        return args -> {
+//            myService.sendComplexEmail();
+//        };
+//    }
 
     @Bean
     public ModelMapper modelMapper() {

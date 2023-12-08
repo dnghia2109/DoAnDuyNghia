@@ -4,6 +4,7 @@ import com.example.blog.constant.EApprovalStatus;
 import com.example.blog.dto.BlogDto;
 import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.entity.Blog;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +19,9 @@ import java.util.Optional;
 public interface BlogRepository extends JpaRepository<Blog, Integer> {
     Page<BlogPublic> findByStatusOrderByPublishedAtDesc(Pageable pageable, Boolean status);
 
-//    Page<Blog> findByStatusOrderByPublishedAtDesc1(Pageable pageable, Boolean status);
-
     List<Blog> findByTitleContainsIgnoreCaseAndStatusOrderByPublishedAtDesc(String title, Boolean status);
 
     //Lâấy chi tiết bài viết
-    //Optional<Blog> findByIdAndSlugAndStatus(Integer id, String slug, Boolean status);
     Optional<Blog> findByIdAndSlugAndStatus(Integer id, String slug, Boolean status);
 
     // Lấy ds blog theo category
@@ -34,8 +32,6 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     )
     Page<BlogPublic> findBlogs(Pageable pageable);
 
-//    Page<BlogPublic> findByUser_IdOrderByCreatedAtDesc(Integer id, Pageable pageable);
-
     List<BlogPublic> findByUser_IdOrderByCreatedAtDesc(Integer id);
 
     // Lấy danh sách blog theo category (dùng ở method xóa category)
@@ -44,24 +40,7 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     // Lấy danh sách blog theo tag (dùng ở method xóa tag)
     List<Blog> findByTags_IdOrderByIdAsc(Integer id);
 
-//    @Query("SELECT b FROM Blog b " +
-//            "WHERE b.categories = :category " +
-//            "AND b.status = true " +
-//            "ORDER BY b.publishedAt DESC")
-//    List<Blog> findLatestBlogsByCategory(@Param("category") Category category, Pageable pageable);
-
-
-
-
-//    @Query(value = "select new com.example.blog.dto.BlogDto(b) from Blog b where b.status = true and b.categories.")
-//    List<BlogDto> findByCategoryAndStatusIsTrue(Integer id);
-
     List<Blog> findByStatusTrueAndCategory_Id(Integer id);
-
-//    Page<BlogDto> findByUser_IdOrderByCreatedAtDesc(Integer id, Pageable pageable);
-
-//    List<Blog> findByCategoryId(Integer id);
-
 
 
     // ============================================================================================================
@@ -99,12 +78,21 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
 
     @Query("SELECT b " +
             "FROM Blog b " +
-            "WHERE (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "WHERE b.status = true AND b.approvalStatus = :approvalStatus " +
+            "  AND (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
             "  AND (:startDate IS NULL OR b.publishedAt >= :startDate) " +
             "  AND (:endDate IS NULL OR b.publishedAt <= :endDate)")
-    Page<BlogDto> searchBlogs(String keyword, LocalDateTime startDate, LocalDateTime endDate, PageRequest of);
+    Page<Blog> searchBlogs(String keyword, LocalDateTime startDate, LocalDateTime endDate, EApprovalStatus approvalStatus, Pageable pageable);
 
-    //Page<Blog> findByUser_IdOrderByCreatedAtAsc(Integer id, Pageable pageable);
+    @Query("SELECT b FROM Blog b WHERE b.status = 1 AND b.approvalStatus = :approvalStatus AND (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+    Page<BlogDto> findAllByStatusAndApprovalStatus(EApprovalStatus approvalStatus, String keyword, Pageable pageable);
 
-
+    @Query("SELECT b FROM Blog b WHERE UPPER(b.title) LIKE UPPER(CONCAT('%', :keyword, '%'))" +
+            " AND " +
+            " (:time = 'all' OR " +
+            " (:time = 'one-day' AND b.publishedAt >= CURRENT_TIMESTAMP - 1) OR" +
+            " (:time = 'one-week' AND b.publishedAt >= CURRENT_TIMESTAMP - 7) OR" +
+            " (:time = 'one-month' AND b.publishedAt >= CURRENT_TIMESTAMP - 30) OR" +
+            " (:time = 'one-year' AND b.publishedAt >= CURRENT_TIMESTAMP     - 365))")
+    Page<Blog> searchBlogsByFilter(@Param("keyword") String keyword, @Param("time") String time, Pageable pageable);
 }

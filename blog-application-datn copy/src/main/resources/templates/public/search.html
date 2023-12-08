@@ -27,28 +27,26 @@
                                     Thời gian
                                 </h3>
                                 <select name="" id="input-time" class="input-form">
-                                    <option value="all">Tat ca</option>
-                                    <option value="day">1 ngay qua</option>
-                                    <option value="week">1 tuan qua</option>
-                                    <option value="month">1 thang qua</option>
-                                    <option value="year">1 nam qua</option>
+                                    <option value="all">Tất cả</option>
+                                    <option value="1day">1 ngày qua</option>
+                                    <option value="1week">1 tuần qua</option>
+                                    <option value="1month">1 tháng qua</option>
+                                    <option value="1year">1 năm qua</option>
                                 </select>
-                            </label>
-                            <label >
-                                <h3 class="title-input">Ngày</h3>
-                                <input type="date" class="date input-form" name="" id="input-form inputDateFrom">
-<!--                                <input type="date" id="myDate">-->
                             </label>
                             <label>
                                 <h3 class="title-input">
-                                    Chuyên mục
+                                    Danh mục
                                 </h3>
                                 <select name="" id="input-category" class="input-form">
-                                    <option value="all">Tat ca</option>
-                                    <option value="text">Bai viet</option>
-                                    <option value="image">Anh</option>
-                                    <option value="video">Video</option>
-                                    <option value="topic">Chu de</option>
+                                    <option value="all">Tất cả</option>
+                                    <th:block th:each="category:${categoryList}">
+                                        <option th:text="${category.name}" th:value="${category.id}">Tat ca</option>
+                                        <!--                                    <option value="text">Bai viet</option>-->
+                                        <!--                                    <option value="image">Anh</option>-->
+                                        <!--                                    <option value="video">Video</option>-->
+                                        <!--                                    <option value="topic">Chu de</option>-->
+                                    </th:block>
                                 </select>
                             </label>
                         </div>
@@ -231,18 +229,18 @@
                         <p class="text-dark-light">Subscribe our newsletter to get the last update into your inbox!
                         </p>
                         <div class="mx-auto">
-                            <form id="subscribe" class="needs-validation" action="#" novalidate="">
+                            <div id="subscribe" class="needs-validation" novalidate="">
                                 <div class="input-group">
-                                    <input type="email" class="form-control" name="email" required=""
+                                    <input id="email-subcribe" type="email" class="form-control" name="email" required=""
                                            aria-label="email form" placeholder="Enter your email address"
                                            fdprocessedid="909qnm">
-                                    <button class="btn btn-primary" type="submit"
+                                    <button id="btn-subcribe" class="btn btn-primary"
                                             fdprocessedid="qzu3s">Subscribe</button>
                                     <div class="invalid-feedback">
                                         Please insert email address.
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </aside>
@@ -250,5 +248,77 @@
         </div>
     </div>
 </main>
+
+<th:block id="js">
+    <script th:inline="javascript">
+        
+        console.log(1);
+        const searchResult = [[${pageInfo.getContent()}]];
+        const categories = [[${categoryList}]];
+        const time = [[${time}]];
+        console.log(searchResult)
+        console.log(categories)
+        console.log(time)
+        // console.log(`======= \n ${searchResult} \n ======= ${categories} \n ======= ${time}`)
+        
+        let isValid = true;
+        const btnSubcribe = document.getElementById("btn-subcribe");
+        const emailSubcribeEl = document.getElementById("email-subcribe");
+        
+        
+        // Xử lý đăng kí nhận tin mới
+        btnSubcribe.addEventListener("click", async (e) => {
+            try {
+                const emailVal = emailSubcribeEl.value;
+                console.log(emailVal)
+                if (emailVal.length === 0) {
+                    toastr.error("Bạn chưa nhập email!");
+                    isValid = false;
+                }
+                const request = {
+                    emailVal
+                }
+                if (isValid) {
+                    let res = await axios.post("/api/v1/user/subcribe-news",{
+                        'email' : emailVal
+                    });
+                    console.log(emailVal)
+                    if (res.status === 200) {
+                        e.preventDefault()
+                        toastr.success("Đăng ký nhận tin tức thành công");
+                        emailSubcribeEl.value = "";
+                        // alert(`Đăng ký thành công bạn sẽ nhận được các bài báo mới vào 6 giờ sáng mỗi ngày tại địa chỉ email - ${emailVal}`)
+                    } else {
+                        toastr.error("Không thành công")
+                    }
+                }
+            } catch (err) {
+                toastr.warning(err.response.data.message);
+                console.log(err);
+            }
+            // const emailVal = emailSubcribeEl.value;
+            // console.log(emailVal)
+            // if (emailVal.length === 0) {
+            //     toastr.error("Bạn chưa nhập email!");
+            //     isValid = false;
+            // }
+            // const request = {
+            //     email:emailVal
+            // }
+            // axios.post("/api/v1/user/subcribe-news", request)
+            //     .then((res) => {
+            //         // toastr.success("Tạo bài viết thành công");
+            //         // setTimeout(() => {
+            //         //     window.location.href = `/admin/blogs/${res.data.id}/detail`
+            //         // }, 1500);
+            //         alert("Thành công")
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //         toastr.error(err.response.data.message);
+            //     });
+        })
+    </script>
+</th:block>
 </body>
 </html>

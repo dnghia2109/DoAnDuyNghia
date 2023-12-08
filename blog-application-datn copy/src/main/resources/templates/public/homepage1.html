@@ -12,6 +12,9 @@
 <body>
 
 <main class="main">
+    <canvas id="chart">
+    
+    </canvas>
     <div class="container">
         <div class="row">
             <div class="col-12 mt-05">
@@ -27,20 +30,21 @@
                         <img src="https://cdn.bongdaplus.vn/Assets/Media/2023/11/30/10/anhEURO11.jpg" alt="" />
                         <div class="image-wrapper">
                             <div class="main-text-title">
-                                <a class="heading-letter-spacing" href="#"></a>
-                                <h2 class="title-name-br">
-                                    The world's first floating farm making waves in
-                                    Rotterdam
-                                </h2></a>
-                                <div class="news-meta">
-										<span class="news-author">
-											by
-											<a href="#" class="text-white fw-bold">
-												Duy Nghia
-											</a>
-											<time datetime="2019-10-22" class="news-date">Oct 22, 2019</time>
-										</span>
-                                </div>
+                                <a class="heading-letter-spacing" href="#">
+                                    <h2 class="title-name-br">
+                                        The world's first floating farm making waves in
+                                        Rotterdam
+                                    </h2>
+                                    <div class="news-meta">
+                                        <span class="news-author">
+                                            by
+                                            <span href="#" class="text-white fw-bold">
+                                                Duy Nghia
+                                            </span>
+                                            <time datetime="2019-10-22" class="news-date">Oct 22, 2019</time>
+                                        </span>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -305,6 +309,7 @@
 
 <th:block id="js">
     <script th:inline="javascript">
+        console.log(1)
         let isValid = true;
         const btnSubcribe = document.getElementById("btn-subcribe");
         const emailSubcribeEl = document.getElementById("email-subcribe");

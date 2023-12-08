@@ -142,11 +142,11 @@ public class WebController {
     @GetMapping("/homepage")
     public String getHomePageNew(Model model) {
         List<CategoryDto> categories = categoryService.getAllCategoryPublic();
-        List<BlogDto> blogs = blogService.getBlogDtos();
+//        List<BlogDto> blogs = blogService.getBlogDtos();
         List<BlogDto> lastestBlogs = blogService.getLastestNew();
         User curUser = webService.getUserDetailPage();
         model.addAttribute("user", curUser);
-        model.addAttribute("blogList", blogs);
+//        model.addAttribute("blogList", blogs);
         model.addAttribute("blogLastestList", lastestBlogs);
         model.addAttribute("categoryList", categories);
         return "public/homepage1";
@@ -169,16 +169,25 @@ public class WebController {
     // TODO: Hiển thị trang tìm kiếm bài viết
     @GetMapping("/blogs")
     public String getBlogsSearchPage(@RequestParam(required = false, defaultValue = "1") Integer page,
-                                     @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                                     @RequestParam(required = false, defaultValue = "id") String sortField,
-                                     @RequestParam(required = false, defaultValue = "asc") String sortDir,
+                                     @RequestParam(required = false, defaultValue = "100") Integer pageSize,
+                                     @RequestParam(required = false, defaultValue = "publishedAt") String sortField,
+                                     @RequestParam(required = false, defaultValue = "desc") String sortDir,
                                      @RequestParam(required = false, defaultValue = "") String keyword,
-                                     @RequestParam(name = "startDate", required = false)
-                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                                     @RequestParam(name = "endDate", required = false)
-                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                                     @RequestParam(required = false, defaultValue = "all") String time,
                                      Model model) {
-//        Page<BlogDto> blogsSearchResult = blogService.
+        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, time);
+        List<CategoryDto> categoryList = categoryService.getAllCategoryPublic();
+        String sortReverseDirection = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
+        User curUser = webService.getUserDetailPage();
+        model.addAttribute("user", curUser);
+        model.addAttribute("pageInfo", pageInfoDto);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortReverseDir", sortReverseDirection);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("time", time);
+
         return "public/search";
     }
 

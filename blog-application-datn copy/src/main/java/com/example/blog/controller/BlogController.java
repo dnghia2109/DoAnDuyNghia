@@ -10,15 +10,18 @@ import com.example.blog.entity.User;
 import com.example.blog.request.UpsertBlogRequest;
 import com.example.blog.security.ICurrentUser;
 import com.example.blog.service.*;
+import com.example.blog.utils.Utils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -67,11 +70,11 @@ public class BlogController {
                                             @RequestParam(required = false, defaultValue = "id") String sortField,
                                             @RequestParam(required = false, defaultValue = "asc") String sortDir,
                                             @RequestParam(required = false, defaultValue = "") String keyword,
-                                            @RequestParam(name = "startDate", required = false)
-                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                                            @RequestParam(name = "endDate", required = false)
-                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
-        return new ResponseEntity<>(blogService.getSearchBlogs(page, pageSize, sortField, sortDir, keyword, startDate, endDate), HttpStatus.OK);
+                                            @RequestParam(required = false, defaultValue = "") String time) {
+        Page<BlogDto> result = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, time);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("X-Total-Count", String.valueOf(result.getTotalElements()));
+        return new ResponseEntity<>(result, httpHeaders, HttpStatus.OK);
     }
 
     /*
@@ -90,13 +93,10 @@ public class BlogController {
                                @RequestParam(required = false, defaultValue = "id") String sortField,
                                @RequestParam(required = false, defaultValue = "asc") String sortDir,
                                @RequestParam(required = false, defaultValue = "") String keyword,
-                               @RequestParam(name = "startDate", required = false)
-                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                               @RequestParam(name = "endDate", required = false)
-                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                               @RequestParam(required = false, defaultValue = "") String time,
                                Model model) {
 //        Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
-        Page<BlogDto> pageInfoDto = blogService.getSearchBlogs(page, pageSize, sortField, sortDir, keyword, startDate, endDate);
+        Page<BlogDto> pageInfoDto = blogService.getBlogsDashboard(page, pageSize, sortField, sortDir, keyword, time);
         String sortReverseDirection = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
         model.addAttribute("page1", pageInfoDto);
         model.addAttribute("currentPage", page);

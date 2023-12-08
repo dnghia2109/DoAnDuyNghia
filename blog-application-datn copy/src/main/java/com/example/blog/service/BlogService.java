@@ -16,6 +16,7 @@ import com.example.blog.repository.TagRepository;
 import com.example.blog.repository.UserRepository;
 import com.example.blog.request.UpsertBlogRequest;
 import com.example.blog.security.ICurrentUser;
+import com.example.blog.utils.Utils;
 import com.github.slugify.Slugify;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,55 +46,12 @@ public class BlogService {
     private final ICurrentUser iCurrentUser;
 
 
-//    public Page<BlogPublic> getAllBlog(Integer page, Integer pageSize) {
-//        Page<BlogPublic> pageInfo = blogRepository.findBlogs(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
-//        return pageInfo;
-//    }
-//
-//    public BlogPublic getBlogById(Integer id) {
-//        Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
-//            throw new NotFoundException("Not found blog with id = " + id);
-//        });
-//        return BlogPublic.of(blog);
-//    }
-//
-//    @Transactional
-//    public void deleteBlog(Integer id) {
-//        Blog blog = blogRepository.findById(id).orElseThrow(() -> {
-//            throw new NotFoundException("Not found blog with id = " + id);
-//        });
-//
-//        blogRepository.delete(blog);
-//    }
-
-    /*
-    * @author: Lai Duy Nghia
-    * @since: 10/10/2023 21:46
-    * @description:
-    * @update:
-    *
-    * */
-
-//    // Danh sách các blog (ở phía quản trị)
-//    public Page<BlogDto> getBlogDto(Integer page, Integer pageSize) {
-//        return blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending()));
-//    }
-//
-//    // Lấy chi tiết bài viết
-//    public BlogDto getBlogDtoById(Integer id) {
-//        Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
-//            throw new NotFoundException("Not found blog with id = " + id);
-//        });
-//        return BlogMapper.toDto(blog);
-//    }
-
-
     // TODO: Lấy ra các bài viết cho trang chủ
     public List<BlogDto> getBlogDtos() {
         return blogRepository.getAllBlogDtos();
     }
     
-    
+
 // ============================================================================================================================================================================
 
     /*
@@ -265,30 +223,30 @@ public class BlogService {
     // TODO: lấy ra 5 bài viết mới nhất (sử dụng cho gửi mail tự động) (client)
     public List<BlogDto> getTop5NewestBlogs() {
         return blogRepository.findAll().stream()
-                .filter(blog -> blog.getStatus() && blog.getApprovalStatus() == EApprovalStatus.APPROVE)
-                .sorted(new Comparator<Blog>() {
-                    @Override
-                    public int compare(Blog o1, Blog o2) {
-                        return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-                    }
-                })
-                .map(BlogDto::new)
-                .limit(5)
-                .collect(Collectors.toList());
+            .filter(blog -> blog.getStatus() && blog.getApprovalStatus() == EApprovalStatus.APPROVE)
+            .sorted(new Comparator<Blog>() {
+                @Override
+                public int compare(Blog o1, Blog o2) {
+                    return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+                }
+            })
+            .map(BlogDto::new)
+            .limit(5)
+            .collect(Collectors.toList());
     }
 
     public List<BlogSendMailDto> getTop5NewestBlogss() {
         return blogRepository.findAll().stream()
-                .filter(blog -> blog.getStatus() && blog.getApprovalStatus() == EApprovalStatus.APPROVE)
-                .sorted(new Comparator<Blog>() {
-                    @Override
-                    public int compare(Blog o1, Blog o2) {
-                        return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-                    }
-                })
-                .map(BlogSendMailDto::new)
-                .limit(5)
-                .collect(Collectors.toList());
+            .filter(blog -> blog.getStatus() && blog.getApprovalStatus() == EApprovalStatus.APPROVE)
+            .sorted(new Comparator<Blog>() {
+                @Override
+                public int compare(Blog o1, Blog o2) {
+                    return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+                }
+            })
+            .map(BlogSendMailDto::new)
+            .limit(5)
+            .collect(Collectors.toList());
     }
 
     // TODO: Xóa bài viết
@@ -297,13 +255,29 @@ public class BlogService {
     }
 
     // TODO: Tìm kiếm bài viết
-    public Page<BlogDto> getSearchBlogs(Integer page, Integer pageSize, String sortField, String sortDirection, String keyword, LocalDateTime startDate, LocalDateTime endDate) {
-//        if (sortField == null) {
-//            Page<BlogDto> blogDtos = blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "id")));
-//            return blogDtos;
-//        }
+//    public Page<BlogDto> getSearchBlogs(Integer page, Integer pageSize, String sortField, String sortDirection, String keyword, LocalDateTime startDate, LocalDateTime endDate) {
+//        Page<BlogDto> blogDtos = blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
+//        Page<BlogDto> searchResult = blogRepository.searchBlogs(keyword, startDate, endDate, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
+//        return searchResult;
+//    }
+    public Page<BlogDto> getBlogsDashboard(Integer page, Integer pageSize, String sortField, String sortDirection, String keyword, String time) {
         Page<BlogDto> blogDtos = blogRepository.findBlogsDto(PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
-        Page<BlogDto> searchResult = blogRepository.searchBlogs(keyword, startDate, endDate, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
+        Page<BlogDto> searchResult = blogRepository
+                .searchBlogsByFilter(keyword, time, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)))
+                .map(BlogDto::new);
+        return searchResult;
+    }
+
+    // method chuẩn
+    public Page<BlogDto> getSearchBlogsTest(Integer page, Integer pageSize, String sortField, String sortDirection, String keyword, String time) {
+        LocalDateTime searchStartTime = Utils.convertTimeStringToLocalDateTime(time);
+        LocalDateTime searchEndTime = LocalDateTime.now();
+        if (searchStartTime == null) {
+            return blogRepository.findAllByStatusAndApprovalStatus(EApprovalStatus.APPROVE, keyword, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
+        }
+        Page<BlogDto> searchResult = blogRepository
+                .searchBlogs(keyword, searchStartTime, searchEndTime , EApprovalStatus.APPROVE, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)))
+                .map(BlogDto::new);
         return searchResult;
     }
 
