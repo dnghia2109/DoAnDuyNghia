@@ -172,7 +172,7 @@ class BlogBackendApplicationTests {
 
             // Tao comment
             Comment comment = Comment.builder()
-                    .content("comment " + (i + 1))
+                    .content("comment " + (i + 1) + " by " + rdUser.getEmail())
                     .user(rdUser)
                     .blog(rdBlog)
                     .build();

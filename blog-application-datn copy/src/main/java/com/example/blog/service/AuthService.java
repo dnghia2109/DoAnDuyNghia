@@ -37,9 +37,6 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-
-
-
     public UserDto register(RegisterRequest request) {
         Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
 

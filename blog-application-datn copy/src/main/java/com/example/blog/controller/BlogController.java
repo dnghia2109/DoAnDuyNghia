@@ -94,9 +94,14 @@ public class BlogController {
                                @RequestParam(required = false, defaultValue = "asc") String sortDir,
                                @RequestParam(required = false, defaultValue = "") String keyword,
                                @RequestParam(required = false, defaultValue = "") String time,
+                               @RequestParam(name = "startDate", required = false)
+                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                               @RequestParam(name = "endDate", required = false)
+                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
                                Model model) {
 //        Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
-        Page<BlogDto> pageInfoDto = blogService.getBlogsDashboard(page, pageSize, sortField, sortDir, keyword, time);
+//        Page<BlogDto> pageInfoDto = blogService.getBlogsDashboard(page, pageSize, sortField, sortDir, keyword, time);
+        Page<BlogDto> pageInfoDto = blogService.getSearchBlogs(page, pageSize, sortField, sortDir, keyword, startDate, endDate);
         String sortReverseDirection = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
         model.addAttribute("page1", pageInfoDto);
         model.addAttribute("currentPage", page);

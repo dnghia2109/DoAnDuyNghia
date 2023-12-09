@@ -106,7 +106,8 @@
     <!-- Css Styles -->
     <link rel="stylesheet" href="/admin-assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/css/toastr.min.css" type="text/css">
+<!--    <link rel="stylesheet" href="/css/toastr.min.css" type="text/css">-->
+    <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/toastr/toastr.min.css}"/>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer-public.css">
 
@@ -144,6 +145,9 @@
     <!--<script th:src="@{/admin-assets/admin-lte/plugins/pagination/pagination.min.js}"></script>-->
     <script th:src="@{/admin-assets/admin-lte/dist/js/adminlte.js}"></script>
 <!--    <script th:src="@{/admin-assets/assets/js/main.js}"></script>-->
+    
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         toastr.options = {
             "closeButton": false,

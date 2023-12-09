@@ -78,6 +78,13 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
 
     @Query("SELECT b " +
             "FROM Blog b " +
+            "WHERE (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "  AND (:startDate IS NULL OR b.publishedAt >= :startDate) " +
+            "  AND (:endDate IS NULL OR b.publishedAt <= :endDate)")
+    Page<BlogDto> searchBlogs(String keyword, LocalDateTime startDate, LocalDateTime endDate, PageRequest of);
+
+    @Query("SELECT b " +
+            "FROM Blog b " +
             "WHERE b.status = true AND b.approvalStatus = :approvalStatus " +
             "  AND (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
             "  AND (:startDate IS NULL OR b.publishedAt >= :startDate) " +
