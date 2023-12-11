@@ -196,7 +196,15 @@ public class BlogService {
         return BlogMapper.toDto(blog);
     }
 
-    // TODO: Danh sách các bài viết của cá nhân bị từ chối phê duyệt (AUTHOR or ADMIN)
+    // TODO: anh sách các bài viết của cá nhân chờ được phê duyệt PENDING (AUTHOR or ADMIN)
+    public Page<BlogDto> getBlogsPendingByUser(Integer page, Integer pageSize) {
+        User user = iCurrentUser.getUser();
+        Page<BlogDto> pageInfo = blogRepository.findByUser_IdAndApprovalStatus(user.getId(), EApprovalStatus.PENDING,
+                PageRequest.of(page - 1, pageSize, Sort.by("createdAt").ascending()));
+        return pageInfo;
+    }
+
+    // TODO: Danh sách các bài viết của cá nhân bị từ chối phê duyệt NOT_APPROVE (AUTHOR or ADMIN)
     public Page<BlogDto> getBlogsNotApproveByUser(Integer page, Integer pageSize) {
         User user = iCurrentUser.getUser();
         Page<BlogDto> pageInfo = blogRepository.findByUser_IdAndApprovalStatus(user.getId(), EApprovalStatus.NOT_APPROVE,

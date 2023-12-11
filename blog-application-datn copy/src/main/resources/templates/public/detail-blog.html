@@ -21,7 +21,6 @@
                         <span th:if="${isExistInSavedList}">Đã nằm trong saved list</span>
                         <span th:if="${!isExistInSavedList}">Không nằm trong saved list</span>
                     </th:block>
-
                 </div>
             </div>
             <div class="col-12 mt-1 mb-3 text-white">
@@ -257,53 +256,62 @@
                 <div class="comments">
                     <div class="block-title-6">
                         <h4 class="h5 border-primary border-2">
-                            <span class="bg-primary text-white">5 Comments</span>
+                            <span class="bg-primary text-white" th:text="${blog.comments.size() + ' comments'}">5 Comments</span>
                         </h4>
                     </div>
-                    <ol class="comment-list">
-                        <li>
-                            <div class="user-comment u-hover">
-                                <footer>
-                                    <img class="avatar-md border img-fluid float-start me-3"
-                                         src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar1.png"
-                                         alt="avatar">
-                                    <div class="title-comments">
-                                        <a class="authors" href="#" target="_blank">Jennifer Tan</a>
-                                        <span class="text-muted dates small">
-												<time datetime="2019-10-27">Oct 27, 2019 at 12:11 am</time>
+                    <ol class="comment-list" th:if="${blog.comments.size()} > 0">
+                        <th:block th:if="${blog.comments.size()} > 0" th:each = "comment:${blog.comments}">
+                            <li>
+                                <div class="user-comment u-hover">
+                                    <footer>
+                                        <img class="avatar-md border img-fluid float-start me-3"
+                                             src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar1.png"
+                                             alt="avatar">
+                                        <div class="title-comments">
+                                            <a class="authors" href="#" target="_blank" th:text="${comment.author.name}">Jennifer Tan</a>
+                                            <span class="text-muted dates small">
+												<time th:text="${#temporals.format(comment.updatedAt, 'dd/MM/yyyy')}">Oct 27, 2019 at 12:11 am</time>
 											</span>
-                                        <div class="comment-content">
-                                            <p>News magazine bootstrap themes!</p>
+                                            <div class="comment-content">
+                                                <p th:text="${comment.content}">News magazine bootstrap themes!</p>
+                                            </div>
+                                            <div style="display: flex; justify-content: flex-start">
+                                                <div class="btn-reply">
+                                                    <a class="comment-reply" href="#" th:onclick="|openModalUpdate(${comment.id})|">Sửa</a>
+                                                </div>
+                                                <div class="btn-delete">
+                                                    <a class="comment-reply" href="#">Xóa</a>
+                                                </div>
+                                            </div>
+<!--                                            <div class="btn-reply">-->
+<!--                                                <a class="comment-reply" href="#">Sửa</a>-->
+<!--                                            </div>-->
+<!--                                            <div class="btn-delete">-->
+<!--                                                <a class="comment-reply" href="#">Xóa</a>-->
+<!--                                            </div>-->
                                         </div>
-                                        <div class="btn-reply">
-                                            <a class="comment-reply" href="#">Reply</a>
-                                        </div>
-                                    </div>
-                                </footer>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="user-comment u-hover">
-                                <footer>
-                                    <img class="avatar-md border img-fluid float-start me-3"
-                                         src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar2.png"
-                                         alt="avatar">
-                                    <div class="title-comments">
-                                        <a class="authors" href="#" target="_blank">Jennifer Tan</a>
-                                        <span class="text-muted dates small">
-												<time datetime="2019-10-27">Oct 27, 2019 at 12:11 am</time>
-											</span>
-                                        <div class="comment-content">
-                                            <p>News magazine bootstrap themes!</p>
-                                        </div>
-                                        <div class="btn-reply">
-                                            <a class="comment-reply" href="#">Reply</a>
-                                        </div>
-                                    </div>
-                                </footer>
-                            </div>
-                        </li>
+                                    </footer>
+                                </div>
+                            </li>
+                        </th:block>
                     </ol>
+                    <div class="comment-form">
+                        <h3>Bình luận</h3>
+                        <p><a href="#">Đăng nhập email để bình luận về bài viết</a></p>
+                        <textarea id="comment-content"
+                                aria-label="dạng bình luận"
+                                class="form-control"
+                                placeholder="Bình luận"
+                                rows="4"
+                                required=""
+                        ></textarea>
+                        <button type="button" class="btn btn-primary" id="btn-comment">
+                            Đăng bình luận
+                        </button>
+<!--                        <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-primary disabled">-->
+<!--                            Đăng bình luận-->
+<!--                        </button>-->
+                    </div>
                 </div>
             </div>
             <aside class="col-md-4 end-sidebar-lg">
@@ -420,9 +428,46 @@
 </body>
 <th:block id="js">
     <script th:inline="javascript">
+        const blog = [[${blog}]];
         const categories = [[${isExistInSavedList}]]
         console.log(1)
         console.log(categories)
+        console.log(2)
+        
+        const commentContentEl = document.getElementById("comment-content");
+        const btnPostComment = document.getElementById("btn-comment");
+        let isValid = true;
+
+        btnPostComment.addEventListener("click", async (e) => {
+            try {
+                const content = commentContentEl.value;
+                console.log(content)
+                if (content.length === 0) {
+                    toastr.error("Bạn cần nhập nội dung bình luận!");
+                    isValid = false;
+                }
+                const request = {
+                    content
+                }
+                if (isValid) {
+                    let res = await axios.post("/api/v1/comments/" + blog.id, request);
+                    console.log(content)
+                    if (res.status === 200) {
+                        e.preventDefault()
+                        location.reload()
+                        toastr.success("Đăng bình luận thành công");
+                        commentContentEl.value = "";
+                        // alert(`Đăng ký thành công bạn sẽ nhận được các bài báo mới vào 6 giờ sáng mỗi ngày tại địa chỉ email - ${emailVal}`)
+                    } else {
+                        toastr.error("Không thành công")
+                    }
+                }
+            } catch (err) {
+                toastr.warning(err.response.data.message);
+                console.log(err);
+            }
+        })
+        
     </script>
 </th:block>
 </html>

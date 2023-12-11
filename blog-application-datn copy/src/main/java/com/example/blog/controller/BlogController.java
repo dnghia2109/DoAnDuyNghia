@@ -139,6 +139,19 @@ public class BlogController {
     }
 
     // TODO: Danh sách các bài viết bị từ chối phê duyệt (các tác giả)
+    //    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
+        @GetMapping("/dashboard/blogs/pending")
+        public String getBlogsPendingByUserPage(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                                @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                                                Model model) {
+            Page<BlogDto> pageInfoDto = blogService.getBlogsPendingByUser(page, pageSize);
+            model.addAttribute("page", pageInfoDto);
+            model.addAttribute("currentPage", page);
+            return "admin/blog/blog-not-approve";
+        }
+
+
+    // TODO: Danh sách các bài viết bị từ chối phê duyệt (các tác giả)
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     @GetMapping("/dashboard/blogs/not-approve")
     public String getBlogsNotApprovePage(@RequestParam(required = false, defaultValue = "1") Integer page,
