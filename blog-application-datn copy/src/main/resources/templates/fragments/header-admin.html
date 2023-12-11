@@ -82,7 +82,7 @@
                             <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                                 <a th:href="@{/dashboard/blogs/not-approve}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Bài viết không hợp lệ</p>
+                                    <p>Bài viết chưa được phê duyệt</p>
                                 </a>
                             </li>
                             <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'AUTHOR')">
