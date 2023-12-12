@@ -42,20 +42,22 @@
             <div class="container mt-4">
                 <div class="row form-row">
                     <div class="col-md-3 mb-3">
-                        <label for="startDate">Start Date:</label>
-                        <input type="date" class="form-control" id="startDate" name="startDate">
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="endDate">End Date:</label>
-                        <input type="date" class="form-control" id="endDate" name="endDate">
+                        <label for="input-time">Thời gian</label>
+                        <select name="" id="input-time" class="form-control">
+                            <option value="all">Tất cả</option>
+                            <option value="1day">1 ngày qua</option>
+                            <option value="1week">1 tuần qua</option>
+                            <option value="1month">1 tháng qua</option>
+                            <option value="1year">1 năm qua</option>
+                        </select>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="keyword">Keyword:</label>
-                        <input type="text" class="form-control" id="keyword" name="keyword">
+                        <input type="text" class="form-control" id="keyword" th:value="${keyword}">
                     </div>
                     <div class="col-md-2 mb-3">
                         <label>Tìm kiếm</label>
-                        <button type="submit" class="btn btn-primary btn-block">Search</button>
+                        <button type="submit" class="btn btn-primary btn-block" id="btn-search">Search</button>
                     </div>
                 </div>
                 <!-- Display search results here if needed -->
@@ -68,37 +70,37 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">
-                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?page={pageNumber}&sortField=id&sortDir={sortDir} (pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
+                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?keyword={keyword}&time={time}&page={pageNumber}&sortField=id&sortDir={sortDir} (keyword=${keyword}, time=${time},pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
                                             ID
                                         </a>
                                         <i th:if="${sortField == 'id'}" th:class="${sortDir == 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}"></i>
                                     </th>
                                     <th class="text-center">
-                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?page={pageNumber}&sortField=title&sortDir={sortDir} (pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
+                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?keyword={keyword}&time={time}&page={pageNumber}&sortField=title&sortDir={sortDir} (keyword=${keyword}, time=${time},pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
                                             Tiêu đề
                                         </a>
                                         <i th:if="${sortField == 'title'}" th:class="${sortDir == 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}"></i>
                                     </th>
                                     <th class="text-center">
-                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?page={pageNumber}&sortField=user&sortDir={sortDir} (pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
+                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?keyword={keyword}&time={time}&page={pageNumber}&sortField=user&sortDir={sortDir} (keyword=${keyword}, time=${time},pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
                                             Tác giả
                                         </a>
                                         <i th:if="${sortField == 'user'}" th:class="${sortDir == 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}"></i>
                                     </th>
                                     <th class="text-center">
-                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?page={pageNumber}&sortField=category&sortDir={sortDir} (pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
+                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?keyword={keyword}&time={time}&page={pageNumber}&sortField=category&sortDir={sortDir} (keyword=${keyword}, time=${time},pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
                                             Danh mục
                                         </a>
                                         <i th:if="${sortField == 'category'}" th:class="${sortDir == 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}"></i>
                                     </th>
                                     <th class="text-center">
-                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?page={pageNumber}&sortField=status&sortDir={sortDir} (pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
+                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?keyword={keyword}&time={time}&page={pageNumber}&sortField=status&sortDir={sortDir} (keyword=${keyword}, time=${time},pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
                                             Trạng thái
                                         </a>
                                         <i th:if="${sortField == 'status'}" th:class="${sortDir == 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}"></i>
                                     </th>
                                     <th class="text-center">
-                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?page={pageNumber}&sortField=createdAt&sortDir={sortDir} (pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
+                                        <a th:style="'color: black'" th:href="@{/dashboard/admin/blogs?keyword={keyword}&time={time}&page={pageNumber}&sortField=createdAt&sortDir={sortDir} (keyword=${keyword}, time=${time},pageNumber=${currentPage}, sortDir=${sortReverseDir})}">
                                             Ngày tạo
                                         </a>
                                         <i th:if="${sortField == 'createdAt'}" th:class="${sortDir == 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}"></i>
@@ -108,18 +110,18 @@
                                 <tbody>
                                 <th:block th:with="blogList = ${page1.getContent()}">
                                     <tr th:each="blog : ${blogList}">
-                                        <td th:text="${blog.id}"></td>
+                                        <td class="text-center" th:text="${blog.id}"></td>
                                         <td>
                                             <a th:href="@{/dashboard/blogs/{id}/detail  (id=${blog.id})}" th:text="${blog.title}">Khai giảng khóa</a>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a href="#" th:text="${blog.author}">John Doe</a>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <span class="badge bg-info mr-1" th:text="${blog.category.name}"></span>
                                         </td>
-                                        <td th:text="${blog.status ? 'Công khai' : 'Nháp'}">Công khai</td>
-                                        <td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>
+                                        <td class="text-center" th:text="${blog.status ? 'Công khai' : 'Nháp'}">Công khai</td>
+                                        <td class="text-center" th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>
                                     </tr>
                                 </th:block>
                                 </tbody>
@@ -128,20 +130,23 @@
                             <div class="d-flex justify-content-center mt-3" id="pagination">
                                 <ul class="pagination mb-0">
                                     <li class="paginate_button page-item previous" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
-                                        id="example2_previous">
-                                        <a th:href="@{/dashboard/admin/blogs?page={pageNumber}&sortField={sortField}&sortDir={sortDir} (pageNumber=${currentPage-1}, sortDir=${sortDir}, sortField=${sortField})}" aria-controls="example2" data-dt-idx="0" tabindex="0"
-                                           class="page-link">Previous</a>
+                                        id="example2_previous" th:data-page="${currentPage - 1}">
+<!--                                        <a th:href="@{/dashboard/admin/blogs?keyword={keyword}&startDate={startDate}&endDate={endDate}&page={pageNumber}&sortField={sortField}&sortDir={sortDir} (keyword=${keyword}, startDate=${startDate}, endDate=${endDate} ,pageNumber=${currentPage-1}, sortDir=${sortDir}, sortField=${sortField})}" aria-controls="example2" data-dt-idx="0" tabindex="0"-->
+<!--                                           class="page-link">Previous</a>-->
+                                        <a class="page-link">Previous</a>
                                     </li>
                                     <th:block th:with="numbers = ${T(com.example.blog.utils.Utils).createList(page1.getTotalPages())}">
-                                        <li th:each="number : ${numbers}" class="paginate_button page-item" th:classappend="${number == currentPage ? 'active' : ''}">
-                                            <a th:href="@{/dashboard/admin/blogs?page={pageNumber}&sortField={sortField}&sortDir={sortDir} (pageNumber=${number}, sortDir=${sortDir}, sortField=${sortField})}" aria-controls="example2" data-dt-idx="1" tabindex="0"
-                                               class="page-link" th:text="${number}">1</a>
+                                        <li th:each="number : ${numbers}" class="paginate_button page-item" th:classappend="${number == currentPage ? 'active' : ''}" th:data-page="${number}">
+<!--                                            <a th:href="@{/dashboard/admin/blogs?keyword={keyword}&startDate={startDate}&endDate={endDate}&page={pageNumber}&sortField={sortField}&sortDir={sortDir} (keyword=${keyword}, startDate=${startDate}, endDate=${endDate} ,pageNumber=${number}, sortDir=${sortDir}, sortField=${sortField})}" aria-controls="example2" data-dt-idx="1" tabindex="0"-->
+<!--                                               class="page-link" th:text="${number}">1</a>-->
+                                            <a class="page-link" th:text="${number}"></a>
                                         </li>
                                     </th:block>
                                     <li class="paginate_button page-item next" th:classappend="${currentPage == page1.getTotalPages() ? 'disabled' : ''}"
-                                        id="example2_next">
-                                        <a th:href="@{/dashboard/admin/blogs?page={pageNumber}&sortField={sortField}&sortDir={sortDir} (pageNumber=${currentPage+1}, sortDir=${sortDir}, sortField=${sortField})}" aria-controls="example2" data-dt-idx="7" tabindex="0"
-                                           class="page-link">Next</a>
+                                        id="example2_next" th:data-page="${currentPage + 1}">
+<!--                                        <a th:href="@{/dashboard/admin/blogs?keyword={keyword}&startDate={startDate}&endDate={endDate}&page={pageNumber}&sortField={sortField}&sortDir={sortDir} (keyword=${keyword}, startDate=${startDate}, endDate=${endDate} ,pageNumber=${currentPage+1}, sortDir=${sortDir}, sortField=${sortField})}" aria-controls="example2" data-dt-idx="7" tabindex="0"-->
+<!--                                           class="page-link">Next</a>-->
+                                        <a class="page-link">Next</a>
                                     </li>
                                 </ul>
                             </div>
@@ -154,10 +159,10 @@
 </div>
 </body>
 <th:block id="javascript">
-    <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+<!--    <script type="module" src="https://md-block.verou.me/md-block.js"></script>-->
     <script th:src="@{/assets/lib/prism.js}"></script>
     <script th:inline="javascript">
-
+        const currentPage = [[${currentPage}]]
         document.addEventListener("DOMContentLoaded", function() {
             const allLinks = document.querySelectorAll('a');
             allLinks.forEach(function(link) {
@@ -171,7 +176,81 @@
             });
         });
 
+        // Parse thông tin từ param vào inputStartDateValue
+        document.addEventListener("DOMContentLoaded", function() {
+            const keywordEl = document.getElementById("keyword");
+            const timeOptionEl = document.getElementById("input-time");
 
+            // Parse và hiển thị giá trị time
+            const timeParam = new URLSearchParams(window.location.search).get("time");
+            if (timeParam) {
+                timeOptionEl.value = timeParam;
+            }
+
+            // Parse và hiển thị giá trị keyword
+            const keywordParam = new URLSearchParams(window.location.search).get("keyword");
+            if (keywordParam) {
+                keywordEl.value = keywordParam;
+            }
+        });
+
+        const btnSearchEl = document.getElementById('btn-search');
+        const keywordEl = document.getElementById("keyword");
+        const timeOptionEl = document.getElementById("input-time")
+        // const startDateEl = document.getElementById("startDate");
+        // const endDateEl = document.getElementById('endDate');
+
+        
+        btnSearchEl.addEventListener("click", async (e) => {
+            // let momentObject = moment(startDateEl.value);
+            // const inputStartDateValue = momentObject.format('YYYY-MM-DDTHH:mm:ss.SSSSSS');
+            //  momentObject = moment(endDateEl.value);
+            // const inputEndDateValue = momentObject.format('YYYY-MM-DDTHH:mm:ss.SSSSSS');
+            console.log(keywordEl.value);
+            console.log("========" + timeOptionEl.value);
+            // console.log("====== \n" + inputStartDateValue);
+            // console.log("====== \n" + inputEndDateValue);
+            try {
+                window.location.href =`/dashboard/admin/blogs?keyword=${keywordEl.value}&time=${timeOptionEl.value}&page=1`;
+                // if (res.status === 200) {
+                //     toastr.success("Cập nhật bài viết thành công");
+                // } else {
+                //     toastr.error("Cập nhật bài viết thất bại");
+                // }
+                // setTimeout(() => {
+                //     e.preventDefault()
+                //     location.reload();
+                // }, 1500);
+            } catch (e) {
+                toastr.warning(e.response.data.message);
+                console.log(e);
+            }
+        })
+
+        document.querySelectorAll('.paginate_button').forEach(btn => {
+            btn.addEventListener('click', function () {
+                let page = btn.dataset.page;
+                console.log(page)
+
+                // if url has query params
+                if (window.location.search) {
+                    console.log(1, window.location.search)
+                    // get query params in url
+                    const urlParams = new URLSearchParams(window.location.search);
+                    // add page param to query params
+                    urlParams.set('page', page);
+
+                    // TODO: if page = 1 => remove page param from query params
+
+                    // set query params to url
+                    window.location.search = urlParams.toString();
+                } else {
+                    // if url has not query params
+                    // add query params to url
+                    window.location.search = `?page=${page}`;
+                }
+            })
+        })
 
 
         console.log(1)
@@ -182,9 +261,7 @@
         const urlParams = new URLSearchParams(queryString);
         let param = urlParams.get("category");
         console.log(`${queryString} \n ======== \n ${urlParams}`)
-
-
-
+        
     </script>
 </th:block>
 

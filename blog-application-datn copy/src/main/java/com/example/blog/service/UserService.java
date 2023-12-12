@@ -19,7 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -30,6 +32,7 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final ImageService imageService;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
 
 
@@ -165,5 +168,12 @@ public class UserService {
         return new UserDto(user);
     }
 
+    public void sendComplexEmail() {
+        Map<String, Object> model = new HashMap<>();
+        model.put("name", "Nguyễn Minh Duy");
+        model.put("content", "<p>This is a <strong>complex</strong> email with HTML content and CSS styling.</p>");
+
+        mailService.sendEmailWithTemplate("duy@gmail.com", "Important Notification", model, "mail/feedback");
+    }
 
 }

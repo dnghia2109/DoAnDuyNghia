@@ -64,7 +64,7 @@ public class BlogController {
     }
 
     // TODO: Tìm kiếm bài vết (test)
-    @GetMapping("/api/blogs/")
+    @GetMapping("/api/v1/blogs/")
     public ResponseEntity<?> getSearchBlogs(@RequestParam(required = false, defaultValue = "1") Integer page,
                                             @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                                             @RequestParam(required = false, defaultValue = "id") String sortField,
@@ -75,6 +75,20 @@ public class BlogController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("X-Total-Count", String.valueOf(result.getTotalElements()));
         return new ResponseEntity<>(result, httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/v1/admin/blogs/")
+    public ResponseEntity<?> getSearchBlogsAdmin(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                                 @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                                                 @RequestParam(required = false, defaultValue = "id") String sortField,
+                                                 @RequestParam(required = false, defaultValue = "asc") String sortDir,
+                                                 @RequestParam(required = false, defaultValue = "") String keyword,
+                                                 @RequestParam(name = "startDate", required = false)
+                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                                 @RequestParam(name = "endDate", required = false)
+                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+        Page<BlogDto> pageInfoDto = blogService.getSearchBlogs(page, pageSize, sortField, sortDir, keyword, startDate, endDate);
+        return new ResponseEntity<>(pageInfoDto, HttpStatus.OK);
     }
 
     /*
@@ -93,21 +107,17 @@ public class BlogController {
                                @RequestParam(required = false, defaultValue = "id") String sortField,
                                @RequestParam(required = false, defaultValue = "asc") String sortDir,
                                @RequestParam(required = false, defaultValue = "") String keyword,
-                               @RequestParam(required = false, defaultValue = "") String time,
-                               @RequestParam(name = "startDate", required = false)
-                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                               @RequestParam(name = "endDate", required = false)
-                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                               @RequestParam(required = false, defaultValue = "all") String time,
                                Model model) {
-//        Page<BlogDto> pageInfoDto = blogService.getBlogDto(page, pageSize);
-//        Page<BlogDto> pageInfoDto = blogService.getBlogsDashboard(page, pageSize, sortField, sortDir, keyword, time);
-        Page<BlogDto> pageInfoDto = blogService.getSearchBlogs(page, pageSize, sortField, sortDir, keyword, startDate, endDate);
+        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, time);
         String sortReverseDirection = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
         model.addAttribute("page1", pageInfoDto);
         model.addAttribute("currentPage", page);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortReverseDir", sortReverseDirection);
         model.addAttribute("sortDir", sortDir);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("time", time);
         return "admin/blog/blog-index";
     }
 
@@ -138,8 +148,8 @@ public class BlogController {
         return "admin/blog/blog-pending";
     }
 
-    // TODO: Danh sách các bài viết bị từ chối phê duyệt (các tác giả)
-    //    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
+    // TODO: Danh sách các bài viết đang trong trạng thái chờ duyệt (các tác giả)
+        @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
         @GetMapping("/dashboard/blogs/pending")
         public String getBlogsPendingByUserPage(@RequestParam(required = false, defaultValue = "1") Integer page,
                                                 @RequestParam(required = false, defaultValue = "10") Integer pageSize,

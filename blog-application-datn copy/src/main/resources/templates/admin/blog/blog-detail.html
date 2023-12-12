@@ -213,15 +213,8 @@
 <th:block id="js">
 <!--    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
-
     <script th:src="@{/admin-assets/admin-lte/plugins/summernote/summernote-bs4.min.js}"></script>
     <script th:src="@{/admin-assets/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
-
-<!--    <script th:src="@{/admin-lte/plugins/select2/js/select2.full.min.js}"></script>-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"
-            integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <script th:src="@{/assets/js/blog-detail.js}"></script> <!--Đoạn này là js xử lý image-->
     <script th:inline="javascript">
         const blog = [[${blog}]];

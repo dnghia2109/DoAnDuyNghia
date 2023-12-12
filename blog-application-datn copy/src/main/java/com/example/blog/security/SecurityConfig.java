@@ -161,38 +161,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/homepage/**", "/admin/login", "/api/v1/**").permitAll()
-                .antMatchers("/dashboard/blogs/own-blogs",
-                             "/dashboard/blogs/create", "/dashboard/blogs/{id}/detail",
-                             "/api/v1/admin/blogs/**")
-                    .hasAnyRole("AUTHOR", "ADMIN")
-                .antMatchers("/api/v1/admin/**","/dashboard/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-//                .antMatchers("/profile").hasRole("USER")
-//                .antMatchers("/admin/blogs").hasAnyRole("EDITOR", "ADMIN")
-//                .antMatchers("/admin/users").hasRole("ADMIN")
-//                .and()
-//                    .formLogin()
-//                    .loginPage("/login")
-//                    .loginProcessingUrl("/login-process")
-//                    .usernameParameter("username")
-//                    .passwordParameter("password")
-//                    .defaultSuccessUrl("/", true)
-//                    .permitAll()
-                .and()
-                    .logout()
-                    .logoutUrl("/api/v1/admin/logout")
-                    .logoutSuccessUrl("/")
-                    .deleteCookies("JSESSIONID")
-                    .invalidateHttpSession(true)
-                    .permitAll()
-                .and()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(customAuthenticationEntryPoint)
-                    .accessDeniedHandler(customAccessDenied)
-                .and()
-                    .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
+            .csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/homepage/**", "/admin/login", "/api/v1/**").permitAll()
+            .antMatchers("/dashboard/blogs/own-blogs",
+                         "/dashboard/blogs/create", "/dashboard/blogs/{id}/detail",
+                         "/api/v1/admin/blogs/**")
+                .hasAnyRole("AUTHOR", "ADMIN")
+            .antMatchers("/api/v1/admin/**","/dashboard/admin/**").hasRole("ADMIN")
+            .anyRequest().authenticated()
+            .and()
+                .logout()
+                .logoutUrl("/api/v1/admin/logout")
+                .logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .permitAll()
+            .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(customAuthenticationEntryPoint)
+                .accessDeniedHandler(customAccessDenied)
+            .and()
+                .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

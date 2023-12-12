@@ -11,13 +11,12 @@
         <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/select2/css/select2.min.css}"/>
         <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
-
-<!--        <link rel="stylesheet" th:href="@{/admin-lte/plugins/select2/css/select2.min.css}"/>-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
               integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
               crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-        <link rel="stylesheet" th:href="@{/admin-lte/dist/css/style.css}">
+<!--        <link rel="stylesheet" th:href="@{/admin-lte/dist/css/style.css}">-->
+<!--        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/dist/css/style.css}">-->
         <style>
             .modal-dialog {
                 max-width: 1000px;
@@ -140,13 +139,24 @@
                                             </select>
                                         </div>
                                     </div>
+<!--                                    <div class="form-group">-->
+<!--                                        <div class="thumbnail-preview-container mb-3">-->
+<!--                                            <img src="https://placehold.co/600x400" alt="" id="thumbnail"/>-->
+<!--                                            &lt;!&ndash;                                            <img th:src="${(blog.thumbnail != null) ? blog.thumbnail : 'https://placehold.co/600x400'}" alt="" id="thumbnail"/>&ndash;&gt;-->
+<!--                                        </div>-->
+<!--                                        <button type="button" class="btn btn-info btn-flat" data-toggle="modal"-->
+<!--                                                data-target="#modal-xl" id="btn-modal-image">-->
+<!--                                            Chọn hình ảnh-->
+<!--                                        </button>-->
+<!--                                    </div>-->
+                                    
+                                    <!--Code mới-->
                                     <div class="form-group">
-                                        <div class="thumbnail-preview-container mb-3">
-                                            <img src="https://placehold.co/600x400" alt="" id="thumbnail"/>
-                                            <!--                                            <img th:src="${(blog.thumbnail != null) ? blog.thumbnail : 'https://placehold.co/600x400'}" alt="" id="thumbnail"/>-->
+                                        <div class="image-preview-container mb-3">
+                                            <img src="https://placehold.co/1000x600" alt="" id="image"/>
                                         </div>
-                                        <button type="button" class="btn btn-info btn-flat" data-toggle="modal"
-                                                data-target="#modal-xl" id="btn-modal-image">
+                                        <button type="button" class="btn btn-info btn-flat rounded" data-toggle="modal"
+                                                data-target="#modal-image" id="btn-modal-image">
                                             Chọn hình ảnh
                                         </button>
                                     </div>
@@ -160,11 +170,47 @@
     </section>
 
     <!--Modal chọn anh-->
-    <div class="modal fade" id="modal-xl" aria-hidden="true">
+<!--    <div class="modal fade" id="modal-xl" aria-hidden="true">-->
+<!--        <div class="modal-dialog modal-xl">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h4 class="modal-title">Danh sách ảnh</h4>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">×</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <div class="d-flex justify-content-between">-->
+<!--                        <div>-->
+<!--                            <button class="btn btn-success" id="btn-chose-image" disabled>Chọn ảnh</button>-->
+
+<!--                            <label for="avatar" class="btn btn-warning mb-0">Upload ảnh</label>-->
+<!--                            <input type="file" id="avatar" class="d-none">-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <button class="btn btn-danger" id="btn-delete-image" disabled>Xóa ảnh</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; Hiển thị danh sách ảnh &ndash;&gt;-->
+<!--                    <div class="image-container mt-4 mb-4">-->
+<!--                        <div class="image-item">-->
+<!--                            <img src="https://images.unsplash.com/photo-1656918931725-2f9d9fce4acb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60" alt="">-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Hiển thị phần phân trang &ndash;&gt;-->
+<!--                    <div class="pagination-container d-flex justify-content-center">-->
+
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="modal fade" id="modal-image" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Danh sách ảnh</h4>
+                    <h5 class="modal-title">Danh sách hình ảnh</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -173,9 +219,9 @@
                     <div class="d-flex justify-content-between">
                         <div>
                             <button class="btn btn-success" id="btn-chose-image" disabled>Chọn ảnh</button>
-
-                            <label for="avatar" class="btn btn-warning mb-0">Upload ảnh</label>
-                            <input type="file" id="avatar" class="d-none">
+                            
+                            <label for="input-image" class="btn btn-warning mb-0">Upload ảnh</label>
+                            <input type="file" id="input-image" class="d-none">
                         </div>
                         <div>
                             <button class="btn btn-danger" id="btn-delete-image" disabled>Xóa ảnh</button>
@@ -183,14 +229,12 @@
                     </div>
                     <!-- Hiển thị danh sách ảnh -->
                     <div class="image-container mt-4 mb-4">
-                        <div class="image-item">
-                            <img src="https://images.unsplash.com/photo-1656918931725-2f9d9fce4acb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60" alt="">
-                        </div>
+                    
                     </div>
-
+                    
                     <!-- Hiển thị phần phân trang -->
-                    <div class="pagination-container d-flex justify-content-center">
-
+                    <div class="image-pagination-container d-flex justify-content-center">
+                    
                     </div>
                 </div>
             </div>
@@ -200,16 +244,14 @@
 
 <th:block id="js">
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-    <script th:src="@{/assets/js/custom.js}"></script>
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
 
     <script th:src="@{/admin-assets/admin-lte/plugins/summernote/summernote-bs4.min.js}"></script>
     <script th:src="@{/admin-assets/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"
-            integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script th:src="@{/assets/js/blog-detail.js}"></script> <!--Đoạn này là js xử lý image-->
+    
+    <!--Đoạn này là js xử lý image-->
+<!--    <script th:src="@{/assets/js/blog-detail.js}"></script> -->
+    <script th:src="@{/admin-assets/assets/js/image-managent.js}"></script>
 
     <script th:inline="javascript">
         //Initialize Select2 Elements
@@ -250,7 +292,8 @@
         const statusEl = document.getElementById("status")
         const categoryEl = $("#category");
         // const tagEl = $("#tag");
-        const thumbnailEl = document.getElementById("thumbnail");
+        // const thumbnailEl = document.getElementById("thumbnail");
+        const thumbnailEl = document.getElementById("image");
         const tagsSelect = document.getElementById("select-tag")
 
         const getTagsChose = () => {

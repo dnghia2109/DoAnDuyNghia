@@ -25,6 +25,28 @@ ul li {
     list-style: none;
 }
 
+.huy span {
+    position: relative;
+    margin-right: 20px;
+    width: fit-content;
+}
+
+.huy span::before {
+    position: absolute;
+    top: 54%;
+    left: 117%;
+    transform: translate(60%, -50%);
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #000;
+}
+
+.huy span:last-child::before {
+    background-color: #ffffff;
+}
+
 /* Todo: Start Search */
 
 .header-main-top {
@@ -144,13 +166,31 @@ ul li {
 }
 
 /* Thiết lập kích thước của thanh cuộn dọc (vertical scrollbar) */
+/* .navication ul::-webkit-scrollbar {
+  width: 6px;
+  background-color: red;
+  cursor: pointer;
+  height: 4px;
+  /* Kích thước chiều rộng của thanh cuộn */
 .navication ul::-webkit-scrollbar {
-    width: 6px; /* Kích thước chiều rộng của thanh cuộn */
+    width: 10px;
+    height: 5px;
+}
+
+.navication ul::-webkit-scrollbar-track{
+    background-color:rgb(230, 230, 230);
+    border-radius: 10px;
+    width: 10px !important;
+    color: #4f46e5;
+
 }
 
 /* Thiết lập kích thước của thanh cuộn ngang (horizontal scrollbar) */
-.navication ul::-webkit-scrollbar {
-    height: 6px; /* Kích thước chiều cao của thanh cuộn */
+.navication ul::-webkit-scrollbar-thumb {
+    background: rgb(160, 160, 160);
+    border-radius: 10px;
+    height: 20px !important;
+    width: 10px !important;
 }
 
 .user-main {
@@ -293,6 +333,8 @@ h4.h5.border-primary.border-2 {
 
 .comment-list {
     list-style: none;
+    max-height: 400px;
+    overflow: scroll;
 }
 
 .comment-list li .user-comment {
@@ -335,6 +377,11 @@ span.text-muted.dates.small {
 
 .comment-list li {
     margin-bottom: 20px;
+}
+
+/* Todo: Add */
+.comment-form .btn-primary {
+    margin-top: 20px;
 }
 
 .block-title-4 {
