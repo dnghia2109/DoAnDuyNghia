@@ -15,10 +15,11 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        if (request.getRequestURI().startsWith("/api/v1/admin") || request.getRequestURI().startsWith("/dashboard")) {
-            response.sendRedirect("/admin/login");
-            return;
-        }
+//        if (request.getRequestURI().startsWith("/api/v1/admin") || request.getRequestURI().startsWith("/dashboard")) {
+////            response.sendRedirect("/admin/login");
+////            response.sendRedirect("/error/error-401");
+//            return;
+//        }
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
     }
 }

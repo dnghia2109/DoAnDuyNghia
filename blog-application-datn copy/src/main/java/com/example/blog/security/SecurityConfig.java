@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -119,6 +120,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService customUserDetailService;
 
+    @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    @Autowired
+    private CustomAccessDenied customAccessDenied;
+
+
     @Bean
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -145,18 +152,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder());
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/admin-assets/**","/admin-lte/**","/assets/**", "/css/**", "/img/**",
+                "/js/**", "/vendor/**" ,"/error/**");
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/homepage/**", "/admin/login", "/api/v1/**").permitAll()
                 .antMatchers("/dashboard/blogs/own-blogs",
                              "/dashboard/blogs/create", "/dashboard/blogs/{id}/detail",
                              "/api/v1/admin/blogs/**")
                     .hasAnyRole("AUTHOR", "ADMIN")
                 .antMatchers("/api/v1/admin/**","/dashboard/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
 //                .antMatchers("/profile").hasRole("USER")
 //                .antMatchers("/admin/blogs").hasAnyRole("EDITOR", "ADMIN")
 //                .antMatchers("/admin/users").hasRole("ADMIN")
@@ -175,6 +188,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .deleteCookies("JSESSIONID")
                     .invalidateHttpSession(true)
                     .permitAll()
+                .and()
+                    .exceptionHandling()
+                    .authenticationEntryPoint(customAuthenticationEntryPoint)
+                    .accessDeniedHandler(customAccessDenied)
                 .and()
                     .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
     }

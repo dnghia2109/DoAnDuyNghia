@@ -18,6 +18,8 @@ public class CustomAccessDenied implements AccessDeniedHandler {
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.info("FORBIDDEN");
+//        response.sendRedirect("/error/error-403");
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+
     }
 }

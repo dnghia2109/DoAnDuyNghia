@@ -1,7 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <title>Không tìm thấy</title>
+    <link rel="stylesheet" href="/admin-assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/error.css}"/>
+</head>
 <body>
-<h1> Sorry, we couldn't find the page you were looking for. </h1>
-<p><a href="/">Go Home</a></p>
+<!--<h1> Bạn cần đăng nhập. </h1>-->
+<!--<p><a href="/admin/login">Go Home</a></p>-->
+<!--<main id="main-content" class="error-div">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <img th:src="@{/img/404.png}" alt="404" class="img-fluid">-->
+<!--            <p>Không tìm thấy trang</p>-->
+<!--            <a href="/homepage">-->
+<!--                <button class="btn btn-secondary">Quay về trang chủ</button>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</main>-->
+
+<!--ver2-->
+<!--<div class="container">-->
+<!--    <h1>:(</h1><br>-->
+<!--    <h2>A <span>404</span> error occured, Page not found, check the URL and try again.</h2><br><br>-->
+<!--    <h3><a href="#">Return to home</a>&nbsp;|&nbsp;<a href="javascript:history.back()">Go Back</a></h3>-->
+<!--</div>-->
+
+<!--ver3-->
+<div class="wrap-error">
+    <div class="d-flex align-items-center h-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2 text-center text-white">
+                    <h1 class=""><span>4</span><span>0</span><span>4</span></h1>
+<!--                    <h5 class="">Oops! Page not found</h5>-->
+                    <h5 class="">Không tìm thấy</h5>
+                    <p class="mb-4">chúng tôi xin lỗi, nhưng trang bạn yêu cầu không được tìm thấy</p>
+                    <button class="btn btn-group" href="/admin/login" title="Đăng nhập">
+                        Đăng nhập
+                    </button>
+                    <button class="btn btn-dark" href="/homepage" title="Trang chủ">
+                        Trang chủ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/admin-assets/admin-lte/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin-assets/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
