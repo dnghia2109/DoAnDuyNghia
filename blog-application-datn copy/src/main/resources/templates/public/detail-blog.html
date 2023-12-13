@@ -12,25 +12,26 @@
 <main class="main">
     <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 navigation-item">
                 <div class="huy">
-                    <span>huy</span>/
-                    <span>huy01</span>/
-                    <span>title</span>
-                    <th:block sec:authorize="isAuthenticated()">
-                        <span th:if="${isExistInSavedList}">Đã nằm trong saved list</span>
-                        <span th:if="${!isExistInSavedList}">Không nằm trong saved list</span>
-                    </th:block>
+                    <p>Trang chủ</p>
+                    <p th:text="${blog.category.name}">huy01</p>
+                    <p th:text="${blog.title}">title</p>
+                    
                 </div>
+                <th:block sec:authorize="isAuthenticated()">
+                    <p th:if="${isExistInSavedList}">Đã nằm trong saved list</p>
+                    <p th:if="${!isExistInSavedList}">Không nằm trong saved list</p>
+                </th:block>
             </div>
             <div class="col-12 mt-1 mb-3 text-white">
                 <div class="position-relative">
                     <div class="ratio_1140-535 image-wrapper">
-                        <img class="igm-fluid lazy entered loaded"
+                        <img th:src="${blog.thumbnail}" class="igm-fluid lazy entered loaded"
                              src="https://demo.bootstrap.news/bootnews/assets/img/1140x535/img5.jpg" alt="">
                     </div>
                     <div class="position-absolute p-3 b-0 w-100 bg-shadow">
-                        <a href="#" class="badge bg-primary text-white rounded-0">Holiday</a>
+                        <a href="#" class="badge bg-primary text-white rounded-0" th:text="${blog.category.name}">Holiday</a>
                         <h1 th:text="${blog.title}" class="h1 display-md-4 display-3-lg fw-bold mt-2 text-white">5 Simple Tips to Help
                             Vegetarian or Vegan
                             Travelers Eat Well, Anywhere</h1>
@@ -50,7 +51,7 @@
                                         </path>
                                     </svg> Oct 22, 2019
                                 </time>
-                                <span class="ms-2 ms-md-3">
+                                <span class="ms-2 ms-md-3"  >
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              fill="currentColor" class="bi bi-eye me-1" viewBox="0 0 16 16">
 											<path
@@ -59,7 +60,8 @@
 											<path
                                                     d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z">
 											</path>
-										</svg> 1.230x view
+										</svg>
+                                    <span th:text="${blog.views} + ' views'">1.230x view</span>
 									</span>
                             </div>
                         </div>
@@ -222,14 +224,10 @@
 					</span>
                 <div class="entry-footer">
                     <div class="tags-area">
-                        <ul class="tags-links tagcloud ps-0">
-                            <li><span class="fw-bold me-2">Tags</span></li>
-                            <li><a href="#">travel</a></li>
-                            <li><a href="#">cheap</a></li>
-                            <li><a href="#">holiday</a></li>
-                            <li><a href="#">dollar</a></li>
-                            <li><a href="#">fun</a></li>
-                            <li><a href="#">world</a></li>
+                        <ul class="tags-links tagcloud ps-0 fw-bold me-2" >Tags
+                            <th:block th:each="tag:${blog.tags}">
+                                <li><a href="#" th:text="${tag.name}">travel</a></li>
+                            </th:block>
                         </ul>
                     </div>
                 </div>
@@ -264,8 +262,9 @@
                             <li>
                                 <div class="user-comment u-hover">
                                     <footer>
-                                        <img class="avatar-md border img-fluid float-start me-3"
+                                        <img class="avatar-md border img-fluid float-start me-3" th:src="${comment.author.getAvatar()}"
                                              src="https://demo.bootstrap.news/bootnews/assets/img/avatar/avatar1.png"
+                                             
                                              alt="avatar">
                                         <div class="title-comments">
                                             <a class="authors" href="#" target="_blank" th:text="${comment.author.name}">Jennifer Tan</a>
