@@ -288,21 +288,21 @@
     <div class="advertisement01 ads-main">
         <div class="ads-qc">
             <i class='bx bx-x' id="closeAds1"></i>
-            <img class="fixed-image" src="https://adi.admicro.vn/adt/adn/2023/10/banner-G1GeFmK4zu.jpeg" alt="">
+            <img id="advertisement-left" class="fixed-image" src="https://adi.admicro.vn/adt/adn/2023/10/banner-G1GeFmK4zu.jpeg" alt="">
         </div>
     </div>
     
     <div class="advertisement02 ads-main" id="">
         <div class="ads-qc">
             <i class='bx bx-x' id="closeAds2"></i>
-            <img class="fixed-image" src="https://adi.admicro.vn/adt/adn/2023/10/banner-G1GeFmK4zu.jpeg" alt="">
+            <img id="advertisement-right" class="fixed-image" src="https://adi.admicro.vn/adt/adn/2023/10/banner-G1GeFmK4zu.jpeg" alt="">
         </div>
     </div>
     
     <div class="gif-qc">
         <div class="ads-qc">
             <i class='bx bx-x' id="closeAds3"></i>
-            <img class="fixed-image" src="https://drivadz.vn/media/uploads/cms/Untitled1.gif" alt="">
+            <img id="advertisement-bottom" class="fixed-image" src="https://drivadz.vn/media/uploads/cms/Untitled1.gif" alt="">
         </div>
     </div>
 </main>
@@ -310,6 +310,27 @@
 <th:block id="js">
     <script th:inline="javascript">
         console.log(1)
+        // render advertisement
+        const advertisementLeftSide = [[${advertisementListOnLeftSide}]]
+        const advertisementRightSide = [[${advertisementListOnRightSide}]]
+        const advertisementBottom = [[${advertisementListBottom}]]
+        console.log({advertisementLeftSide, advertisementRightSide, advertisementBottom})
+        
+        const imageLinks = []
+        advertisementLeftSide.forEach(advertisement => imageLinks.push(advertisement.url) )
+        console.log(imageLinks)
+        
+        const imageAdLeftSide = document.getElementById("advertisement-left");
+        let currentImageIndex = 0;
+        function changeImage() {
+            imageAdLeftSide.src = imageLinks[currentImageIndex];
+            currentImageIndex = (currentImageIndex + 1) % imageLinks.length;
+        }
+
+        // Đặt thời gian thay đổi liên kết ảnh sau mỗi 3 giây
+        setInterval(changeImage, 5000);
+
+        
         let isValid = true;
         const btnSubcribe = document.getElementById("btn-subcribe");
         const emailSubcribeEl = document.getElementById("email-subcribe");

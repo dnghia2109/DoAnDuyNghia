@@ -85,7 +85,8 @@
 
 
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="main-fragment(title, css, content, js)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="main-fragment(title, css, content, js)">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -145,7 +146,7 @@
     <!--<script th:src="@{/admin-assets/admin-lte/plugins/pagination/pagination.min.js}"></script>-->
     <script th:src="@{/admin-assets/admin-lte/dist/js/adminlte.js}"></script>
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
-    <script th:src="@{/js/logout.js}"></script>
+    <script sec:authorize="authenticated" th:src="@{/js/logout.js}"></script>
     
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
