@@ -46,13 +46,13 @@ btnCreate.addEventListener('click', function () {
     };
 
     console.log(data)
-
-    axios.post('/api/v1/admin/banners', data)
+    // '/api/v1/admin/banners'
+    axios.post( '/api/v1/admin/advertisement', data)
         .then(function (response) {
             if (response.status === 200) {
                 toastr.success('Tạo banner thành công');
                 setTimeout(function () {
-                    window.location.href = `/admin/banners/${response.data.id}/detail`;
+                    window.location.href = `/dashboard/admin/banners/${response.data.id}/detail`;
                 }, 1500);
             } else {
                 toastr.error('Tạo banner thất bại');

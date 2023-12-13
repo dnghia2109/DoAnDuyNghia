@@ -10,7 +10,7 @@ let imageList = [];
 btnModalImage.addEventListener("click", async () => {
     try {
         // Goi API
-        const res = await axios.get("/api/v1/files");
+        const res = await axios.get("/api/v1/files"); // Lấy ra các ảnh đã được upload bởi user đang login
 
         // Lưu lại kết quả trả về từ server
         imageList = res.data;
