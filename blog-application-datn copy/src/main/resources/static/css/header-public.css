@@ -41,6 +41,10 @@ ul li {
     cursor: pointer;
 }
 
+.header-main-top img {
+    width: 170px;
+}
+
 .search-box {
     max-width: 1200px;
     margin: 0 auto;

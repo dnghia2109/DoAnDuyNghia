@@ -39,12 +39,12 @@ a:focus {
 }
 .footer {
     padding: 100px 0px 0px;
-    background-color: #030a16;
+    background-color: #f8f8f8;
 }
 
 .footer .widget1 p {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.6);
+    color: #000000;
     margin-top: 26px;
 }
 
@@ -72,6 +72,10 @@ a:focus {
     transition: all 0.3s ease-in-out;
 }
 
+.socialLinks ul li a {
+    text-decoration: none;
+}
+
 .socialLinks ul li a .fa-facebook-f {
     color: #4267b2;
 }
@@ -89,7 +93,7 @@ a:focus {
 }
 
 .socialLinks ul li a:hover i {
-    color: #fff;
+    color: #ffffff;
 }
 
 .socialLinks ul li a:hover .fa-facebook-f {
@@ -116,7 +120,7 @@ footer .logo {
     margin-bottom: 28px;
     text-transform: capitalize;
     font-weight: 600;
-    color: #fff;
+    color: #000000;
     font-size: 21px;
 }
 
@@ -126,7 +130,7 @@ footer .logo {
 }
 .footer .widget2 .media p {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.8);
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
@@ -136,7 +140,7 @@ footer .logo {
 
 .footer .widget2 .media span {
     font-size: 12px;
-    color: #ffb606;
+    color: #000000;
     text-transform: uppercase;
     margin-top: 15px;
     display: block;
@@ -149,22 +153,24 @@ footer .logo {
 .footer .widget3 ul li a,
 .footer .widget4 ul li a {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.6);
     text-transform: capitalize;
     margin-bottom: 13px;
     display: block;
 }
 
-.footer .widget3 ul li a:hover,
-.footer .widget4 ul li a:hover,
-.footer .widget2 a:hover p {
-    color: #ffb606;
+.widget3 a,
+.widget4 a {
+    color: #000000 ;
+}
+.widget-footer a:hover {
+    color: #1fa7f1;
+    /* text-decoration: none; */
 }
 
 .footer .widget3 h5 {
     margin-bottom: 22px;
     font-weight: 600;
-    color: #fff;
+    color: #000000;
     font-size: 21px;
     line-height: 32px;
 }
@@ -172,7 +178,7 @@ footer .logo {
 .footer .widget4 h5 {
     margin-bottom: 22px;
     font-weight: 600;
-    color: #fff;
+    color: #000000;
     font-size: 21px;
 }
 
@@ -183,7 +189,7 @@ footer .logo {
 }
 
 .copyRightArea p {
-    color: rgba(255, 255, 255, 0.6);
+    color: #000000;
 }
 /* Todo: End Footer */
 /*FooterFooterEnd*/
