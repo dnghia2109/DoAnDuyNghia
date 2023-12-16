@@ -70,8 +70,9 @@ public class BlogController {
                                             @RequestParam(required = false, defaultValue = "id") String sortField,
                                             @RequestParam(required = false, defaultValue = "asc") String sortDir,
                                             @RequestParam(required = false, defaultValue = "") String keyword,
+                                            @RequestParam(required = false, defaultValue = "") Integer categoryId,
                                             @RequestParam(required = false, defaultValue = "") String time) {
-        Page<BlogDto> result = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, time);
+        Page<BlogDto> result = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, categoryId, time);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("X-Total-Count", String.valueOf(result.getTotalElements()));
         return new ResponseEntity<>(result, httpHeaders, HttpStatus.OK);
@@ -107,9 +108,10 @@ public class BlogController {
                                @RequestParam(required = false, defaultValue = "id") String sortField,
                                @RequestParam(required = false, defaultValue = "asc") String sortDir,
                                @RequestParam(required = false, defaultValue = "") String keyword,
+                               @RequestParam(required = false, defaultValue = "") Integer categoryId,
                                @RequestParam(required = false, defaultValue = "all") String time,
                                Model model) {
-        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, time);
+        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, categoryId, time);
         String sortReverseDirection = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
         model.addAttribute("page1", pageInfoDto);
         model.addAttribute("currentPage", page);

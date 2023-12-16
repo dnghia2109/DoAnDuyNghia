@@ -100,14 +100,20 @@ public class CategoryService {
     * @update:
     *
     * */
+    // TODO: Danh sách các category
 
-    // TODO: Lấy ra danh sách tất cả các category (USER)
+    // TODO: Lấy ra danh sách các category hiển thị bài viết ở trang chủ(USER)
     public List<CategoryDto> getAllCategoryPublic() {
-        List<CategoryDto> categoryDtos = categoryRepository.findAllCategoryPublic().stream().map(category -> {
-            CategoryDto categoryDto = new CategoryDto(category);
-            categoryDto.setBlogs(blogService.getBlogsEachCate(category.getId()));
-            return categoryDto;
-        }).collect(Collectors.toList());
+        List<String> categoryNames = List.of("Thời sự", "Xã hội", "Thế giới", "Kinh tế", "Thể thao", "Văn hóa",
+                "Pháp luật", "Giáo dục", "Việc làm", "Xe", "Công nghệ", "Bất động sản", "Du lịch", "Kinh Doanh", "Sức khỏe");
+        List<CategoryDto> categoryDtos = categoryRepository.findAllCategoryPublic().stream()
+//            .filter(category -> categoryNames.contains(category.getName()))
+            .map(category -> {
+                CategoryDto categoryDto = new CategoryDto(category);
+                categoryDto.setBlogs(blogService.getBlogsEachCate(category.getId()));
+                return categoryDto;
+            })
+            .collect(Collectors.toList());
         return categoryDtos;
     }
 

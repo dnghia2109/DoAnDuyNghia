@@ -38,6 +38,7 @@ a:focus {
     min-height: 100vh;
 }
 .footer {
+    margin-top: 31px;
     padding: 100px 0px 0px;
     background-color: #f8f8f8;
 }

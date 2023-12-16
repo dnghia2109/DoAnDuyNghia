@@ -8,6 +8,7 @@ import com.example.blog.entity.Blog;
 import com.example.blog.entity.Category;
 import com.example.blog.entity.Tag;
 import com.example.blog.entity.User;
+import com.example.blog.exception.BadRequestException;
 import com.example.blog.exception.NotFoundException;
 import com.example.blog.mapper.BlogMapper;
 import com.example.blog.repository.BlogRepository;
@@ -80,7 +81,7 @@ public class BlogService {
         Blog blog =  blogRepository.findById(id).orElseThrow(() -> {
             throw new NotFoundException("Not found blog with id = " + id);
         });
-        blog.setViews(blog.getViews());
+        blog.setViews(blog.getViews() + 1);
         return BlogMapper.toDto(blog);
     }
 
@@ -177,6 +178,7 @@ public class BlogService {
         });
 
         blog.setApprovalStatus(EApprovalStatus.APPROVE);
+        blog.setPublishedAt(LocalDateTime.now());
         blog.setNote(null);
         blogRepository.save(blog);
 
@@ -215,8 +217,18 @@ public class BlogService {
     // TODO: Lấy ra 5 bài viết mới nhất cho mỗi category và có trạng thái hợp lệ (client)
     public List<BlogDto> getBlogsEachCate(Integer categoryId) {
         return blogRepository.getBlogsByCategory(categoryId).stream()
-                .sorted(Comparator.comparing(Blog::getCreatedAt).reversed())
-                .limit(5).map(BlogDto::new).collect(Collectors.toList());
+            .sorted(Comparator.comparing(Blog::getPublishedAt).reversed())
+            .limit(5).map(blog -> {
+                BlogDto blogDto = new BlogDto();
+                blogDto.setId(blog.getId());
+                blogDto.setTitle(blog.getTitle());
+                blogDto.setAuthor(blog.getUser().getName());
+                blogDto.setSlug(blog.getSlug());
+                blogDto.setThumbnail(blog.getThumbnail());
+                blogDto.setDescription(blog.getDescription());
+                blogDto.setPublishedAt(blog.getPublishedAt());
+                return blogDto;
+            }).collect(Collectors.toList());
     }
 
     // TODO: Lấy ra 5 bài viết mới nhất trong hệ thống (client)
@@ -277,14 +289,14 @@ public class BlogService {
     }
 
     // method chuẩn
-    public Page<BlogDto> getSearchBlogsTest(Integer page, Integer pageSize, String sortField, String sortDirection, String keyword, String time) {
+    public Page<BlogDto> getSearchBlogsTest(Integer page, Integer pageSize, String sortField, String sortDirection, String keyword, Integer categoryId, String time) {
         LocalDateTime searchStartTime = Utils.convertTimeStringToLocalDateTime(time);
         LocalDateTime searchEndTime = LocalDateTime.now();
         if (searchStartTime == null) {
             return blogRepository.findAllByStatusAndApprovalStatus(EApprovalStatus.APPROVE, keyword, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
         }
         Page<BlogDto> searchResult = blogRepository
-                .searchBlogs(keyword, searchStartTime, searchEndTime , EApprovalStatus.APPROVE, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)))
+                .searchBlogs(keyword, categoryId, searchStartTime, searchEndTime , EApprovalStatus.APPROVE, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)))
                 .map(BlogDto::new);
         return searchResult;
     }
@@ -306,5 +318,27 @@ public class BlogService {
         return Sort.unsorted();
     }
 
-        
+
+    public List<BlogDto> getLastestNewsWithTagTinNong() {
+        Tag tag = tagRepository.findByName("tinnong")
+                .orElseThrow(() -> new BadRequestException("Không tìm thấy tag tinnong"));
+//        List<BlogDto> blogDtoList = blogRepository.findByTag(tag).stream().map(BlogDto::new).collect(Collectors.toList());
+        List<BlogDto> blogDtoList = blogRepository.findByTags_Id(tag.getId()).stream()
+                .sorted(Comparator.comparing(Blog::getPublishedAt).reversed())
+                .limit(5)
+                .map(blog -> {
+                    BlogDto blogDto = new BlogDto();
+                    blogDto.setId(blog.getId());
+                    blogDto.setTitle(blog.getTitle());
+                    blogDto.setAuthor(blog.getUser().getName());
+                    blogDto.setSlug(blog.getSlug());
+                    blogDto.setCategory(blog.getCategory());
+                    blogDto.setThumbnail(blog.getThumbnail());
+                    blogDto.setDescription(blog.getDescription());
+                    blogDto.setPublishedAt(blog.getPublishedAt());
+                    return blogDto;
+                })
+                .collect(Collectors.toList());
+        return blogDtoList;
+    }
 }

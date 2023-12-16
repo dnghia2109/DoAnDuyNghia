@@ -50,6 +50,14 @@ ul li {
 
 .image-wrapper {
     position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.image-wrapper img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .main-text-title {
@@ -59,6 +67,13 @@ ul li {
     color: #ffff;
 }
 
+.main-text-title-ts {
+    position: absolute;
+    bottom: 110%;
+    left: 20px;
+    color: #000000;
+}
+
 .content-breaking {
     font-size: 14px;
     margin-left: 20px;
@@ -66,7 +81,8 @@ ul li {
 
 .featured-1 img {
     width: 100% !important;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 
 .col-md-6.pt-05.ps-md-05 {
@@ -128,7 +144,8 @@ span.d-none.d-sm-inline.me-1 {
 
 .card-full img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 
 article.card.card-full.hover-a.mb-4 {
@@ -144,6 +161,29 @@ article.card.card-full.hover-a.mb-4 .col-9.col-md-8 {
 h3.card-title-child.h6.h5-sm.h6-lg a {
     text-decoration: none !important;
 }
+
+.card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Số dòng tối đa muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+}
+
+
+/*.image-wrapper-small {*/
+/*    width: 269px; !* Đặt chiều rộng của container *!*/
+/*    height: 168px; !* Đặt chiều cao của container *!*/
+/*    overflow: hidden; !* Ẩn nội dung vượt quá kích thước container *!*/
+/*}*/
+
+/*.image-wrapper-small img {*/
+/*    width: 100%; !* Ảnh sẽ lấp đầy toàn bộ chiều rộng của container *!*/
+/*    height: 100%; !* Ảnh sẽ lấp đầy toàn bộ chiều cao của container *!*/
+/*    object-fit: cover; !* Giữ tỷ lệ khung và cắt ảnh để lấp đầy container *!*/
+/*    object-position: center center; !* Căn giữa ảnh trong container *!*/
+/*}*/
 
 /* .main-detal-news {
     padding: ;

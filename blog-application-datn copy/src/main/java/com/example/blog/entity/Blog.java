@@ -107,9 +107,9 @@ public class Blog {
     @PreUpdate
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
-        if(status) {
-            publishedAt = updatedAt;
-        }
+//        if(status) {
+//            publishedAt = updatedAt;
+//        }
     }
 
     // Xóa cate thì list cate của blog cũng xóa

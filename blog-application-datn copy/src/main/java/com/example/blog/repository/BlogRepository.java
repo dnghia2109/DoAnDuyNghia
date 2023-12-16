@@ -4,6 +4,7 @@ import com.example.blog.constant.EApprovalStatus;
 import com.example.blog.dto.BlogDto;
 import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.entity.Blog;
+import com.example.blog.entity.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -87,9 +88,10 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
             "FROM Blog b " +
             "WHERE b.status = true AND b.approvalStatus = :approvalStatus " +
             "  AND (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "  AND (:categoryId IS NULL OR b.category.id = :categoryId) " +
             "  AND (:startDate IS NULL OR b.publishedAt >= :startDate) " +
             "  AND (:endDate IS NULL OR b.publishedAt <= :endDate)")
-    Page<Blog> searchBlogs(String keyword, LocalDateTime startDate, LocalDateTime endDate, EApprovalStatus approvalStatus, Pageable pageable);
+    Page<Blog> searchBlogs(String keyword, Integer categoryId, LocalDateTime startDate, LocalDateTime endDate, EApprovalStatus approvalStatus, Pageable pageable);
 
     @Query("SELECT b FROM Blog b WHERE b.status = 1 AND b.approvalStatus = :approvalStatus AND (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     Page<BlogDto> findAllByStatusAndApprovalStatus(EApprovalStatus approvalStatus, String keyword, Pageable pageable);
@@ -102,4 +104,10 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
             " (:time = 'one-month' AND b.publishedAt >= CURRENT_TIMESTAMP - 30) OR" +
             " (:time = 'one-year' AND b.publishedAt >= CURRENT_TIMESTAMP     - 365))")
     Page<Blog> searchBlogsByFilter(@Param("keyword") String keyword, @Param("time") String time, Pageable pageable);
+
+    @Query("select b from Blog b inner join b.tags tags where tags.id = ?1 and b.status = 1 and b.approvalStatus = 'APPROVE'")
+    List<Blog> findByTags_Id(Integer id);
+
+//    @Query("select b from Blog b where b.tags.c")
+//    List<Blog> findByTag(Tag tag);
 }

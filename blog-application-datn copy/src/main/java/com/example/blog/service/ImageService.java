@@ -69,7 +69,7 @@ public class ImageService {
     }
 
     public boolean checkFileExtension(String fileExtension) {
-        List<String> fileExtensions = List.of("png", "jpg", "jpeg", "gif");
+        List<String> fileExtensions = List.of("png", "jpg", "jpeg", "gif", "webp");
         return fileExtensions.contains(fileExtension);
     }
 

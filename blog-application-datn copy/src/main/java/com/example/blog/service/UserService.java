@@ -35,57 +35,9 @@ public class UserService {
     private final MailService mailService;
 
 
-
-    // Lấy chi tiết user theo id
-    public UserPublic getUserById(Integer id) {
-        User user = userRepository.findById(id).orElseThrow(() -> {
-            throw new NotFoundException("Not found user with id = " + id);
-        });
-
-        return UserPublic.of(user);
-    }
-
-    // Tạo user
-    public UserPublic createUser(CreateUserRequest request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new BadRequestException("Email = " + request.getEmail() + " is existed");
-        }
-
-        // List Role
-        List<Role> roleList = roleRepository.findByIdIn(request.getRoleIds());
-
-        User user = User.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .roles(roleList)
-                .build();
-
-        userRepository.save(user);
-        return UserPublic.of(user);
-    }
-
-    // Cập nhật thông tin user
-//    public UserPublic updateUser(Integer id, UpdateUserRequest request) {
-//        User user = userRepository.findById(id).orElseThrow(() -> {
-//            throw new NotFoundException("Not found user with id = " + id);
-//        });
-//
-//        // List Role
-//        List<Role> roleList = roleRepository.findByIdIn(request.getRoleIds());
-//
-//        user.setName(request.getName());
-//        user.setRoles(roleList);
-//
-//        userRepository.save(user);
-//        return UserPublic.of(user);
-//    }
-
     // Thay đổi avatar
-    public Image uploadAvatar(Integer id, MultipartFile file) {
-        User user = userRepository.findById(id).orElseThrow(() -> {
-            throw new NotFoundException("Not found user with id = " + id);
-        });
+    public String updateAvatar(MultipartFile file) {
+        User user = iCurrentUser.getUser();
 
         // Upload file
         Image image = imageService.uploadFile(file);
@@ -93,7 +45,7 @@ public class UserService {
         user.setAvatar("/api/v1/files/" + image.getId());
         userRepository.save(user);
 
-        return image;
+        return user.getAvatar();
     }
 
     /*

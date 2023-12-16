@@ -89,4 +89,8 @@ public class AdvertisementService {
         }
         return optionalAdvertisement.get();
     }
+
+    public List<Advertisement> getAdvertisementByDisplayOrder(Integer displayOrder) {
+        return advertisementRepository.findAllByDisplayOrder(displayOrder);
+    }
 }

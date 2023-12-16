@@ -152,18 +152,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder());
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/admin-assets/**","/admin-lte/**","/assets/**", "/css/**", "/img/**",
-                "/js/**", "/vendor/**" ,"/error/**");
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/admin-assets/**","/admin-lte/**","/assets/**", "/css/**", "/img/**",
+//                "/js/**", "/vendor/**" ,"/error/**");
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/homepage/**", "/admin/login", "/api/v1/**").permitAll()
+                .antMatchers("/admin-assets/**","/admin-lte/**","/assets/**", "/css/**", "/img/**",
+                        "/js/**", "/vendor/**" ,"/error/**").permitAll()
+            .antMatchers("/homepage/**", "/admin/login", "/api/v1/**", "/blogs", "/register/**").permitAll()
             .antMatchers("/dashboard/blogs/own-blogs",
                          "/dashboard/blogs/create", "/dashboard/blogs/{id}/detail",
                          "/api/v1/admin/blogs/**")
