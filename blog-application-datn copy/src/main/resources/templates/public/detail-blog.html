@@ -5,24 +5,40 @@
     <meta charset="UTF-8">
     <title th:text="${blog.title}">VnNews</title>
     <th:block id="css">
-        <link rel="stylesheet" th:href="@{/css/blog-detail.css}">
+        <link rel="stylesheet" th:href="@{/css/blog-detail2.css}">
     </th:block>
 </head>
 <body>
 <main class="main">
     <div class="container">
         <div class="row">
-            <div class="col-12 navigation-item">
+            <div class="col-12">
                 <div class="huy">
-                    <p>Trang chủ</p>
-                    <p th:text="${blog.category.name}">huy01</p>
-                    <p th:text="${blog.title}">title</p>
-                    
+<!--                    <p>Trang chủ</p>-->
+<!--                    <p th:text="${blog.category.name}">huy01</p>-->
+<!--                    <p th:text="${blog.title}">title</p>-->
+                    <span>Trang chủ</span>
+                    <span th:text="${blog.category.name}">huy01</span>
+                    <span th:text="${blog.title}">title</span>
+<!--                    <span>huydsf dsf dsfdsfsdfsdf dsf sdf</span>-->
+<!--                    <span>huy01</span>-->
+<!--                    <span>title</span>-->
                 </div>
-                <th:block sec:authorize="isAuthenticated()">
-                    <p th:if="${isExistInSavedList}">Đã nằm trong saved list</p>
-                    <p th:if="${!isExistInSavedList}">Không nằm trong saved list</p>
-                </th:block>
+                
+<!--                <th:block sec:authorize="isAnonymous()">-->
+<!--                    <button class="btn btn-light" onclick="requireLogin()"><i class="fa-regular fa-heart"></i></button>-->
+<!--                </th:block>-->
+<!--                <th:block sec:authorize="isAuthenticated()">-->
+<!--&lt;!&ndash;                    <p th:if="${isExistInSavedList}">Đã nằm trong saved list</p>&ndash;&gt;-->
+<!--                    <button th:if="${isExistInSavedList}" id="saved-blog-icon"  class="btn btn-light">-->
+<!--                        <i style="color: #4b4b41" class="fa-solid fa-bookmark"></i>-->
+<!--                    </button>-->
+<!--                    -->
+<!--&lt;!&ndash;                    <p th:if="${!isExistInSavedList}">Không nằm trong saved list</p>&ndash;&gt;-->
+<!--                    <button th:if="${!isExistInSavedList}" class="btn btn-light">-->
+<!--                        <i style="color: #4b4b41" class="fa-solid fa-bookmark"></i>-->
+<!--                    </button>-->
+<!--                </th:block>-->
             </div>
             <div class="col-12 mt-1 mb-3 text-white">
                 <div class="position-relative">
@@ -37,9 +53,9 @@
                             Travelers Eat Well, Anywhere</h1>
                         <div class="post-atribute mb-3">
                             <div class="my-3 text-light small">
-									<span class="d-none d-sm-inline">
-										by <a class="fw-bold text-light" href="#l" th:text="${blog.author}">John Doe</a>
-									</span>
+                                <span class="d-none d-sm-inline">
+                                    by <a class="fw-bold text-light" href="#l" th:text="${blog.author}">John Doe</a>
+                                </span>
                                 <time class="ms-0 ms-sm-2 ms-md-3" datetime="2019-10-22">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                          fill="currentColor" class="bi bi-calendar-check me-1" viewBox="0 0 16 16">
@@ -52,176 +68,52 @@
                                     </svg> Oct 22, 2019
                                 </time>
                                 <span class="ms-2 ms-md-3"  >
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-eye me-1" viewBox="0 0 16 16">
-											<path
-                                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z">
-											</path>
-											<path
-                                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z">
-											</path>
-										</svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-eye me-1" viewBox="0 0 16 16">
+                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z">
+                                        </path>
+                                        <path
+                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z">
+                                        </path>
+                                    </svg>
                                     <span th:text="${blog.views} + ' views'">1.230x view</span>
-									</span>
+                                </span>
+                                <span class="like-mark">
+                                    <i class="bx bxs-bookmark-alt-plus"></i>
+                                </span>
+<!--                                <span class="ms-2 ms-md-3">-->
+<!--                                    <th:block sec:authorize="isAnonymous()">-->
+<!--                                        <button class="btn btn-light" onclick="requireLogin()">Lưu bài viết <i class="fa-regular fa-heart"></i></button>-->
+<!--                                    </th:block>-->
+<!--                                    <th:block sec:authorize="isAuthenticated()">-->
+<!--                                        &lt;!&ndash;                    <p th:if="${isExistInSavedList}">Đã nằm trong saved list</p>&ndash;&gt;-->
+<!--                                        <button th:if="${isExistInSavedList}" id="saved-blog-icon" class="btn btn-light">-->
+<!--                                            <i style="color: #178824" class="fa-solid fa-bookmark"></i>-->
+<!--                                            <span>Đã lưu bài viết</span>-->
+<!--                                        </button>-->
+<!--                                        -->
+<!--                                        &lt;!&ndash;                    <p th:if="${!isExistInSavedList}">Không nằm trong saved list</p>&ndash;&gt;-->
+<!--                                        <button th:if="${!isExistInSavedList}" class="btn btn-light">-->
+<!--                                            Lưu bài viết   <i style="color: #4b4b41" class="fa-solid fa-bookmark"></i>-->
+<!--                                        </button>-->
+<!--                                    </th:block>-->
+<!--                                </span>-->
                             </div>
                         </div>
                     </div>
                 </div>
+                <button sec:authorize="isAnonymous()" onclick="requireLogin()" class="btn btn-primary mt-2"> <i class='bx bxs-bookmark-alt-plus'></i>Lưu bài viết</button>
+                <button sec:authorize="isAuthenticated()" class="btn btn-success mt-2" th:if="${isExistInSavedList}" onclick="openModalConfirmDeleteSaveBlog()">
+                    <i class='bx bxs-bookmark-alt'></i> Đã lưu bài viết
+                </button>
+                <button sec:authorize="isAuthenticated()" class="btn btn-primary mt-2" th:if="${!isExistInSavedList}" onclick="saveBlog()">
+                    <i class='bx bxs-bookmark-alt-plus'></i> Lưu bài viết
+                </button>
             </div>
             <div class="col-md-8">
-					<span th:utext="${blog.content}">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
-						classical
-						Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
-						professor at
-						Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,
-						from a Lorem
-						Ipsum passage, and going through the cites of the word in classical literature, discovered the
-						undoubtable
-						source.
-
-						Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The
-						Extremes of Good
-						and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very
-						popular during
-						the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a
-						line in section
-						1.10.32.
-
-						Arrow list
-						At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-						Itaque earum rerum hic tenetur a sapiente delectus
-						which of us ever undertakes laborious physical exercise
-						Et harum quidem rerum facilis est et expedita distinctio
-						Itaque earum rerum hic tenetur a sapiente delectus
-						which of us ever undertakes laborious physical exercise
-						There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-						alteration in
-						some form, by injected humourorem Ipsum is simply dummy text of the printing and typesetting
-						industry. Lorem
-						Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-						took a
-						galley of type and scrambled it to make a type specimen book. It has survived not only five
-						centuries, but
-						also the leap into electronic typesetting, remaining essentially unchanged. It was popularised
-						in the 1960s
-						with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
-						desktop
-						publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-						Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
-						classical
-						Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
-						professor at
-						Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,
-						from a Lorem
-						Ipsum passage, and going through the cites of the word in classical literature, discovered the
-						undoubtable
-						source.
-
-						Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The
-						Extremes of Good
-						and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very
-						popular during
-						the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a
-						line in section
-						1.10.32.
-
-						Arrow list
-						At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-						Itaque earum rerum hic tenetur a sapiente delectus
-						which of us ever undertakes laborious physical exercise
-						Et harum quidem rerum facilis est et expedita distinctio
-						Itaque earum rerum hic tenetur a sapiente delectus
-						which of us ever undertakes laborious physical exercise
-						There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-						alteration in
-						some form, by injected humourorem Ipsum is simply dummy text of the printing and typesetting
-						industry. Lorem
-						Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-						took a
-						galley of type and scrambled it to make a type specimen book. It has survived not only five
-						centuries, but
-						also the leap into electronic typesetting, remaining essentially unchanged. It was popularised
-						in the 1960s
-						with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
-						desktop
-						publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-						Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
-						classical
-						Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
-						professor at
-						Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,
-						from a Lorem
-						Ipsum passage, and going through the cites of the word in classical literature, discovered the
-						undoubtable
-						source.
-
-						Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The
-						Extremes of Good
-						and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very
-						popular during
-						the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a
-						line in section
-						1.10.32.
-
-						Arrow list
-						At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-						Itaque earum rerum hic tenetur a sapiente delectus
-						which of us ever undertakes laborious physical exercise
-						Et harum quidem rerum facilis est et expedita distinctio
-						Itaque earum rerum hic tenetur a sapiente delectus
-						which of us ever undertakes laborious physical exercise
-						There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-						alteration in
-						some form, by injected humourorem Ipsum is simply dummy text of the printing and typesetting
-						industry. Lorem
-						Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-						took a
-						galley of type and scrambled it to make a type specimen book. It has survived not only five
-						centuries, but
-						also the leap into electronic typesetting, remaining essentially unchanged. It was popularised
-						in the 1960s
-						with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
-						desktop
-						publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-						Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
-						classical
-						Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
-						professor at
-						Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,
-						from a Lorem
-						Ipsum passage, and going through the cites of the word in classical literature, discovered the
-						undoubtable
-						source.
-
-						Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The
-						Extremes of Good
-						and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very
-						popular during
-						the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a
-						line in section
-						1.10.32.
-
-						Arrow list
-						At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-						Itaque earum rerum hic tenetur a sapiente delectus
-						which of us ever undertakes laborious physical exercise
-						Et harum quidem rerum facilis est et expedita distinctio
-						Itaque earum rerum hic tenetur a sapiente delectus
-						which of us ever undertakes laborious physical exercise
-						There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-						alteration in
-						some form, by injected humourorem Ipsum is simply dummy text of the printing and typesetting
-						industry. Lorem
-						Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-						took a
-						galley of type and scrambled it to make a type specimen book. It has survived not only five
-						centuries, but
-						also the leap into electronic typesetting, remaining essentially unchanged. It was popularised
-						in the 1960s
-						with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
-						desktop
-						publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-					</span>
+                <span th:utext="${blog.content}">
+                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
+                </span>
                 <div class="entry-footer">
                     <div class="tags-area">
                         <ul class="tags-links tagcloud ps-0 fw-bold me-2" >Tags
@@ -274,7 +166,7 @@
                                             <div class="comment-content">
                                                 <p th:text="${comment.content}">News magazine bootstrap themes!</p>
                                             </div>
-                                            <div style="display: flex; justify-content: flex-start">
+                                            <div style="display: flex; justify-content: end">
                                                 <div class="btn-reply">
                                                     <a class="comment-reply" href="#" th:onclick="|openModalUpdate(${comment.id})|">Sửa</a>
                                                 </div>
@@ -458,6 +350,47 @@
             </aside>
         </div>
     </div>
+    
+    <!-- Modal require login-->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Thông báo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn cần đăng nhập để lưu bài viết.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <a href="/admin/login" target="_blank" class="btn btn-primary" data-dismiss="modal">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="confirmDeleteSavedBlog" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Xác nhận</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn chắc chắn muốn xóa bài viết khỏi Danh sách đã lưu ?.</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-confirm-save-blog" onclick="deleteSavedBlog()" class="btn btn-primary">Đồng ý</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 </body>
 <th:block id="js">
@@ -474,6 +407,7 @@
 
         btnPostComment.addEventListener("click", async (e) => {
             try {
+                e.preventDefault();
                 const content = commentContentEl.value;
                 console.log(content)
                 if (content.length === 0) {
@@ -487,10 +421,11 @@
                     let res = await axios.post("/api/v1/comments/" + blog.id, request);
                     console.log(content)
                     if (res.status === 200) {
-                        e.preventDefault()
-                        location.reload()
                         toastr.success("Đăng bình luận thành công");
                         commentContentEl.value = "";
+                        setTimeout(() => {
+                            location.reload()
+                        })
                         // alert(`Đăng ký thành công bạn sẽ nhận được các bài báo mới vào 6 giờ sáng mỗi ngày tại địa chỉ email - ${emailVal}`)
                     } else {
                         toastr.error("Không thành công")
@@ -501,6 +436,45 @@
                 console.log(err);
             }
         })
+
+        const requireLogin = () => {
+            $('#loginModal').modal('show');
+        }
+        
+        const openModalConfirmDeleteSaveBlog = () => {
+            $('#confirmDeleteSavedBlog').modal('show');
+        }
+        const deleteSavedBlog = async (e) => {
+            try {
+                let res = await axios.delete("/api/v1/blogs/saved-list/" + blog.id +"?type=detail-page")
+
+                if(res.status === 200) {
+                    toastr.success("Xóa thành công!");
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500)
+                }
+            } catch (err) {
+                toastr.error(err.response.data.message);
+                console.log(err)
+            }
+        }
+        
+        const saveBlog = async (e) => {
+            try {
+                let res = await axios.post("/api/v1/blogs/saved-list/" + blog.id)
+                if(res.status === 200) {
+                    toastr.success("Lưu bài viết thành công!");
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500)
+                }
+            } catch (err) {
+                toastr.error(err.response.data.message);
+                console.log(err)
+            }
+        }
+        
         
     </script>
 </th:block>

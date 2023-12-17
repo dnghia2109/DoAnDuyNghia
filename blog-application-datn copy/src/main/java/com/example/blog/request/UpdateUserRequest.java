@@ -7,10 +7,18 @@ import lombok.Setter;
 
 import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class UpdateUserRequest {
     private String name;
-    private String password;
     private List<Integer> roleIds;
+    private String oldPassword;
+    private String newPassword;
+    private String confirmPassword;
+
+    public UpdateUserRequest(String name) {
+        this.name = name;
+    }
 }

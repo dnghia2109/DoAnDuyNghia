@@ -131,6 +131,13 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    // Người dùng update mật khẩu
+    @PutMapping("/api/v1/user/password")
+    public ResponseEntity<?> updateUserPassword(@RequestBody UpdateUserRequest request) {
+        userService.updatePassword(request);
+        return ResponseEntity.ok("Cập nhật mật khẩu thành công!");
+    }
+
     // TODO: Người dùng đăng ký nhận tin tức qua email
     @PostMapping("/api/v1/user/subcribe-news")
     public ResponseEntity<?> subcribeReceiveNews(@RequestBody ReceiveNewsRequest request) {

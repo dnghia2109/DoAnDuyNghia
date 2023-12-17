@@ -92,7 +92,7 @@ public class UserService {
         User currentUser = userOptional.get();
 
         currentUser.setName(request.getName());
-        currentUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        currentUser.setPassword(passwordEncoder.encode(request.getNewPassword()));
         currentUser.setRoles(roleRepository.findByIdIn(request.getRoleIds()));
         //currentUser.setEnabled(true);
         return userRepository.save(currentUser);
@@ -118,6 +118,29 @@ public class UserService {
         user.setName(request.getName());
         userRepository.save(user);
         return new UserDto(user);
+    }
+
+    // TODO: Cập nhật mật khẩu
+    public void updatePassword(UpdateUserRequest request) {
+        User user = iCurrentUser.getUser();
+
+        // check old password correct
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new BadRequestException("Mật khẩu cũ không đúng!");
+        }
+
+        // check new password and confirm password match
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            throw new BadRequestException("Mật khẩu mới và xác nhận mật khẩu không khớp!");
+        }
+
+        // check new password and old password match
+        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
+            throw new BadRequestException("Mật khẩu mới không được trùng với mật khẩu cũ!");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 
     public void sendComplexEmail() {

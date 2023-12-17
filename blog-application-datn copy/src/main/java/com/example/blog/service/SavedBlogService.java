@@ -43,21 +43,31 @@ public class SavedBlogService {
                 .user(curUser)
                 .build();
         savedBlogRepository.save(savedBlog);
+        blog.setViews(blog.getViews() - 1);
+        blogRepository.save(blog);
         return new SavedBlogDto(savedBlog);
     }
 
     // TODO: Người dùng xoá blog khỏi danh sách
-    public void removeSavedBlog(Integer savedBlogId) {
+    public void removeSavedBlog(Integer blogId, String type) {
         User curUser = iCurrentUser.getUser();
-//        SavedBlog savedBlog = savedBlogRepository.findById(savedBlogId).orElseThrow(() -> {
-//            throw new NotFoundException("Không tìm thấy bài viết được lưu có id - " + savedBlogId);
-//        });
-        SavedBlog savedBlog = savedBlogRepository.findByIdBlog(savedBlogId, curUser).orElseThrow(() -> {
-            throw new NotFoundException("Không tìm thấy bài viết được lưu có id - " + savedBlogId);
+        SavedBlog savedBlog = savedBlogRepository.findByIdBlog(blogId, curUser).orElseThrow(() -> {
+            throw new NotFoundException("Không tìm thấy bài viết được lưu có id - " + blogId);
         });
+
+        // Khắc phục trường hợp xóa blog khỏi DS lưu làm tăng lượt view
+        if (type.equalsIgnoreCase("detail-page")) {
+            Blog blog = blogRepository.findById(blogId).orElseThrow(() -> {
+                throw new NotFoundException("Không tìm thấy bài viết có id - " + blogId);
+            });
+            blog.setViews(blog.getViews() - 1);
+            blogRepository.save(blog);
+        }
+
         //savedBlogRepository.deleteById(savedBlog.getId());
         savedBlogRepository.delete(savedBlog);
     }
+
 
     // TODO: Người dùng lấy ra danh sách các blog đã lưu
     public Page<SavedBlogDto> getAllSavedBlogs(Integer page, Integer pageSize) {
