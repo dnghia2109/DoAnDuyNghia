@@ -14,31 +14,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="huy">
-<!--                    <p>Trang chủ</p>-->
-<!--                    <p th:text="${blog.category.name}">huy01</p>-->
-<!--                    <p th:text="${blog.title}">title</p>-->
                     <span>Trang chủ</span>
                     <span th:text="${blog.category.name}">huy01</span>
                     <span th:text="${blog.title}">title</span>
-<!--                    <span>huydsf dsf dsfdsfsdfsdf dsf sdf</span>-->
-<!--                    <span>huy01</span>-->
-<!--                    <span>title</span>-->
                 </div>
-                
-<!--                <th:block sec:authorize="isAnonymous()">-->
-<!--                    <button class="btn btn-light" onclick="requireLogin()"><i class="fa-regular fa-heart"></i></button>-->
-<!--                </th:block>-->
-<!--                <th:block sec:authorize="isAuthenticated()">-->
-<!--&lt;!&ndash;                    <p th:if="${isExistInSavedList}">Đã nằm trong saved list</p>&ndash;&gt;-->
-<!--                    <button th:if="${isExistInSavedList}" id="saved-blog-icon"  class="btn btn-light">-->
-<!--                        <i style="color: #4b4b41" class="fa-solid fa-bookmark"></i>-->
-<!--                    </button>-->
-<!--                    -->
-<!--&lt;!&ndash;                    <p th:if="${!isExistInSavedList}">Không nằm trong saved list</p>&ndash;&gt;-->
-<!--                    <button th:if="${!isExistInSavedList}" class="btn btn-light">-->
-<!--                        <i style="color: #4b4b41" class="fa-solid fa-bookmark"></i>-->
-<!--                    </button>-->
-<!--                </th:block>-->
             </div>
             <div class="col-12 mt-1 mb-3 text-white">
                 <div class="position-relative">
@@ -81,23 +60,6 @@
                                 <span class="like-mark">
                                     <i class="bx bxs-bookmark-alt-plus"></i>
                                 </span>
-<!--                                <span class="ms-2 ms-md-3">-->
-<!--                                    <th:block sec:authorize="isAnonymous()">-->
-<!--                                        <button class="btn btn-light" onclick="requireLogin()">Lưu bài viết <i class="fa-regular fa-heart"></i></button>-->
-<!--                                    </th:block>-->
-<!--                                    <th:block sec:authorize="isAuthenticated()">-->
-<!--                                        &lt;!&ndash;                    <p th:if="${isExistInSavedList}">Đã nằm trong saved list</p>&ndash;&gt;-->
-<!--                                        <button th:if="${isExistInSavedList}" id="saved-blog-icon" class="btn btn-light">-->
-<!--                                            <i style="color: #178824" class="fa-solid fa-bookmark"></i>-->
-<!--                                            <span>Đã lưu bài viết</span>-->
-<!--                                        </button>-->
-<!--                                        -->
-<!--                                        &lt;!&ndash;                    <p th:if="${!isExistInSavedList}">Không nằm trong saved list</p>&ndash;&gt;-->
-<!--                                        <button th:if="${!isExistInSavedList}" class="btn btn-light">-->
-<!--                                            Lưu bài viết   <i style="color: #4b4b41" class="fa-solid fa-bookmark"></i>-->
-<!--                                        </button>-->
-<!--                                    </th:block>-->
-<!--                                </span>-->
                             </div>
                         </div>
                     </div>
