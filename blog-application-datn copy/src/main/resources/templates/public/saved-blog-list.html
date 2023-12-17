@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-public :: main-fragment(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
+
+<head>
+    <title>Thông tin tài khoản</title>
+    <th:block id="css">
+        <link rel="stylesheet" th:href="@{/css/account.css}">
+    </th:block>
+</head>
+
+<body>
+<th:block id="content">
+    <!-- Blog Section Begin -->
+    <section class="account-section spad">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="customer-sidebar">
+                        <ul class="customer-sidebar-menu">
+                            <li class="menu-item">
+                                <a href="/tai-khoan">
+                                    <span><i class="fas fa-user" aria-hidden="true"></i></span>
+                                    Tài khoản
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/saved-blog-list">
+                                    <span><i class="fas fa-list-ul" aria-hidden="true"></i></span>
+                                    Bài viết đã lưu
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="javascript:void(0)" class="logout-btn" id="btn-logout" onclick="logout()">
+                                    <span><i class="fas fa-right-from-bracket" aria-hidden="true"></i></span>
+                                    Đăng xuất
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body table-responsive-sm">
+                            <table class="table table-hover table-bordered table-hover center">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Tên bài viết</th>
+                                    <th class="text-center">Ngày lưu</th>
+                                    <th class="text-center">Chức năng</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:with="savedBlogList = ${pageInfo.getContent()}">
+                                    <tr th:each="savedBlog, state : ${savedBlogList}">
+                                        <td th:text="${(currentPage - 1) * pageInfo.getSize() + (state.index + 1)}" class="text-center" >1</td>
+                                        <td th:text="${savedBlog.blog.title}" >Backend</td>
+                                        <td th:text="${#temporals.format(savedBlog.blog.createdAt, 'dd/MM/yyyy')}" class="text-center"></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger" th:onclick="|deleteSavedBlog(${savedBlog.blog.id})|">Xóa</button>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                            
+                            <div class="d-flex justify-content-center mt-3" id="pagination">
+                                <ul class="pagination mb-0">
+                                    <li class="paginate_button page-item previous" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                        id="example2_previous" th:data-page="${currentPage - 1}">
+                                        <a class="page-link">Previous</a>
+                                    </li>
+                                    <th:block th:with="numbers = ${T(com.example.blog.utils.Utils).createList(pageInfo.getTotalPages())}">
+                                        <li th:each="number : ${numbers}" class="paginate_button page-item" th:classappend="${number == currentPage ? 'active' : ''}" th:data-page="${number}">
+                                            <a class="page-link" th:text="${number}"></a>
+                                        </li>
+                                    </th:block>
+                                    <li class="paginate_button page-item next" th:classappend="${currentPage == pageInfo.getTotalPages() ? 'disabled' : ''}"
+                                        id="example2_next" th:data-page="${currentPage + 1}">
+                                        <a class="page-link">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Section End -->
+</th:block>
+
+<th:block id="js">
+    <script th:inline="javascript">
+        const savedBlogList = [[${pageInfo.getContent()}]]
+        console.log(savedBlogList)
+        const deleteSavedBlog = async (id) => {
+            const isConfirm = window.confirm("Bạn có muốn xóa không")
+            if (isConfirm) {
+                try {
+                    let res = await axios.delete(`/api/v1/blogs/saved-list/${id}`)
+                    if(res.status === 200 || res.status === 204) {
+                        
+                        location.reload();
+                        //renderCategoies(categoryList)
+                        toastr.success("Xóa thành công")
+                    }
+                } catch (e) {
+                    toastr.error(e.response.data.message);
+                    console.log(e);
+                }
+            }
+        }
+
+        document.querySelectorAll('.paginate_button').forEach(btn => {
+            btn.addEventListener('click', function () {
+                let page = btn.dataset.page;
+                console.log(page)
+
+                // if url has query params
+                if (window.location.search) {
+                    console.log(1, window.location.search)
+                    // get query params in url
+                    const urlParams = new URLSearchParams(window.location.search);
+                    // add page param to query params
+                    urlParams.set('page', page);
+
+                    // TODO: if page = 1 => remove page param from query params
+
+                    // set query params to url
+                    window.location.search = urlParams.toString();
+                } else {
+                    // if url has not query params
+                    // add query params to url
+                    window.location.search = `?page=${page}`;
+                }
+            })
+        })
+    
+    </script>
+</th:block>
+</body>
+
+</html>

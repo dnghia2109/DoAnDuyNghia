@@ -86,6 +86,7 @@ public class UserController {
         return "admin/user/user-detail";
     }
 
+    // Trang thông tin tài khoản
     @GetMapping("/tai-khoan")
     public String account(Model model) {
         User user = iCurrentUser.getUser();

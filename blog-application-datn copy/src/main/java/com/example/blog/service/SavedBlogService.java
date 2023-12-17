@@ -6,6 +6,7 @@ import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.entity.Blog;
 import com.example.blog.entity.SavedBlog;
 import com.example.blog.entity.User;
+import com.example.blog.exception.BadRequestException;
 import com.example.blog.exception.NotFoundException;
 import com.example.blog.repository.BlogRepository;
 import com.example.blog.repository.SavedBlogRepository;
@@ -35,9 +36,11 @@ public class SavedBlogService {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> {
            throw new NotFoundException("Không tìm thấy bài viết có id - " + blogId);
         });
-
         User curUser = iCurrentUser.getUser();
-
+        Optional<SavedBlog> optionalSavedBlog = savedBlogRepository.findByBlogAndUser(blog, curUser);
+        if (optionalSavedBlog.isPresent()) {
+            throw new BadRequestException("Bài viết đã tồn tại trong Danh sách yêu thích!");
+        }
         SavedBlog savedBlog = SavedBlog.builder()
                 .blog(blog)
                 .user(curUser)
