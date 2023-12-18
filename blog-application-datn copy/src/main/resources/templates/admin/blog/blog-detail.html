@@ -116,7 +116,7 @@
 
                                     <div class="form-group">
                                         <label>Mô tả ngắn</label>
-                                        <textarea id="description" class="form-control" rows="3"></textarea>
+                                        <textarea th:text="${blog.description}" id="description" class="form-control" rows="3"></textarea>
 <!--                                        <label>Mô tả ngắn</label>-->
 <!--                                        <textarea id="description" th:text="${blog.description}" class="form-control" rows="3"></textarea>-->
                                     </div>
@@ -144,13 +144,14 @@
                                                 </option>
                                             </th:block>
                                         </select>
-<!--                                        <select class="form-control" id="category">-->
-<!--                                            <th:block th:each="category : ${categoryList}">-->
-<!--                                                <option th:value="${category.id}" th:text="${category.name}">-->
-<!--                                                    Java-->
-<!--                                                </option>-->
-<!--                                            </th:block>-->
-<!--                                        </select>-->
+                                        <div class="form-group">
+                                            <label for="select-tag">Tags</label>
+                                            <div class="select2-purple">
+                                                 <select class="select2 form-control" multiple="multiple" id="select-tag">
+                                                      <option th:each="tag:${tagList}" th:value="${tag.id}" th:text="${tag.name}" >Alabama</option>
+                                                 </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="thumbnail-preview-container mb-3">
@@ -249,27 +250,18 @@
         $('#content').on('summernote.change', function(we, contents, $editable) {
             $("#content").html(contents);
         });
-
-
-        // CKEDITOR.replace(document.querySelector( '#content' ));
-
-        // Initialize editor
-        // const easyMDE = new EasyMDE({
-        //     element: document.getElementById("content"),
-        //     spellChecker: false,
-        //     maxHeight: "500px",
-        //     renderingConfig: {
-        //         codeSyntaxHighlighting: true,
-        //     },
-        // });
+        
 
         // Initialize data
         const titleEl = document.getElementById("title")
         const descriptionEl = document.getElementById("description")
         const statusEl = document.getElementById("status")
         const categoryEl = $('#category');
+        const tagEl = document.getElementById("select-tag");
         const thumbnailEl = document.getElementById("thumbnail");
 
+        $('#select-tag').val(blog.tags.map(tag => tag.id)).trigger("change");
+        
         const initData = (data) => {
             titleEl.value = data.title;
             // easyMDE.value(data.content);
@@ -283,6 +275,20 @@
         };
 
         initData(blog);
+
+        const getTagsChose = () => {
+            let tagArr = [];
+            let tagOptionEl = tagEl.querySelectorAll("#select-tag option");
+            tagOptionEl.forEach(el => {
+                if (el.selected) {
+                    tagArr.push(parseInt(el.value))
+                }
+            })
+            if (tagArr.length === 0) {
+                tagArr = null;
+            }
+            return tagArr;
+        }
 
 
         // Cập nhật blog
@@ -299,7 +305,7 @@
                 const status = statusEl.value;
                 const categoryId = parseInt(categoryEl.val());
                 const thumbnailURL = thumbnailEl.src == "https://placehold.co/600x400" ? null : thumbnailEl.src;
-                const tagsId = [1];
+                const tagsId = getTagsChose();
 
                 // console.log(` - content: ${content} \n - thumbnailURL: ${thumbnailURL}`)
 

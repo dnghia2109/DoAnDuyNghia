@@ -15,8 +15,8 @@
               integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
               crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-<!--        <link rel="stylesheet" th:href="@{/admin-lte/dist/css/style.css}">-->
-<!--        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/dist/css/style.css}">-->
+        <link rel="stylesheet" th:href="@{/admin-lte/dist/css/style.css}">
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/dist/css/style.css}">
         <style>
             .modal-dialog {
                 max-width: 1000px;
@@ -286,16 +286,6 @@
 
         const tags = [[${tagList}]];
         console.log(tags);
-
-        // Initialize editor
-        // const easyMDE = new EasyMDE({
-        //     element: document.getElementById("content"),
-        //     spellChecker: false,
-        //     maxHeight: "500px",
-        //     renderingConfig: {
-        //         codeSyntaxHighlighting: true,
-        //     },
-        // });
 
         // Tạo bài viết
         const btnCreate = document.getElementById("btn-create");

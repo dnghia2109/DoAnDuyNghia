@@ -13,11 +13,11 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="huy">
-                    <span>Trang chủ</span>
-                    <span th:text="${blog.category.name}">huy01</span>
-                    <span th:text="${blog.title}">title</span>
-                </div>
+                <ul class="huy">
+                    <li>Trang chủ</li>
+                    <li th:text="${blog.category.name}">huy01</li>
+                    <li th:text="${blog.title}">title</li>
+                </ul>
             </div>
             <div class="col-12 mt-1 mb-3 text-white">
                 <div class="position-relative">
@@ -73,9 +73,12 @@
                 </button>
             </div>
             <div class="col-md-8">
-                <span th:utext="${blog.content}">
-                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
-                </span>
+                <div class="mb-4 main-blog-content">
+                    <th:block  th:utext="${blog.content}">
+                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
+                    </th:block>
+                </div>
+                
                 <div class="entry-footer">
                     <div class="tags-area">
                         <ul class="tags-links tagcloud ps-0 fw-bold me-2" >Tags

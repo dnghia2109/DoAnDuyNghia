@@ -16,6 +16,7 @@ import com.example.blog.security.ICurrentUser;
 import com.example.blog.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,6 @@ public class WebController {
     @GetMapping("/homepage")
     public String getHomePageNew(Model model) {
         List<CategoryDto> categories = categoryService.getAllCategoryPublic();
-        // List blog sẽ hiển thị ở mỗi cate
         List<BlogDto> lastestBlogs = blogService.getLastestNew();
         // List Blog hiển thị tin nóng
         List<BlogDto> lastestNewsWithTagTinNong = blogService.getLastestNewsWithTagTinNong();
@@ -64,7 +64,7 @@ public class WebController {
         model.addAttribute("advertisementListOnLeftSide", advertisementListOnLeftSide);
         model.addAttribute("advertisementListOnRightSide", advertisementListOnRightSide);
         model.addAttribute("advertisementListBottom", advertisementListBottom);
-        return "public/homepage1";
+        return "public/home2";
     }
 
     // TODO: Hiển thị chi tiết bài viết
@@ -84,20 +84,27 @@ public class WebController {
     // TODO: Hiển thị trang tìm kiếm bài viết
     @GetMapping("/blogs")
     public String getBlogsSearchPage(@RequestParam(required = false, defaultValue = "1") Integer page,
-                                     @RequestParam(required = false, defaultValue = "100") Integer pageSize,
+                                     @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                                      @RequestParam(required = false, defaultValue = "publishedAt") String sortField,
                                      @RequestParam(required = false, defaultValue = "desc") String sortDir,
-                                     @RequestParam(required = false, defaultValue = "") String keyword,
-                                     @RequestParam(required = false, defaultValue = "") String categoryId,
+                                     @RequestParam(required = false) String keyword,
+                                     @RequestParam(required = false, defaultValue = "all") String categoryId,
                                      @RequestParam(required = false, defaultValue = "all") String time,
                                      Model model) {
-        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, Integer.valueOf(categoryId), time);
+        Integer categoryIdAsInteger = null;
+        if (!StringUtils.isEmpty(categoryId) && !"all".equalsIgnoreCase(categoryId)) {
+            categoryIdAsInteger = Integer.parseInt(categoryId);
+        }
+        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, categoryIdAsInteger, time);
+//        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, Integer.valueOf(categoryId), time);
         List<CategoryDto> categoryList = categoryService.getAllCategoryPublic();
+        List<BlogDto> lastestBlogs = blogService.getLastestNew();
         String sortReverseDirection = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
         User curUser = webService.getUserDetailPage();
         model.addAttribute("user", curUser);
         model.addAttribute("pageInfo", pageInfoDto);
         model.addAttribute("categoryList", categoryList);
+        model.addAttribute("blogLastestList", lastestBlogs);
         model.addAttribute("currentPage", page);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortReverseDir", sortReverseDirection);

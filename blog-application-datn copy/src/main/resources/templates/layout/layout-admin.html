@@ -200,8 +200,8 @@
     <link rel="icon" href="/img/favicon/favicon.ico" type="image/x-icon">
     <title th:replace="${title}">AdminLTE 3 | Dashboard</title>
 
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"/>
+<!--    <link rel="stylesheet"-->
+<!--          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"/>-->
     <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/fontawesome-free/css/all.css}"/>
     <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/dist/css/adminlte.min.css}"/>
     <link rel="stylesheet"
@@ -235,6 +235,7 @@
 <script th:src="@{/admin-assets/admin-lte/dist/js/adminlte.js}"></script>
 <script src="https://momentjs.com/downloads/moment.min.js"></script>
 <script th:src="@{/assets/js/custom.js}"></script>
+<script th:src="@{/js/pagination.js}"></script>
 <!--<script th:src="@{/js/logout.js}"></script>-->
 <!--Js-->
 <th:block th:replace="${js} ?: ~{}"></th:block>

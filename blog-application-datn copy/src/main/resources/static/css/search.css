@@ -10,6 +10,21 @@
 .card-title-search {
     font-size: 22px;
 }
+/* mới thêm 18/12 cho phần tiêu đề blog search result*/
+/*h2.card-title-search{*/
+/*    display: -webkit-box;*/
+/*    -webkit-line-clamp: 3;*/
+/*    -webkit-box-orient: vertical;*/
+/*    overflow: hidden;*/
+/*    text-overflow: ellipsis;*/
+/*    text-align: justify;*/
+/*}*/
+
+/*.card-title {*/
+/*    margin-top: 12px;*/
+/*}*/
+
+/*kết thúc mới thêm 18/12*/
 
 .img-search {
     width: 100%;
@@ -52,4 +67,10 @@ aside.card-search-main.row {
 
 aside.card-search-main.row:last-child {
     border: none;
+}
+
+@media (max-width: 768px) {
+    aside.qc {
+        display: none;
+    }
 }

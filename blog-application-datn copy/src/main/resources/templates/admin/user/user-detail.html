@@ -13,7 +13,7 @@
               integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
               crossorigin="anonymous" referrerpolicy="no-referrer"/>
         
-        <link rel="stylesheet" th:href="@{/admin-lte/dist/css/style.css}">
+<!--        <link rel="stylesheet" th:href="@{/admin-lte/dist/css/style.css}">-->
     </th:block>
 </head>
 <body>
@@ -60,20 +60,6 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-<!--                            <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">-->
-<!--                                <li class="nav-item">-->
-<!--                                    <a class="nav-link active" id="custom-content-below-home-tab" data-toggle="pill"-->
-<!--                                       href="#custom-content-below-home" role="tab"-->
-<!--                                       aria-controls="custom-content-below-home" aria-selected="true">Thông tin cá-->
-<!--                                        nhân</a>-->
-<!--                                </li>-->
-<!--                                <li class="nav-item">-->
-<!--                                    <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill"-->
-<!--                                       href="#custom-content-below-profile" role="tab"-->
-<!--                                       aria-controls="custom-content-below-profile" aria-selected="false">Danh sách đơn-->
-<!--                                        hàng</a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
                             <div class="tab-content" id="custom-content-below-tabContent">
                                 <div class="tab-pane fade active show" id="custom-content-below-home" role="tabpanel"
                                      aria-labelledby="custom-content-below-home-tab">
@@ -91,19 +77,14 @@
                                                     <input type="text" class="form-control" id="email"
                                                            th:value="${user.email}" disabled/>
                                                 </div>
-                                                
-<!--                                                <div class="form-group">-->
-<!--                                                    <label>Số điện thoại</label>-->
-<!--                                                    <input type="text" class="form-control" id="phone"-->
-<!--                                                           th:value="${user.phone}" name="phone"/>-->
-<!--                                                </div>-->
                                                 <div class="form-group">
                                                     <label>Quyền</label>
                                                     <div class="select2-purple">
-                                                        <select class="select2 form-control" multiple="multiple" id="roles" name="roles">
+                                                        <select class="select2 form-control" multiple="multiple" id="select-roles" name="roles">
                                                             <option th:each="role : ${roleList}"
                                                                     th:value="${role.id}"
-                                                                    th:text="${role.name}"></option>
+                                                                    th:text="${role.name}"
+                                                                    ></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -142,6 +123,24 @@
         $(".select2").select2({
             placeholder: "Chọn role",
         });
+        
+        
+
+        $("#select-roles").val(user.roles.map(e => `${e.id}`)).trigger("change");
+        // $("#select-roles").val([1,2]).trigger("change");
+        
+        // const userRoles = [[${user.roles}]];
+        // console.log(userRoles)
+        // const roleSelect = document.getElementById("select-roles");
+        //
+        // userRoles.forEach(userRole => {
+        //     Array.from(roleSelect.options).forEach(option => {
+        //         if (option.value === userRole.id) {
+        //             option.selected = true;
+        //         }
+        //     });
+        // });
+        
 
         // Reset password
         const btnResetPassword = document.getElementById('btn-reset-password');
@@ -158,7 +157,7 @@
             }
         })
     </script>
-    <script th:src="@{/admin-assets/assets/js/user/detail.js}"></script>
+<!--    <script th:src="@{/admin-assets/assets/js/user/detail.js}"></script>-->
 </th:block>
 </body>
 </html>

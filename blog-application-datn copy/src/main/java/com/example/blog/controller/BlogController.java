@@ -12,6 +12,7 @@ import com.example.blog.security.ICurrentUser;
 import com.example.blog.service.*;
 import com.example.blog.utils.Utils;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -69,10 +70,15 @@ public class BlogController {
                                             @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                                             @RequestParam(required = false, defaultValue = "id") String sortField,
                                             @RequestParam(required = false, defaultValue = "asc") String sortDir,
-                                            @RequestParam(required = false, defaultValue = "") String keyword,
-                                            @RequestParam(required = false, defaultValue = "") Integer categoryId,
-                                            @RequestParam(required = false, defaultValue = "") String time) {
-        Page<BlogDto> result = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, categoryId, time);
+                                            @RequestParam(required = false) String keyword,
+                                            @RequestParam(required = false, defaultValue = "all") String categoryId,
+                                            @RequestParam(required = false, defaultValue = "all") String time) {
+        // Check if categoryId is "all" and adjust the value accordingly
+        Integer categoryIdAsInteger = null;
+        if (!StringUtils.isEmpty(categoryId) && !"all".equalsIgnoreCase(categoryId)) {
+            categoryIdAsInteger = Integer.parseInt(categoryId);
+        }
+        Page<BlogDto> result = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, categoryIdAsInteger, time);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("X-Total-Count", String.valueOf(result.getTotalElements()));
         return new ResponseEntity<>(result, httpHeaders, HttpStatus.OK);
@@ -107,11 +113,16 @@ public class BlogController {
                                @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                                @RequestParam(required = false, defaultValue = "id") String sortField,
                                @RequestParam(required = false, defaultValue = "asc") String sortDir,
-                               @RequestParam(required = false, defaultValue = "") String keyword,
-                               @RequestParam(required = false, defaultValue = "") Integer categoryId,
+                               @RequestParam(required = false) String keyword,
+                               @RequestParam(required = false, defaultValue = "all") String categoryId,
                                @RequestParam(required = false, defaultValue = "all") String time,
                                Model model) {
-        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, categoryId, time);
+//        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, categoryId, time);
+        Integer categoryIdAsInteger = null;
+        if (!StringUtils.isEmpty(categoryId) && !"all".equalsIgnoreCase(categoryId)) {
+            categoryIdAsInteger = Integer.parseInt(categoryId);
+        }
+        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, categoryIdAsInteger, time);
         String sortReverseDirection = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
         model.addAttribute("page1", pageInfoDto);
         model.addAttribute("currentPage", page);
@@ -193,8 +204,10 @@ public class BlogController {
     public String getBlogDetailPage(@PathVariable Integer id, Model model) {
         BlogDto blog = blogService.getBlogDtoById(id);
         //List<CategoryPublic> categoryList = categoryService.getAllCategory();
+        List<TagDto> tagList = tagService.getAllTags().stream().map(TagDto::new).toList();
         List<CategoryDto> categoryList = categoryService.getAllCategories();
         model.addAttribute("blog", blog);
+        model.addAttribute("tagList", tagList);
         model.addAttribute("categoryList", categoryList);
         return "admin/blog/blog-detail";
     }

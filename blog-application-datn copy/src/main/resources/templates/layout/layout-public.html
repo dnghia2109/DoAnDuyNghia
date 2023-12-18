@@ -109,7 +109,7 @@
     <!-- Css Styles -->
     <link rel="stylesheet" href="/admin-assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/dist/css/style.css}"/>
+<!--    <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/dist/css/style.css}"/>-->
     <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/toastr/toastr.min.css}"/>
     <link rel="stylesheet" href="/css/header-public.css">
     <link rel="stylesheet" href="/css/footer-public.css">
@@ -120,23 +120,12 @@
 <body>
     <!--Header-->
     <th:block th:replace="~{fragments/header-public :: #header}"></th:block>
-
-
+    
     <!--Content-->
     <th:block th:replace="${content} ?: ~{}"></th:block>
 
     <!--Footer-->
     <th:block th:replace="~{fragments/footer-public :: .footer}"></th:block>
-
-    <!-- Js Plugins -->
-    <!--<script src="/js/new-js/jquery-3.3.1.min.js"></script>-->
-    <!--<script src="/js/new-js/bootstrap.min.js"></script>-->
-    <!--<script src="/js/new-js/owl.carousel.min.js"></script>-->
-    <!--<script src="/js/new-js/axios.min.js"></script>-->
-    <!--<script src="/js/new-js/toastr.min.js"></script>-->
-    <!--<script src="/js/new-js/jquery.validate.min.js"></script>-->
-    <!--<script src="/js/new-js/additional-methods.min.js"></script>-->
-    <!--<script src="/js/new-js/main.js"></script>-->
 
     <script th:src="@{/admin-assets/admin-lte/plugins/jquery/jquery.min.js}"></script>
     <script th:src="@{/admin-assets/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -145,11 +134,11 @@
     <script th:src="@{/admin-assets/admin-lte/plugins/jquery-validation/additional-methods.min.js}"></script>
     <script th:src="@{/admin-assets/admin-lte/plugins/toastr/toastr.min.js}"></script>
     <script th:src="@{/admin-assets/admin-lte/plugins/axios/axios.min.js}"></script>
-    <!--<script th:src="@{/admin-assets/admin-lte/plugins/pagination/pagination.min.js}"></script>-->
     <script th:src="@{/admin-assets/admin-lte/dist/js/adminlte.js}"></script>
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script sec:authorize="authenticated" th:src="@{/js/logout.js}"></script>
-    
+    <script th:src="@{/js/pagination.js}"></script>
+    <script th:src="@{/js/advertisement.js}"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -171,11 +160,9 @@
             "hideMethod": "fadeOut"
         }
     </script>
-
-
-    <!--JS tự viết-->
+    
     <script th:inline="javascript">
-        // check menu item active
+        // check menu item active (account page)
         const checkMenuItemActive = () => {
             const url = window.location.pathname;
             const menuItem = document.querySelector(`.customer-sidebar-menu .menu-item a[href="${url}"]`);
@@ -184,11 +171,6 @@
             }
         };
         checkMenuItemActive();
-        // const currentUser = [[${currentUser}]];
-        // const isLogin = [[${isLogin}]];
-        // let cart = [[${cart}]];
-        // let wishList = [[${wishList}]];
-        // console.log({cart, wishList, currentUser, isLogin});
     </script>
     <th:block th:replace="${js} ?: ~{}"></th:block>
 </body>

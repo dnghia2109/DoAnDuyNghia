@@ -5,7 +5,7 @@
     <title>Danh sách bài viết</title>
     <th:block id="css">
         <!--        <link rel="stylesheet" th:href="@{/css/style-public-web.css}">-->
-        <link rel="stylesheet" th:href="@{/css/default1.css}">
+        <link rel="stylesheet" th:href="@{/css/default2.css}">
         <link rel="stylesheet" th:href="@{/css/search.css}">
     </th:block>
 </head>
@@ -18,7 +18,7 @@
                     <h1 class="search-title">Tìm Kiếm</h1>
                     <div class="search-main">
                         <div class="input-search-top">
-                            <input type="text" placeholder="Nhập tìm kiếm...." id="input-text">
+                            <input th:value="${keyword}" type="text" placeholder="Nhập tìm kiếm...." id="keyword">
                             <i class='bx bx-search'></i>
                         </div>
                         <div class="main-content-search">
@@ -26,12 +26,12 @@
                                 <h3 class="title-input">
                                     Thời gian
                                 </h3>
-                                <select name="" id="input-time" class="input-form">
-                                    <option value="all">Tất cả</option>
-                                    <option value="1day">1 ngày qua</option>
-                                    <option value="1week">1 tuần qua</option>
-                                    <option value="1month">1 tháng qua</option>
-                                    <option value="1year">1 năm qua</option>
+                                <select  name="" id="input-time" class="input-form">
+                                    <option th:selected="${time.equalsIgnoreCase('all')}" value="all">Tất cả</option>
+                                    <option th:selected="${time.equalsIgnoreCase('1day')}" value="1day">1 ngày qua</option>
+                                    <option th:selected="${time.equalsIgnoreCase('1week')}" value="1week">1 tuần qua</option>
+                                    <option th:selected="${time.equalsIgnoreCase('1month')}" value="1month">1 tháng qua</option>
+                                    <option th:selected="${time.equalsIgnoreCase('1year')}" value="1year">1 năm qua</option>
                                 </select>
                             </label>
                             <label>
@@ -39,18 +39,16 @@
                                     Danh mục
                                 </h3>
                                 <select name="" id="input-category" class="input-form">
-                                    <option value="all">Tất cả</option>
+                                    <option  value="all">Tất cả</option>
                                     <th:block th:each="category:${categoryList}">
-                                        <option th:text="${category.name}" th:value="${category.id}">Tat ca</option>
-                                        <!--                                    <option value="text">Bai viet</option>-->
-                                        <!--                                    <option value="image">Anh</option>-->
-                                        <!--                                    <option value="video">Video</option>-->
-                                        <!--                                    <option value="topic">Chu de</option>-->
+                                        <option th:text="${category.name}" th:value="${category.id}" th:selected="${category.id == categorySearchId}">
+                                            Thoi su
+                                        </option>
                                     </th:block>
                                 </select>
                             </label>
                         </div>
-                        <button class="btn btn-group" onclick="searchButtonClick()">Tìm kiếm</button>
+                        <button type="submit" class="btn btn-group" id="btn-search">Tìm kiếm</button>
                     </div>
                     <!-- <input type="text" class="input-search" placeholder="Type to Search..."> -->
                 </div>
@@ -58,69 +56,93 @@
                     <div class="content-search">
                         <h4>
                             <span>Search result for: </span>
-                            <span class="content-search-main-he">"Tài chính"</span>
+                            <span th:text="${keyword}" class="content-search-main-he">"Tài chính"</span>
                         </h4>
                     </div>
-                    <aside class="card-search-main row">
-                        <div class="col-sm-6 col-md-12 col-lg-5">
-                            <a href="#">
-                                <img class="img-search"
-                                     src="https://cdnphoto.dantri.com.vn/fEE-e5n8YbqDSgRRE0wgtrE0bC4=/zoom/378_252/2023/12/14/ra-mat-sach-kheo-khon-voi-tien4-1702548591838.jpg" alt="">
-                            </a>
-                        </div>
-                        <div class="col-sm-6 col-md-12 col-lg-7">
-                            <div class="card-body">
-                                <h2 class="card-title-search">Truyện tranh tài chính "Khéo khôn với tiền" trở thành hiện tượng xuất bản
-                                </h2>
-                                <div class="card-text mb-2 text-muted small">
-                                    <span class="d-none d-sm-inline me-1">Duy Nghia</span>
-                                    <time datetime="2019-10-22">Oct 22, 2023</time>
-                                </div>
-                                <p class="card-text">Sau một tuần mở đặt trước, "Khéo khôn với tiền - Tránh những ưu phiền" đã trở thành hiện tượng xuất bản trong hệ thống sách kiến thức khoa học của NXB Kim Đồng
-                                </p>
+                    
+                    <th:block th:with="listBlogs = ${pageInfo.getContent()}">
+                        <aside class="card-search-main row" th:each="blog:${listBlogs}">
+                            <div class="col-sm-6 col-md-12 col-lg-5">
+                                <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
+                                    <img th:src="${blog.thumbnail}" class="img-search"
+                                         src="https://cdnphoto.dantri.com.vn/fEE-e5n8YbqDSgRRE0wgtrE0bC4=/zoom/378_252/2023/12/14/ra-mat-sach-kheo-khon-voi-tien4-1702548591838.jpg" alt="">
+                                </a>
                             </div>
-                        </div>
-                    </aside>
-                    <aside class="card-search-main row">
-                        <div class="col-sm-6 col-md-12 col-lg-5">
-                            <a href="#">
-                                <img class="img-search"
-                                     src="https://cdnphoto.dantri.com.vn/fPakawtEPA2kjknPquE4DQiDpiU=/zoom/378_252/2023/12/12/quyen-1702377843722.jpeg" alt="">
-                            </a>
-                        </div>
-                        <div class="col-sm-6 col-md-12 col-lg-7">
-                            <div class="card-body">
-                                <h2 class="card-title-search">VietinBank tại COP28: Cam kết chung tay thúc đẩy tài chính khí hậu
-                                </h2>
-                                <div class="card-text mb-2 text-muted small">
-                                    <span class="d-none d-sm-inline me-1">Duy Nghia</span>
-                                    <time datetime="2019-10-22">Sep 10, 2023</time>
+                            <div class="col-sm-6 col-md-12 col-lg-7">
+                                <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
+                                <div class="card-body">
+                                    <h2 th:text="${blog.title}" class="card-title-search">Truyện tranh tài chính "Khéo khôn với tiền" trở thành hiện tượng xuất bản
+                                    </h2>
+                                    <div class="card-text mb-2 text-muted small">
+                                        <span th:text="${blog.author}" class="d-none d-sm-inline me-1">Duy Nghia</span>
+                                        <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}" datetime="2019-10-22">Oct 22, 2023</time>
+                                    </div>
+                                    <p th:text="${blog.description}"  class="card-text">Sau một tuần mở đặt trước, "Khéo khôn với tiền - Tránh những ưu phiền" đã trở thành hiện tượng xuất bản trong hệ thống sách kiến thức khoa học của NXB Kim Đồng
+                                    </p>
                                 </div>
-                                <p class="card-text">TTham gia Hội nghị lần thứ 28 các bên tham gia Công ước khung của Liên Hiệp Quốc về Biến đổi khí hậu (COP28), VietinBank mong muốn chung tay cùng cộng đồng quốc tế thúc đẩy tài chính khí hậu thông qua nhiều hoạt động ý nghĩa.
-                                </p>
+                                </a>
                             </div>
-                        </div>
-                    </aside>
-                    <aside class="card-search-main row">
-                        <div class="col-sm-6 col-md-12 col-lg-5">
-                            <a href="#">
-                                <img class="img-search"
-                                     src="https://cdnphoto.dantri.com.vn/MqYkjuw99n6gs90c7CIg-NZ5Ios=/zoom/378_252/2023/07/10/vietnam-1622631758-2415-1622631770r680x408-1011-crop-1688988991380.jpeg" alt="">
-                            </a>
-                        </div>
-                        <div class="col-sm-6 col-md-12 col-lg-7">
-                            <div class="card-body">
-                                <h2 class="card-title-search">Vietnam Airlines công bố báo cáo tài chính 2022: Vẫn lỗ nhưng đã giảm
-                                </h2>
-                                <div class="card-text mb-2 text-muted small">
-                                    <span class="d-none d-sm-inline me-1">Bùi Hiên</span>
-                                    <time datetime="2019-10-22">Oct 02, 2022</time>
-                                </div>
-                                <p class="card-text">Tới cuối năm nay, Vietnam Airlines công bố báo cáo tài chính năm 2022. Hãng hàng không quốc ghi nhận doanh thu trên 70.000 tỷ đồng trong năm qua nhưng vẫn lỗ sau thuế 11.223 tỷ đồng.
-                                </p>
-                            </div>
-                        </div>
-                    </aside>
+                        </aside>
+                    </th:block>
+                    
+<!--                    <aside class="card-search-main row">-->
+<!--                        <div class="col-sm-6 col-md-12 col-lg-5">-->
+<!--                            <a href="#">-->
+<!--                                <img class="img-search"-->
+<!--                                     src="https://cdnphoto.dantri.com.vn/fPakawtEPA2kjknPquE4DQiDpiU=/zoom/378_252/2023/12/12/quyen-1702377843722.jpeg" alt="">-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="col-sm-6 col-md-12 col-lg-7">-->
+<!--                            <div class="card-body">-->
+<!--                                <h2 class="card-title-search">VietinBank tại COP28: Cam kết chung tay thúc đẩy tài chính khí hậu-->
+<!--                                </h2>-->
+<!--                                <div class="card-text mb-2 text-muted small">-->
+<!--                                    <span class="d-none d-sm-inline me-1">Duy Nghia</span>-->
+<!--                                    <time datetime="2019-10-22">Sep 10, 2023</time>-->
+<!--                                </div>-->
+<!--                                <p class="card-text">TTham gia Hội nghị lần thứ 28 các bên tham gia Công ước khung của Liên Hiệp Quốc về Biến đổi khí hậu (COP28), VietinBank mong muốn chung tay cùng cộng đồng quốc tế thúc đẩy tài chính khí hậu thông qua nhiều hoạt động ý nghĩa.-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </aside>-->
+<!--                    <aside class="card-search-main row">-->
+<!--                        <div class="col-sm-6 col-md-12 col-lg-5">-->
+<!--                            <a href="#">-->
+<!--                                <img class="img-search"-->
+<!--                                     src="https://cdnphoto.dantri.com.vn/MqYkjuw99n6gs90c7CIg-NZ5Ios=/zoom/378_252/2023/07/10/vietnam-1622631758-2415-1622631770r680x408-1011-crop-1688988991380.jpeg" alt="">-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="col-sm-6 col-md-12 col-lg-7">-->
+<!--                            <div class="card-body">-->
+<!--                                <h2 class="card-title-search">Vietnam Airlines công bố báo cáo tài chính 2022: Vẫn lỗ nhưng đã giảm-->
+<!--                                </h2>-->
+<!--                                <div class="card-text mb-2 text-muted small">-->
+<!--                                    <span class="d-none d-sm-inline me-1">Bùi Hiên</span>-->
+<!--                                    <time datetime="2019-10-22">Oct 02, 2022</time>-->
+<!--                                </div>-->
+<!--                                <p class="card-text">Tới cuối năm nay, Vietnam Airlines công bố báo cáo tài chính năm 2022. Hãng hàng không quốc ghi nhận doanh thu trên 70.000 tỷ đồng trong năm qua nhưng vẫn lỗ sau thuế 11.223 tỷ đồng.-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </aside>-->
+                    
+                    <div class="d-flex justify-content-center mt-3" id="pagination">
+                        <ul class="pagination mb-0">
+                            <li class="paginate_button page-item previous" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                id="example2_previous" th:data-page="${currentPage - 1}">
+                                <a class="page-link">Previous</a>
+                            </li>
+                            <th:block th:with="numbers = ${T(com.example.blog.utils.Utils).createList(pageInfo.getTotalPages())}">
+                                <li th:each="number : ${numbers}" class="paginate_button page-item" th:classappend="${number == currentPage ? 'active' : ''}" th:data-page="${number}">
+                                    <a class="page-link" th:text="${number}"></a>
+                                </li>
+                            </th:block>
+                            <li class="paginate_button page-item next" th:classappend="${currentPage == pageInfo.getTotalPages() ? 'disabled' : ''}"
+                                id="example2_next" th:data-page="${currentPage + 1}">
+                                <a class="page-link">Next</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 end-sidebar-lg">
@@ -135,13 +157,13 @@
                             <span>Bài viết mới</span>
                         </h4>
                     </div>
-                    <div class="big-post">
+                    <div class="big-post" th:each="blog, iterStat:${blogLastestList}" th:if="${iterStat.first}">
                         <article class="card card-full hover-a mb-4">
                             <!--thumbnail-->
-                            <div class="ratio_360-202 image-wrapper">
+                            <div class="ratio_360-202 image-wrapper ats">
                                 <a href="#">
-                                    <img class="img-fluid lazy entered loaded"
-                                         src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img55.jpg"
+                                    <img th:src="${blog.thumbnail}" class="img-fluid lazy entered loaded"
+                                         src="http://localhost:8989/api/v1/files/2"
                                          data-src="../../assets/img/360x202/img55.jpg" alt="Image description"
                                          data-ll-status="loaded">
                                 </a>
@@ -149,17 +171,17 @@
                             <div class="card-body">
                                 <!--title-->
                                 <h2 class="card-title h1-sm h3-md">
-                                    <a href="#">MotoGP: Which team needs what in 2019?</a>
+                                    <a th:text="${blog.title}" href="#">MotoGP: Which team needs what in 2019?</a>
                                 </h2>
                                 <!-- author & date -->
                                 <div class="card-text mb-2 text-muted small">
                                     <span class="d-none d-sm-inline me-1">
-                                        <a class="fw-bold" href="#">John Doe</a>
+                                        <a th:text="${blog.author}" class="fw-bold" href="#">John Doe</a>
                                     </span>
-                                    <time datetime="2019-10-22">Oct 22, 2019</time>
+                                    <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}" datetime="2019-10-22">Oct 22, 2019</time>
                                 </div>
                                 <!--description-->
-                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                <p th:text="${blog.description}" class="card-text">This is a wider card with supporting text below as a natural
                                     lead-in to additional content. This content is a little bit longer.</p>
                             </div>
                         </article>
@@ -174,9 +196,10 @@
                                 <div class="ratio_110-77 image-wrapper">
                                     <a href="#">
                                         <img class="img-fluid lazy entered loaded"
-                                             src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img5.jpg"
+                                             src="http://localhost:8989/api/v1/files/2"
                                              data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
                                              data-ll-status="loaded">
+                                        
                                     </a>
                                 </div>
                             </div>
@@ -248,21 +271,46 @@
 
 <th:block id="js">
     <script th:inline="javascript">
-        
+        // Parse thông tin từ param vào inputStartDateValue
+        document.addEventListener("DOMContentLoaded", function() {
+            const categoryEl = document.getElementById("input-category");
+
+            const categoryParam = new URLSearchParams(window.location.search).get("categoryId");
+            if (categoryParam) {
+                categoryEl.value = categoryParam;
+            }
+        });
         console.log(1);
         const searchResult = [[${pageInfo.getContent()}]];
         const categories = [[${categoryList}]];
         const time = [[${time}]];
+        const categoryId = [[${categorySearchId}]]
         console.log(searchResult)
-        console.log(categories)
-        console.log(time)
+
+        // console.log("- CategoryId:" + categoryId)
+        // console.log("- Time:" + time)
         // console.log(`======= \n ${searchResult} \n ======= ${categories} \n ======= ${time}`)
+        const keywordEl = document.getElementById("keyword");
+        const timeEl = document.getElementById("input-time");
+        const categoryEl = document.getElementById("input-category");
+        const btnSearchEl = document.getElementById('btn-search');
+        btnSearchEl.addEventListener("click", async (e) => {
+            // e.preventDefault();
+            console.log("keyword: " + keywordEl.value);
+            console.log("time: " + timeEl.value);
+            console.log("cate: " + categoryEl.value);
+            try {
+                window.location.href =`/blogs?keyword=${keywordEl.value}&time=${timeEl.value}&categoryId=${categoryEl.value}&page=1`;
+            } catch (e) {
+                toastr.warning(e.response.data.message);
+                console.log(e);
+            }
+        })
+        
         
         let isValid = true;
         const btnSubcribe = document.getElementById("btn-subcribe");
         const emailSubcribeEl = document.getElementById("email-subcribe");
-        
-        
         // Xử lý đăng kí nhận tin mới
         btnSubcribe.addEventListener("click", async (e) => {
             try {
@@ -293,27 +341,6 @@
                 toastr.warning(err.response.data.message);
                 console.log(err);
             }
-            // const emailVal = emailSubcribeEl.value;
-            // console.log(emailVal)
-            // if (emailVal.length === 0) {
-            //     toastr.error("Bạn chưa nhập email!");
-            //     isValid = false;
-            // }
-            // const request = {
-            //     email:emailVal
-            // }
-            // axios.post("/api/v1/user/subcribe-news", request)
-            //     .then((res) => {
-            //         // toastr.success("Tạo bài viết thành công");
-            //         // setTimeout(() => {
-            //         //     window.location.href = `/admin/blogs/${res.data.id}/detail`
-            //         // }, 1500);
-            //         alert("Thành công")
-            //     })
-            //     .catch((err) => {
-            //         console.log(err);
-            //         toastr.error(err.response.data.message);
-            //     });
         })
     </script>
 </th:block>

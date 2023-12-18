@@ -22,13 +22,15 @@ import com.github.slugify.Slugify;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final CategoryRepository categoryRepository;
     private final ICurrentUser iCurrentUser;
+    private final EntityManager entityManager;
 
 
     // TODO: Lấy ra các bài viết cho trang chủ
@@ -82,6 +85,7 @@ public class BlogService {
             throw new NotFoundException("Not found blog with id = " + id);
         });
         blog.setViews(blog.getViews() + 1);
+        blogRepository.save(blog);
         return BlogMapper.toDto(blog);
     }
 
@@ -293,7 +297,7 @@ public class BlogService {
         LocalDateTime searchStartTime = Utils.convertTimeStringToLocalDateTime(time);
         LocalDateTime searchEndTime = LocalDateTime.now();
         if (searchStartTime == null) {
-            return blogRepository.findAllByStatusAndApprovalStatus(EApprovalStatus.APPROVE, keyword, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
+            return blogRepository.findAllByStatusAndApprovalStatus(EApprovalStatus.APPROVE, keyword, categoryId, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)));
         }
         Page<BlogDto> searchResult = blogRepository
                 .searchBlogs(keyword, categoryId, searchStartTime, searchEndTime , EApprovalStatus.APPROVE, PageRequest.of(page - 1, pageSize, parseSortParameter(sortField, sortDirection)))

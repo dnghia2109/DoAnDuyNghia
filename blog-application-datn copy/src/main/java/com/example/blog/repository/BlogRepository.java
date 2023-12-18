@@ -93,9 +93,14 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
             "  AND (:endDate IS NULL OR b.publishedAt <= :endDate)")
     Page<Blog> searchBlogs(String keyword, Integer categoryId, LocalDateTime startDate, LocalDateTime endDate, EApprovalStatus approvalStatus, Pageable pageable);
 
-    @Query("SELECT b FROM Blog b WHERE b.status = 1 AND b.approvalStatus = :approvalStatus AND (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')))")
-    Page<BlogDto> findAllByStatusAndApprovalStatus(EApprovalStatus approvalStatus, String keyword, Pageable pageable);
+    // TODO: Sủ dụng khi time đag search theo all
+    @Query("SELECT b FROM Blog b WHERE b.status = 1 " +
+            "AND b.approvalStatus = :approvalStatus " +
+            "AND (:categoryId IS NULL OR b.category.id = :categoryId) " +
+            "AND (:keyword IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+    Page<BlogDto> findAllByStatusAndApprovalStatus(EApprovalStatus approvalStatus, String keyword, Integer categoryId, Pageable pageable);
 
+    // TODO: Sủ dụng khi time đag search theo khoảng thời gian nhất định
     @Query("SELECT b FROM Blog b WHERE UPPER(b.title) LIKE UPPER(CONCAT('%', :keyword, '%'))" +
             " AND " +
             " (:time = 'all' OR " +
