@@ -16,6 +16,7 @@ public class CommentDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UserDto author;
+    private CommentBlogDTO blog;
 
     public CommentDto(Comment comment) {
         this.id = comment.getId();
@@ -23,5 +24,6 @@ public class CommentDto {
         this.createdAt = comment.getCreatedAt();
         this.updatedAt = comment.getUpdatedAt();
         this.author = new UserDto(comment.getUser());
+        this.blog = new CommentBlogDTO(comment.getBlog());
     }
 }

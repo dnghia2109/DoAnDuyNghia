@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layout/layout-admin :: main-fragment(~{:: title}, ~{}, ~{:: .content-wrapper}, ~{:: #javascript})}">
+
+<head>
+    <title>Bình luận</title>
+</head>
+
+<body>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Tất cả Bình luận
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row py-2">
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateCategory">
+                        <i class="fas fa-plus"></i> Tạo danh mục
+                    </button>
+                    <a th:href="@{/dashboard/admin/comments}" class="btn btn-info">
+                        <i class="fas fa-redo"></i> Refresh
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Modal Create Comment (Ko cần thiết) -->
+            <div class="modal fade" id="modalCreateComment">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Thêm mới comment</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control" id="input-create" placeholder="Nhập bình luận">
+                        </div>
+                        <!--Trạng thái-->
+                        <div class="modal-body form-group">
+                            <label>Trạng thái</label>
+                            <select id="status-create" class="form-control">
+                                <option value="false">
+                                    Ẩn
+                                </option>
+                                <option value="true">
+                                    Công khai
+                                </option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary" id="btn-create-category">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Update Category -->
+            <div class="modal fade" id="modalUpdateCategory">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title fs-5">Cập nhật danh mục</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control" id="input-update" placeholder="Enter name">
+                        </div>
+                        <!--Trạng thái-->
+                        <div class="modal-body form-group">
+                            <label>Trạng thái</label>
+                            <select id="status-update" class="form-control">
+                                <option value="false">
+                                    Ẩn
+                                </option>
+                                <option value="true">
+                                    Công khai
+                                </option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary" id="btn-update-category">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body table-responsive-sm">
+                            <table class="table table-bordered table-hover center">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Bình luận</th>
+                                    <th class="text-center">Người bình luận</th>
+                                    <th class="text-center">Chức năng</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:with="commentList = ${pageInfo.getContent()}">
+                                    <tr th:each="comment, state : ${commentList}">
+                                        <td th:text="${(currentPage - 1) * pageInfo.getSize() + (state.index + 1)}" class="text-center" >1</td>
+                                        <td th:text="${comment.content}" class="text-center">Backend</td>
+                                        <td th:text="${comment.author.name}" class="text-center"></td>
+                                        
+                                        <td class="text-center">
+                                            <button class="btn btn-warning"
+                                                    th:onclick="|openModalUpdate(${comment.id})|">Sửa
+                                            </button>
+                                            <button class="btn btn-danger"
+                                                    th:onclick="|deleteComment(${comment.id})|">Xóa
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                            
+                            <div class="d-flex justify-content-center mt-3" id="pagination">
+                                <ul class="pagination mb-0">
+                                    <li class="paginate_button page-item previous" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                        id="example2_previous" th:data-page="${currentPage - 1}">
+                                        <a class="page-link">Previous</a>
+                                    </li>
+                                    <th:block th:with="numbers = ${T(com.example.blog.utils.Utils).createList(pageInfo.getTotalPages())}">
+                                        <li th:each="number : ${numbers}" class="paginate_button page-item" th:classappend="${number == currentPage ? 'active' : ''}" th:data-page="${number}">
+                                            <a class="page-link" th:text="${number}"></a>
+                                        </li>
+                                    </th:block>
+                                    <li class="paginate_button page-item next" th:classappend="${currentPage == pageInfo.getTotalPages() ? 'disabled' : ''}"
+                                        id="example2_next" th:data-page="${currentPage + 1}">
+                                        <a class="page-link">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<th:block id="javascript">
+    <script th:inline="javascript">
+        let comments = [[${pageInfo.getContent()}]]
+        console.log(comments);
+        
+        const deleteComment = async (id) => {
+            const isConfirm = window.confirm("Bạn có muốn xóa bình luận này")
+            if (isConfirm) {
+                try {
+                    let res = await axios.delete(`/api/v1/admin/comments/${id}`)
+
+                    if(res.status === 200 || res.status === 204) {
+                        toastr.success("Xóa bình luận thành công!")
+                        setTimeout(() => {
+                            location.reload();
+                        },1500);
+                    }
+                } catch (e) {
+                    toastr.error(e.response.data.message);
+                    console.log(e);
+                }
+            }
+        }
+    </script>
+</th:block>
+</body>
+
+</html>
