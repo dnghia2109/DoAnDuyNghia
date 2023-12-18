@@ -26,27 +26,50 @@ ul li {
     list-style: none;
 }
 
-.huy span {
+.huy {
+    display: flex;
+    gap: 30px;
     position: relative;
-    margin-right: 20px;
-    width: fit-content;
+    margin: 1rem 0; /*reset thuộc tính của boostrap*/
 }
 
-.huy span::before {
-    position: absolute;
-    top: 54%;
-    left: 117%;
-    transform: translate(60%, -50%);
+.huy li {
+    position: relative;
+    display: inline-block;
+}
+
+.huy li::before {
     content: "";
+    position: absolute;
+    top: 60%;
+    left: -17px; /* Điều chỉnh giá trị left để canh giữa theo gap */
+    transform: translateY(-48%);
     width: 5px;
     height: 5px;
     border-radius: 50%;
     background-color: #000;
 }
 
-.huy span:last-child::before {
+.huy li:first-child::before {
     background-color: #ffffff;
 }
+/*figure.image.vnn-content-image picture{*/
+/*    max-width: 100%;*/
+/*    height: auto;*/
+/*    display: block;*/
+/*}*/
+
+/*figure.image.vnn-content-image picture img{*/
+/*    max-width: 100%;*/
+/*    height: auto;*/
+/*    display: block;*/
+/*    !* margin: 0 auto; *!*/
+/*}*/
+
+figure {
+    text-align: center;
+}
+
 /* --------------------------------------------------------------------- */
 
 /* Todo: Start Main */
