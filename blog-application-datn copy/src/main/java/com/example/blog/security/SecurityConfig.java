@@ -165,7 +165,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/admin-assets/**","/admin-lte/**","/assets/**", "/css/**", "/img/**",
                         "/js/**", "/vendor/**" ,"/error/**").permitAll()
-            .antMatchers("/homepage/**", "/admin/login", "/api/v1/**", "/blogs", "/register/**").permitAll()
+            .antMatchers("/homepage/**", "/admin/login", "/api/v1/**", "/blogs", "/register/**"
+                    , "/feedback", "/api/v1/feedback/**").permitAll()
             .antMatchers("/dashboard/blogs/own-blogs",
                          "/dashboard/blogs/create", "/dashboard/blogs/{id}/detail",
                          "/api/v1/admin/blogs/**")
