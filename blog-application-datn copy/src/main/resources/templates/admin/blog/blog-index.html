@@ -202,6 +202,7 @@
 
         
         btnSearchEl.addEventListener("click", async (e) => {
+            e.preventDefault();
             // let momentObject = moment(startDateEl.value);
             // const inputStartDateValue = momentObject.format('YYYY-MM-DDTHH:mm:ss.SSSSSS');
             //  momentObject = moment(endDateEl.value);
@@ -241,7 +242,6 @@
                     urlParams.set('page', page);
 
                     // TODO: if page = 1 => remove page param from query params
-
                     // set query params to url
                     window.location.search = urlParams.toString();
                 } else {
