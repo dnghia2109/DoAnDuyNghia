@@ -1,0 +1,56 @@
+/* --------------------------------------------------------------------- */
+
+/* Todo: Start Footer */
+.main {
+    margin: 40px 0;
+}
+
+.form-control.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #1b1b1b;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.input-data.input-data:focus,
+.input-message.input-message:focus {
+    border-color:#0249ab; /* Màu tím */
+    box-shadow: 0 0 0px rgba(128, 0, 128, 0.7); /* Hiệu ứng đổ bóng tím */
+}
+
+.input-data.input-data{
+    line-height: 1.5;
+    padding: 0.75rem 1rem;
+    height: 50px;
+}
+
+.input-message.input-message{
+    height: 250px;
+}
+
+#btn-submit-feedback:focus{
+    display: none;
+}
+
+#btn-submit-feedback {
+    height: 50px;
+    width: 25%;
+    padding: 0.75rem 1rem;
+    background-color: #0249ab
+}
+
+
+/* Todo: End Header */
+
+/* --------------------------------------------------------------------- */

@@ -11,10 +11,7 @@ import com.example.blog.entity.User;
 import com.example.blog.exception.BadRequestException;
 import com.example.blog.exception.NotFoundException;
 import com.example.blog.mapper.BlogMapper;
-import com.example.blog.repository.BlogRepository;
-import com.example.blog.repository.CategoryRepository;
-import com.example.blog.repository.TagRepository;
-import com.example.blog.repository.UserRepository;
+import com.example.blog.repository.*;
 import com.example.blog.request.UpsertBlogRequest;
 import com.example.blog.security.ICurrentUser;
 import com.example.blog.utils.Utils;
@@ -48,6 +45,7 @@ public class BlogService {
     private final CategoryRepository categoryRepository;
     private final ICurrentUser iCurrentUser;
     private final EntityManager entityManager;
+    private final RoleRepository roleRepository;
 
 
     // TODO: Lấy ra các bài viết cho trang chủ
@@ -127,9 +125,9 @@ public class BlogService {
         blog.setContent(request.getContent());
         blog.setThumbnail(request.getThumbnail());
         blog.setStatus(request.getStatus());
-        if (!request.getStatus()) {
-            blog.setApprovalStatus(EApprovalStatus.NOT_READY);
-        }
+//        if (!request.getStatus()) {
+//            blog.setApprovalStatus(EApprovalStatus.NOT_READY);
+//        }
         blog.setApprovalStatus(EApprovalStatus.PENDING);
         blog.setCategory(category);
         blog.setTags(tags);
@@ -142,6 +140,7 @@ public class BlogService {
 
     @Transactional
     public BlogDto updateBlog(Integer id, UpsertBlogRequest request) {
+        User curUser = iCurrentUser.getUser();
         Blog blog = blogRepository.findById(id).orElseThrow(() -> {
             throw new NotFoundException("Not found blog with id = " + id);
         });
@@ -159,16 +158,30 @@ public class BlogService {
         blog.setSlug(slugify.slugify(request.getTitle()));
         blog.setDescription(request.getDescription());
         blog.setContent(request.getContent());
-        blog.setStatus(request.getStatus());
         blog.setThumbnail(request.getThumbnail());
         blog.setCategory(category);
         blog.setTags(tags);
 
+//        // Chỉ tác giả của bài viết mới có thể cập nhật được trạng thái hiển thị (status) của bài viết
+//        if (!blog.getStatus().equals(request.getStatus())) {
+//            if (!blog.getUser().equals(curUser)) {
+//                throw new BadRequestException("Bạn không thể cập nhật trạng thái hiển thị của bài viết do không phải tác giả");
+//            } else {
+//                blog.setStatus(request.getStatus());
+//            }
+//        }
+
         // Trường hợp này sử dụng cho việc update khi các blog bị admin từ chối phê duyệt
         if (blog.getApprovalStatus() == EApprovalStatus.NOT_APPROVE) {
             blog.setApprovalStatus(EApprovalStatus.PENDING);
-            blog.setNote(" ");
+            blog.setNote(null);
         }
+
+//        // Trường hợp này sử dụng cho việc update lại ApproveStatus khi mà blog có status là "nháp"
+//        // được author đổi trạng thái thành "công khai" (case này chỉ sử dụng cho tác giả của bài viết)
+//        if((!blog.getStatus().equals(request.getStatus())) && (request.getStatus()) && (blog.getApprovalStatus() == EApprovalStatus.NOT_READY)) {
+//            blog.setApprovalStatus(EApprovalStatus.PENDING);
+//        }
 
         blogRepository.save(blog);
         return BlogMapper.toDto(blog);

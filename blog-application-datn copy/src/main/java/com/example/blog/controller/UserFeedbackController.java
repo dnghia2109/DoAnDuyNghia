@@ -18,6 +18,27 @@ public class UserFeedbackController {
     @Autowired
     private UserFeedbackService userFeedbackService;
 
+    @GetMapping("/dashboard/admin/feedback/not-reply")
+    public String getCategoryPage(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                  @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                                  Model model) {
+        //Page<CategoryPublic> pageInfo = categoryService.getAllCategory(page, pageSize);
+        Page<UserFeedback> pageInfo = userFeedbackService.getAllUserFeedbackByStatus(EFeedbackStatus.NOT_REPLY ,page, pageSize);
+        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("currentPage", page);
+        return "admin/feedback/feedback-not-reply";
+    }
+
+    @GetMapping("/dashboard/admin/feedback/reply")
+    public String getAllFeedbackReply(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                      @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                                      Model model) {
+        Page<UserFeedback> pageInfo = userFeedbackService.getAllUserFeedbackByStatus(EFeedbackStatus.REPLY, page, pageSize);
+        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("currentPage", page);
+        return "admin/feedback/feedback-not-reply";
+    }
+
     @PostMapping("/api/v1/feedback")
     public ResponseEntity<?> sendFeedback(@RequestBody UserFeedbackRequest userFeedbackRequest) {
         return new ResponseEntity<>(userFeedbackService.create(userFeedbackRequest), HttpStatus.CREATED);
@@ -26,22 +47,6 @@ public class UserFeedbackController {
     @PutMapping("/api/v1/admin/feedback/{id}")
     public ResponseEntity<?> replyFeedback(@PathVariable Integer id, @RequestBody UserFeedbackRequest userFeedbackRequest) {
         return new ResponseEntity<>(userFeedbackService.replyFeedback(id, userFeedbackRequest), HttpStatus.OK);
-    }
-
-    @GetMapping("/dashboard/admin/feedback/not-reply")
-    public String getAllFeedbackNotReply(@RequestParam(required = false, defaultValue = "1") Integer page,
-                                         @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                                         Model model) {
-        Page<UserFeedback> pageInfo = userFeedbackService.getAllUserFeedbackByStatus(EFeedbackStatus.NOT_REPLY, page, pageSize);
-        return "admin/feedback/index-not-reply";
-    }
-
-    @GetMapping("/dashboard/admin/feedback/reply")
-    public String getAllFeedbackReply(@RequestParam(required = false, defaultValue = "1") Integer page,
-                                      @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                                      Model model) {
-        Page<UserFeedback> pageInfo = userFeedbackService.getAllUserFeedbackByStatus(EFeedbackStatus.REPLY, page, pageSize);
-        return "admin/feedback/index-not-reply";
     }
 
     @DeleteMapping("/api/v1/admin/feedback/{id}")

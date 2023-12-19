@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-public :: main-fragment(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
+
+<head>
+    <title>Thông tin tài khoản</title>
+    <th:block id="css">
+        <!--        <link rel="stylesheet" th:href="@{/css/style-public-web.css}">-->
+        <link rel="stylesheet" th:href="@{/css/feedback.css}">
+        <!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+    </th:block>
+</head>
+
+<body>
+<th:block id="content">
+    <!-- Blog Section Begin -->
+    <main class="main">
+        <div class="container foot">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="post-title">
+                        <h1 class="h1 display-4-md display-3-lg mt-2">Contact Us</h1>
+                    </div>
+                    
+                    <div class="post-content mb-5">
+                        <p>At Choice you always talk to a human! Have questions about background screening? Our entire team receives specialized training regularly to ensure you're receiving the best information possible. From basic questions to complex compliance inquiries, we're here to help!
+                        </p>
+                        <div class="pb-2 mt-3 mt-md-4">
+                            <!--form start-->
+<!--                            <form class="needs-validation" novalidate="">-->
+                                <div class="mb-4">
+                                    <input type="text" id="username-input" class="form-control input-data" aria-label="first name" placeholder="Họ tên" required="true">
+                                    <div class="invalid-feedback">
+                                        Điền tên của bạn.
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <input name="email" id="email-input" class="form-control input-data" aria-label="email address" placeholder="Địa chỉ email" type="email" required="true">
+                                    <div class="invalid-feedback">
+                                        Điền email của bạn.
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <textarea id="feedback-input" class="form-control input-message" aria-label="insert messages" placeholder="Để lại lời nhắn" rows="4" required="true"></textarea>
+                                    <div class="invalid-feedback">
+                                        Hãy để lại lời nhắn.
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <button id="btn-submit-feedback" class="btn btn-primary">Gửi ý kiến</button>
+                                </div>
+<!--                            </form>-->
+                            <!--end form-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Blog Section End -->
+</th:block>
+
+<th:block id="js">
+    <script th:inline="javascript">
+        const btnSubmitFeedback = document.getElementById("btn-submit-feedback");
+        const usernameEl = document.getElementById("username-input");
+        const emailEl = document.getElementById("email-input");
+        const feedbackContentEl = document.getElementById("feedback-input");
+        
+        btnSubmitFeedback.addEventListener("click", async () => {
+            try {
+                const username = usernameEl.value;
+                const email = emailEl.value;
+                const content = feedbackContentEl.value;
+
+                const request = {
+                    username,
+                    email,
+                    content
+                }
+                let res = await axios.post("/api/v1/feedback", request);
+                console.log(res.data)
+                if (res.status === 200 || res.status === 201) {
+                    toastr.success("Cảm ơn về ý kiến đóng góp của bạn!");
+                    setTimeout(() => {
+                        location.reload()
+                    })
+                } else {
+                    toastr.error("Không thành công")
+                }
+                
+            } catch (err) {
+                toastr.warning(err.response.data.message);
+                console.log(err);
+            }
+        })
+    </script>
+</th:block>
+</body>
+
+</html>

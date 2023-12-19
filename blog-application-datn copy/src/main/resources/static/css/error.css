@@ -80,3 +80,7 @@ h1 span {
 .text-9xl {
     font-size: 5.5rem;
 }
+
+a {
+    text-decoration: none !important;
+}

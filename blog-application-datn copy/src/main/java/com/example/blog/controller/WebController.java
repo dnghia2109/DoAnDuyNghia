@@ -129,4 +129,12 @@ public class WebController {
         return ResponseEntity.ok(categories);
     }
 
+    // Get feedback view
+    @GetMapping("/feedback")
+    public String getFeedbackPage(Model model) {
+        List<CategoryDto> categoryList = categoryService.getAllCategoryPublic();
+        model.addAttribute("categoryList", categoryList);
+        return "public/feedback";
+    }
+
 }

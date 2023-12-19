@@ -15,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -35,6 +37,10 @@ public class UserFeedbackService {
 
     public UserFeedback create(UserFeedbackRequest userFeedbackRequest) {
         UserFeedback userFeedback = new UserFeedback();
+        if (userFeedbackRequest.getUsername().isEmpty()) {
+            throw new BadRequestException("Bạn cần nhập vào tên");
+        }
+
         if (userFeedbackRequest.getEmail().isEmpty()) {
             throw new BadRequestException("Bạn cần nhập vào email");
         }
@@ -42,6 +48,7 @@ public class UserFeedbackService {
         if (userFeedbackRequest.getContent().isEmpty()) {
             throw new BadRequestException("Bạn cần để lại ý kiến góp ý, nhận xét");
         }
+        userFeedback.setUsername(userFeedbackRequest.getUsername());
         userFeedback.setEmail(userFeedbackRequest.getEmail());
         userFeedback.setContent(userFeedbackRequest.getContent());
         userFeedback.setStatus(EFeedbackStatus.NOT_REPLY);
@@ -63,6 +70,12 @@ public class UserFeedbackService {
         userFeedback.setUserReply(iCurrentUser.getUser().getEmail());
         userFeedback.setStatus(EFeedbackStatus.REPLY);
         userFeedbackRepository.save(userFeedback);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", userFeedback.getUsername());
+        data.put("contentReply", userFeedbackRequest.getContentReply());
+        mailService.sendEmailReplyUserFeedback(userFeedback.getEmail(), data);
+
         return userFeedback;
     }
 

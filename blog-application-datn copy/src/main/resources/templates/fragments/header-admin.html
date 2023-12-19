@@ -224,9 +224,15 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a th:href="@{/dashboard/admin/feedback}" class="nav-link">
+                                <a th:href="@{/dashboard/admin/feedback/not-reply}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Danh sách feedback</p>
+                                    <p>Danh sách feedback chưa trả lời</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/dashboard/admin/feedback/reply}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Danh sách feedback đã trả lời</p>
                                 </a>
                             </li>
                         </ul>

@@ -21,6 +21,9 @@ public class UserFeedback {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "username", nullable = false)
+    private String username;
+
     @Column(name = "content")
     private String content;
 

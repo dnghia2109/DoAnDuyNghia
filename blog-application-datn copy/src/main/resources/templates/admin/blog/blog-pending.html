@@ -88,8 +88,7 @@
                                             <button id="btn-approve" class="btn btn-approve btn-success btn-circle" th:onclick="|approveBlog(${blog.id})|">
                                                 <i class="fas fa-check"></i>
                                             </button>
-                                            <button id="btn-not-approve" class="btn btn-warning btn-circle" th:onclick="|openModalNotApproveBlog(${blog.id})|"
-                                                    onclick="return confirm('Bạn có muốn phê duyệt bài viết này?')">
+                                            <button id="btn-not-approve" class="btn btn-warning btn-circle" th:onclick="|openModalNotApproveBlog(${blog.id})|">
                                                 <i class="fas fa-exclamation-triangle"></i>
                                             </button>
                                         </td>

@@ -40,7 +40,7 @@ btnLogout.addEventListener("click", async (e) => {
        if(res.status === 200) {
            toastr.success("Đăng xuất thành công");
            setTimeout(() => {
-               window.location.href = "/admin/login"
+               window.location.href = "/auth/login"
            }, 1500)
        }
     } catch (e) {

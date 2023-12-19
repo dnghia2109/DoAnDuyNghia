@@ -21,11 +21,6 @@ public class MailService {
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
 
-//    public MailService(JavaMailSender javaMailSender) {
-//        this.mailSender = javaMailSender;
-//
-//    }
-
 
     public void sendMail(String receiver, String subject, String content) {
         // Create a Simple MailMessage.
@@ -82,7 +77,6 @@ public class MailService {
 
     // TODO: Gửi email đổi mật khẩu
     public void sendEmailChangePassword(String toUser, Map<String, Object> data) {
-
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -94,7 +88,30 @@ public class MailService {
             context.setVariable("username", data.get("username"));
             context.setVariable("linkConfirm", data.get("linkConfirm"));
 
-            String htmlContent = templateEngine.process("mail/reset-password", new Context(Locale.getDefault(), data));
+            String htmlContent = templateEngine.process("mail/reset-password", context);
+            helper.setText(htmlContent, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            log.error("Error when sending email reset password: " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    // TODO: Gửi email trả lời phản hồi, góp ý của người dùng
+    public void sendEmailReplyUserFeedback(String toUser, Map<String, Object> data) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom("VnNews@gmail.com");
+            helper.setTo(toUser);
+            helper.setSubject("Trả lời đánh giá, góp ý của người dùng");
+
+            Context context = new Context();
+            context.setVariable("username", data.get("username"));
+            context.setVariable("contentReply", data.get("contentReply"));
+
+            String htmlContent = templateEngine.process("mail/feedback", context);
             helper.setText(htmlContent, true);
 
             mailSender.send(message);

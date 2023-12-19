@@ -47,7 +47,7 @@
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .customer-info .address-detail {
@@ -97,3 +97,47 @@
 .user-avatar-container label {
     display: none;
 }
+
+span.icon-toggle-password {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+}
+
+.checkout__input.mb-0 {
+    position: relative;
+    cursor: pointer;
+}
+
+
+input#avatar {
+    display: inline-block;
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+
+}
+
+/*.user-avatar-container.d-flex.align-items-center {*/
+/*    width: fit-content;*/
+/*    overflow: hidden;*/
+/*}*/
+.user-avatar-container.d-flex.align-items-center {
+     /*background: red;*/
+    width: fit-content;
+}
+
+.checkout__input__avatar {
+    width: 100px;
+}
+
+/*.checkout__input.mb-0 {*/
+/*    width: 100%;*/
+/*    cursor: pointer;*/
+/*}*/
+

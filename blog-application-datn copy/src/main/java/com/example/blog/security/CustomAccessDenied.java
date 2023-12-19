@@ -20,6 +20,6 @@ public class CustomAccessDenied implements AccessDeniedHandler {
         log.info("FORBIDDEN");
 //        response.sendRedirect("/error/error-403");
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Không có quyền truy cập");
     }
 }
