@@ -32,9 +32,13 @@ public class UserReceiveNewsService {
     private BlogService blogService;
     @Autowired
     private MailService mailService;
+
     @Value("${server.port}")
     private int serverPort;
 
+    public int getServerPort() {
+        return serverPort;
+    }
 
     // TODO: Đăng ký nhân mail
     @Transactional

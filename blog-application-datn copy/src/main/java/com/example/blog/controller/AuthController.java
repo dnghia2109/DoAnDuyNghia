@@ -29,7 +29,7 @@ public class AuthController {
     private final ICurrentUser iCurrentUser;
     private final TokenConfirmService tokenConfirmService;
 
-    @GetMapping("/admin/login")
+    @GetMapping("/auth/login")
     public String getLoginPage() {
 //        User user = iCurrentUser.getUser();
 //        if(user != null) {
@@ -38,7 +38,7 @@ public class AuthController {
         return "admin/util/login";
     }
 
-    @GetMapping("/admin/forgot-password")
+    @GetMapping("/auth/forgot-password")
     public String getForgotPasswordPage() {
         //        User user = iCurrentUser.getUser();
 //        if(user != null) {
@@ -49,12 +49,12 @@ public class AuthController {
         return "admin/util/forgot-password";
     }
 
-    @GetMapping("/register")
+    @GetMapping("/auth/register")
     public String getRegisterPage() {
         return "admin/util/register";
     }
 
-    @GetMapping("/admin/change-password/{token}")
+    @GetMapping("/auth/change-password/{token}")
     public String getUpdatePasswordPage(@PathVariable String token, Model model) {
         model.addAttribute("info", tokenConfirmService.checkConfirmToken(token));
         model.addAttribute("token", token);
@@ -84,7 +84,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(request));
     }
 
-    @GetMapping("/register/confirm/{token}")
+    @GetMapping("/auth/register/confirm/{token}")
     public String getRegisterConfirmResultPage(@PathVariable String token, Model model) {
         model.addAttribute("info", tokenConfirmService.checkConfirmTokenRegister(token));
         model.addAttribute("token", token);

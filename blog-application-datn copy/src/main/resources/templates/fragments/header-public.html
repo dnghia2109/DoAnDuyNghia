@@ -9,7 +9,7 @@
     <div class="header header-logo">
         <div class="container header-main-top">
 <!--            <img src="https://cdn.bongda24h.vn/images/logo-bongda24h.svg" alt="" />-->
-            <img src="/img/homepage/image-removebg-preview.png" alt="" />
+            <a href="/homepage"><img src="/img/homepage/image-removebg-preview.png" alt="" /></a>
             <a th:href="@{/blogs}">
                 <i class='bx bx-search'></i>
             </a>
@@ -17,11 +17,12 @@
     </div>
     <nav class="navication">
         <div class="container">
-            <a href="#"><i class="bx bx-home"></i></a>
+            <a href="/homepage"><i class="bx bx-home"></i></a>
             <ul>
                 <th:block th:each="category:${categoryList}">
                     <li class="name-nav-header" >
-                        <a th:text="${category.name}" href="#">Video</a>
+<!--                        th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}"-->
+                        <a th:text="${category.name}" th:href="@{/blogs?categoryId={categoryID} (categoryID=${category.id})}">Video</a>
                     </li>
                 </th:block>
             </ul>

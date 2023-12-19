@@ -49,10 +49,10 @@
                 </div>
             </form>
             <p class="mb-1 mt-2">
-                <a th:href="@{/admin/forgot-password}">Quên mật khẩu</a>
+                <a th:href="@{/auth/forgot-password}">Quên mật khẩu</a>
             </p>
             <p class="mb-1 mt-2">
-                <a th:href="@{/register}">Đăng kí tài khoản</a>
+                <a th:href="@{/auth/register}">Đăng kí tài khoản</a>
             </p>
         </div>
 
@@ -102,7 +102,7 @@
                 toastr.success("Đăng nhập thành công");
                 setTimeout(() => {
                     // redirectToSavedUrl();
-                    window.location.href = "/dashboard/blogs/own-blogs";
+                    window.location.href = "/homepage";
                     // window.location.href = "/admin/blogs";
                 }, 1500);
             }

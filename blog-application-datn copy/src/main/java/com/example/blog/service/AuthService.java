@@ -14,7 +14,6 @@ import com.example.blog.request.ForgotPasswordRequest;
 import com.example.blog.request.LoginRequest;
 import com.example.blog.request.RegisterRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,22 +23,24 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class AuthService {
+    private final MailService mailService;
+    private final UserReceiveNewsService userReceiveNewsService;
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final TokenConfirmRepository tokenConfirmRepository;
-    private final MailService mailService;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UserDto register(RegisterRequest request) {
         Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
-
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (!user.getEnabled() && user.getName().equals(request.getName()) && user.getEmail().equals(request.getEmail())) {
@@ -48,9 +49,11 @@ public class AuthService {
                 generateTokenAndSendMail(user);
                 return new UserDto(user);
             }
-            throw new BadRequestException("Tài khoản đã được kích hoạt");
+            throw new BadRequestException("Tài khoản đã được kích hoạt!");
         }
-
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            throw new BadRequestException("Mật khẩu xác nhận không khớp nhau. Vui lòng kiểm tra lại!");
+        }
         // Tạo user mới
         Role userRole = roleRepository.findByName("USER").orElse(null);
         User user = new User(request.getName(), request.getEmail(), passwordEncoder.encode(request.getPassword()), userRole);
@@ -69,11 +72,15 @@ public class AuthService {
                 .build();
         tokenConfirmRepository.save(tokenConfirm);
 
-        String link = "http://localhost:8080/api/auth/confirm/" + tokenConfirm.getToken();
-        String link1 = "http://localhost:" + 8089 +"/register/confirm/" + tokenConfirm.getToken();
-        // Send email chưa token
-        // Link : http://localhost:8080/doi-mat-khau/hakdiwowjkdkdkdjfffki
-        mailService.sendMail(user.getEmail(), "Xác thực email đăng ký", link1);
+        int serverPort = userReceiveNewsService.getServerPort();
+
+        String linkConfirm = "http://localhost:" + serverPort + "/auth/register/confirm/" + tokenConfirm.getToken();
+        Map<String, Object> data = new HashMap<>();
+        data.put("email", user.getEmail());
+        data.put("username", user.getName());
+        data.put("linkConfirm", linkConfirm);
+//        mailService.sendMail(user.getEmail(), "Xác thực email đăng ký", linkConfirm);
+        mailService.sendEmailConfirmAccountRegister(user.getEmail(), data);
     }
 
 
@@ -96,7 +103,7 @@ public class AuthService {
 
             return "Đăng nhập thành công";
         } catch (Exception e) {
-            throw new BadRequestException("Email/Password không chính xác");
+            throw new BadRequestException("Email/Password không chính xác!");
         }
     }
 
@@ -104,7 +111,7 @@ public class AuthService {
         // Kiểm tra email gửi lên có tồn tại trong db hay không
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> {
-                    throw new NotFoundException("Not found user");
+                    throw new NotFoundException("Tài khoản không tồn tại!");
                 });
 
         // Tạo ra token -> lưu vào cơ sở dữ liệu
@@ -116,20 +123,21 @@ public class AuthService {
                 .user(user)
                 .build();
         tokenConfirmRepository.save(tokenConfirm);
-        // Send email chưa token
-        // Link : http://localhost:8080/doi-mat-khau/hakdiwowjkdkdkdjfffki
-        mailService.sendMail(
-                user.getEmail(),
-                "Quên mật khẩu",
-                "Link :" + "http://localhost:8080/admin/change-password/" + tokenConfirm.getToken()
-        );
+        int serverPort = userReceiveNewsService.getServerPort();
+
+        String linkConfirm = "http://localhost:" + serverPort + "/auth/change-password/" + tokenConfirm.getToken();
+        Map<String, Object> data = new HashMap<>();
+        data.put("email", user.getEmail());
+        data.put("username", user.getName());
+        data.put("linkConfirm", linkConfirm);
+        mailService.sendEmailChangePassword(user.getName(), data);
     }
 
     public void changePassword(ChangePasswordRequest request) {
         // Kiểm tra token
         TokenConfirm tokenConfirm = tokenConfirmRepository.findByToken(request.getToken())
                 .orElseThrow(() -> {
-                    throw new NotFoundException("Not found token");
+                    throw new NotFoundException("Token không hợp lệ!");
                 });
 
         // Kiểm tra password và confirm password
@@ -142,4 +150,14 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }
+
+    // Hủy token nếu user không gửi yêu cầu đặt lại mật khẩu
+//    public void userConfirmNotSendChangePassword(String token) {
+//        TokenConfirm tokenConfirm = tokenConfirmRepository.findByToken(token)
+//                .orElseThrow(() -> {
+//                    throw new NotFoundException("Token không hợp l!");
+//                });
+//        tokenConfirmRepository.delete(tokenConfirm);
+//    }
+
 }
