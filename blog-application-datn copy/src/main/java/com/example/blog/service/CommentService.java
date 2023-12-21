@@ -9,6 +9,7 @@ import com.example.blog.entity.User;
 import com.example.blog.exception.BadRequestException;
 import com.example.blog.repository.BlogRepository;
 import com.example.blog.repository.CommentRepository;
+import com.example.blog.repository.RoleRepository;
 import com.example.blog.request.CommentRequest;
 import com.example.blog.security.ICurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ICurrentUser iCurrentUser;
     private final BlogRepository blogRepository;
+    private final RoleRepository roleRepository;
 
     // TODO: Thêm mới comment
     public CommentDto create(int blogId, CommentRequest commentRequest) {
@@ -63,10 +65,14 @@ public class CommentService {
         if (user == null) {
             throw new BadRequestException("Bạn cần đăng nhập để thực hiện tác vụ.");
         }
-        Comment comment = commentRepository.findById(commentId).orElse(null);
 
+        Comment comment = commentRepository.findById(commentId).orElse(null);
         if (!user.equals(comment.getUser())) {
             throw new BadRequestException("Bạn không phải tác giả của bình luận này");
+        }
+
+        if (commentRequest.getContent().isEmpty()) {
+            throw new BadRequestException("Bạn cần nhập nội dung bình luận.");
         }
 
         comment.setContent(commentRequest.getContent());
@@ -83,7 +89,7 @@ public class CommentService {
         // User đang login
         User user = iCurrentUser.getUser();
         Comment comment = commentRepository.findById(commentId).orElse(null);
-        if (user.getId() == comment.getUser().getId()) {
+        if (user.getId() == comment.getUser().getId() || user.getRoles().contains(roleRepository.findByName("ADMIN"))) {
             commentRepository.delete(comment);
         } else {
             throw new BadRequestException("Bạn không thể xóa bình luận này, bạn không phải tác giả của bình luận");

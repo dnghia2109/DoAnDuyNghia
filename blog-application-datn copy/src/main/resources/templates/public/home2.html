@@ -17,24 +17,23 @@
         <div class="row">
             <div class="col-12 mt-05">
                 <div class="row py-2 bre-main">
-                    <div class="breaking-title">Breaking news</div>
+                    <div class="breaking-title">Tin nóng mới nhất</div>
                     <div class="content-breaking">
-                        Google Employees Protest Secret Work on Censored Search Engine
-                        for China
+                        Cập nhật tin tức liên tục 24/7, đảm bảo tin tức đến kịp thời với quý độc giả
                     </div>
                 </div>
                 <div class="row featured-1 mb-5">
-                    
                     <div class="col-md-6 pb-05 pt-05 pe-md-05" th:each="blog, iterStat:${blogHotList}" th:if="${iterStat.first}">
                         <!-- <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/404009952_1328710591117215_4467318450896354834_n.jpg?stp=dst-jpg_p206x206&_nc_cat=111&ccb=1-7&_nc_sid=510075&_nc_ohc=fE6iRPVCmiEAX8eZEce&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTTZ8LnWmslrBLXAIJrTPcc2woonGz5sjbFf-heNcYFqg&oe=6596ACA6" alt="" /> -->
                         <div class="image-wrapper wra">
                             <img th:src="${blog.thumbnail}" class="img-fluid" src="https://cdnphoto.dantri.com.vn/a_HcdVaqbi6pgmGT7HNrkM0gjiE=/zoom/192_128/2023/12/16/dien-dan-lao-dong-edited-1702714273221.jpeg" alt="" />
                             <div class="main-text-title-ts">
-                                <a class="heading-letter-spacing" href="#"></a>
+                                <a style="color: white!important;" class="heading-letter-spacing" th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
                                 <h2 th:text="${blog.title}" class="title-name-br">
                                     The world's first floating farm making waves in
                                     Rotterdamsdfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff The world's first floating farm making waves in Rotterdamsdfsdfffffffffffffffffffffffffffffffffffffff
-                                </h2></a>
+                                </h2>
+                                </a>
                                 <div class="news-meta">
 										<span class="news-author">
 											by
@@ -56,8 +55,8 @@
                                     <img th:src="${blog.thumbnail}" class="img-fluid" src="/api/v1/files/2" alt="" />
                                     <div class="flickity-viewport">
                                         <div class="main-text-title">
-                                            <a th:text="${blog.category.name}" href="#" class="bg-primary text-white buss">Kinh doanh</a>
-                                            <a href="#">
+                                            <a th:text="${blog.category.name}" th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}" class="bg-primary text-white buss">Kinh doanh</a>
+                                            <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
                                                 <h2 th:text="${blog.title}" class="h6 h4-sm h6-md h5-lg text-white my-1">EU đồng ý mở đàm phán về tư cách thành viên của Ukraine
                                                     Fantastic Beasts sequel?</h2>
                                             </a>
@@ -73,8 +72,8 @@
                                     <img th:src="${blog.thumbnail}" class="img-fluid" src="https://scontent.xx.fbcdn.net/v/t1.15752-9/404009952_1328710591117215_4467318450896354834_n.jpg?stp=dst-jpg_p206x206&_nc_cat=111&ccb=1-7&_nc_sid=510075&_nc_ohc=fE6iRPVCmiEAX8eZEce&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTTZ8LnWmslrBLXAIJrTPcc2woonGz5sjbFf-heNcYFqg&oe=6596ACA6" alt="" />
                                     <div class="flickity-viewport">
                                         <div class="main-text-title">
-                                            <a th:text="${blog.category.name}" href="#" class="bg-primary text-white buss">Du lịch</a>
-                                            <a href="#">
+                                            <a th:text="${blog.category.name}" th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}" class="bg-primary text-white buss">Du lịch</a>
+                                            <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
                                                 <h2 th:text="${blog.title}" class="h6 h4-sm h6-md h5-lg text-white my-1">Finding Empowerment
                                                     in Two Wheels and a Helmet</h2>
                                             </a>
@@ -90,10 +89,10 @@
         
         <div class="row">
             <div class="col-md-8">
-                <div class="block-area" th:each="category:${categoryList}">
+                <div class="block-area" th:each="category:${categoryHoemPageList}">
                     <div class="block-title-6">
                         <h4 class="h5 border-primary"></h4>
-                        <span class="bg-primary text-white" th:text=" ${category.name}">Thể Thao</span>
+                        <span class="bg-primary text-white box-title" th:text=" ${category.name}">Thể Thao</span>
                     </div>
                     <div class="row" th:each="blog, iterStat:${category.blogs}" th:if="${iterStat.first}">
                         <div class="col-lg-6">
@@ -146,7 +145,7 @@
                 <aside class="widget">
                     <div class="block-title-4">
                         <h4 class="h5 title-arrow">
-                            <span>Latest news</span>
+                            <span>Bài viết mới</span>
                         </h4>
                     </div>
                     <div class="big-post" th:each="blog, iterStat:${blogLastestList}" th:if="${iterStat.first}">
@@ -217,24 +216,109 @@
                     </article>
                 </div>
                 
+                <!--Bài viết có nhiều lượt xem trong hệ thống-->
                 <aside class="widget">
-                    <div class="p-4 border bg-light-dark text-center mb-4">
-                        <h4>Get Updates</h4>
-                        <p class="text-dark-light">Subscribe our newsletter to get the last update into your inbox!
-                        </p>
-                        <div class="mx-auto">
-                            <form id="subscribe" class="needs-validation" action="#" novalidate="">
-                                <div class="input-group">
-                                    <input type="email" class="form-control" name="email" required=""
-                                           aria-label="email form" placeholder="Enter your email address"
-                                           fdprocessedid="909qnm">
-                                    <button class="btn btn-primary" type="submit"
-                                            fdprocessedid="qzu3s">Subscribe</button>
-                                    <div class="invalid-feedback">
-                                        Please insert email address.
+                    <div class="block-title-4">
+                        <h4 class="h5 title-arrow">
+                            <span>Bài viết phổ biến</span>
+                        </h4>
+                    </div>
+                    <div class="big-post" th:each="blog, iterStat:${popularBlogs}" th:if="${iterStat.first}">
+                        <article class="card card-full hover-a mb-4" >
+                            <!--thumbnail-->
+                            <div class="ratio_360-202 image-wrapper">
+                                <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
+                                    <!-- <img class="img-fluid lazy entered loaded"
+                                        src="https://demo.bootstrap.news/bootnews/assets/img/360x202/img55.jpg"
+                                        data-src="../../assets/img/360x202/img55.jpg"
+                                        alt="Image description"
+                                        data-ll-status="loaded"> -->
+                                    <img th:src="${blog.thumbnail}" class="img-fluid lazy entered loaded"
+                                         src="https://i1-vnexpress.vnecdn.net/2023/12/14/fed1-2023-12-14t182450-403-170-3244-4695-1702553437.jpg?w=380&h=228&q=100&dpr=1&fit=crop&s=efj5_qZup945ccSrzZWafg"
+                                         
+                                         alt="Image description"
+                                         data-ll-status="loaded">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <!--title-->
+                                <h2 class="card-title h1-sm h3-md">
+                                    <a th:text="${blog.title}" th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">MotoGP: Which team needs what in 2019?</a>
+                                </h2>
+                                <!-- author & date -->
+                                <div class="card-text mb-2 text-muted small">
+                                    <span class="d-none d-sm-inline me-1">
+                                        <a th:text="${blog.author}" class="fw-bold" href="#">John Doe</a>
+                                    </span>
+                                    <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}" datetime="2019-10-22">Oct 22, 2019</time>
+                                </div>
+                                <!--description-->
+                                <p th:text="${blog.description}" class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </article>
+                    </div>
+                </aside>
+                <div class="small-post">
+                    <!--post list-->
+                    <article class="card card-full hover-a mb-4" th:each="blog, iterStat:${popularBlogs}" th:if="${!iterStat.first}">
+                        <div class="row">
+                            <!--thumbnail-->
+                            <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                <div class="ratio_110-77 image-wrapper">
+                                    <a th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">
+                                        <!-- <img class="img-fluid lazy entered loaded"
+                                            src="https://demo.bootstrap.news/bootnews/assets/img/110x77/img5.jpg"
+                                            data-src="../../assets/img/110x77/img5.jpg" alt="Image description"
+                                            data-ll-status="loaded"> -->
+                                        <img th:src="${blog.thumbnail}" class="img-fluid lazy entered loaded"
+                                             src="data:image/jpeg;base64,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">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- title & date -->
+                            <div class="col-9 col-md-8">
+                                <div class="card-body pt-0">
+                                    <h3 class="card-title h6 h5-sm h6-md">
+                                        <a th:text="${blog.title}" th:href="@{/homepage/blogs/{blogId}/{blogSlug} (blogId=${blog.id}, blogSlug=${blog.slug})}">Take the kids to Windermere Jetty, Lake District</a>
+                                    </h3>
+                                    <div class="card-text small text-muted">
+                                        <time th:text="${#temporals.format(blog.publishedAt, 'dd/MM/yyyy')}" datetime="2019-10-16">Oct 16, 2019</time>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <aside class="widget">
+                    <div class="p-4 border bg-light-dark text-center mb-4">
+                        <img style="width: 100%" class="image-aside" src="/api/v1/files/46">
+                    </div>
+                </aside>
+                <aside class="widget">
+                    <div class="p-4 border bg-light-dark text-center mb-4">
+                        <img style="width: 100%" class="image-aside" src="/api/v1/files/47">
+                    </div>
+                </aside>
+                
+                
+                <aside class="widget">
+                    <div class="p-4 border bg-light-dark text-center mb-4">
+                        <h4>Nhận bài viết mới</h4>
+                        <p class="text-dark-light">
+                            Đăng ký bản tin để nhận tin tức mới nhất vào hộp thư đến của bạn
+                        </p>
+                        <div class="mx-auto">
+                            <div id="subscribe" class="needs-validation">
+                                <div class="input-group">
+                                    <input id="email-subcribe" type="email" class="form-control" name="email" required=""
+                                           aria-label="email form" placeholder="Nhập email"
+                                           fdprocessedid="909qnm">
+                                    <button id="btn-subcribe" class="btn btn-primary"
+                                            fdprocessedid="qzu3s">Đăng ký</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </aside>
@@ -242,28 +326,34 @@
         
         </div>
     </div>
-    <div class="advertisement01 ads-main">
+    <div class="advertisement01 ads-main" >
+        <th:block th:each="advertisement : ${advertisementListOnLeftSide}">
         <div class="ads-qc">
             <i class='bx bx-x' id="closeAds1"></i>
-            <img class="fixed-image" src="https://adi.admicro.vn/adt/adn/2023/10/banner-G1GeFmK4zu.jpeg" alt="">
+            <img th:src="${advertisement.url}" id="advertisement-left" class="fixed-image" src="https://adi.admicro.vn/adt/adn/2023/10/banner-G1GeFmK4zu.jpeg" alt="">
         </div>
+        </th:block>
     </div>
     
-    <div class="advertisement02 ads-main" id="">
+    <div class="advertisement02 ads-main" >
+        <th:block th:each="advertisement : ${advertisementListOnRightSide}">
         <div class="ads-qc">
             <i class='bx bx-x' id="closeAds2"></i>
-            <img class="fixed-image" src="https://adi.admicro.vn/adt/adn/2023/10/banner-G1GeFmK4zu.jpeg" alt="">
+            <img th:src="${advertisement.url}" id="advertisement-right" class="fixed-image" src="https://adi.admicro.vn/adt/adn/2023/10/banner-G1GeFmK4zu.jpeg" alt="">
         </div>
+        </th:block>
     </div>
     
-    <div class="gif-qc">
+    <div class="gif-qc" th:each="advertisement : ${advertisementListOnRightSide}">
         <div class="ads-qc">
             <i class='bx bx-x' id="closeAds3"></i>
-            <img class="fixed-image" src="https://drivadz.vn/media/uploads/cms/Untitled1.gif" alt="">
+            <img th:src="${advertisement.url}" id="advertisement-bottom" class="fixed-image" src="https://drivadz.vn/media/uploads/cms/Untitled1.gif" alt="">
         </div>
     </div>
 </main>
 <th:block id="js">
+    <script th:src="@{/js/default.js}"></script>
+    <script th:src="@{/js/advertisement.js}"></script>
     <script th:inline="javascript">
         console.log(1)
 
@@ -272,6 +362,31 @@
 
         const blogHotList = [[${blogHotList}]];
         console.log(blogHotList);
+
+        // render advertisement
+        const advertisementLeftSide = [[${advertisementListOnLeftSide}]]
+        const advertisementRightSide = [[${advertisementListOnRightSide}]]
+        const advertisementBottom = [[${advertisementListBottom}]]
+        console.log({advertisementLeftSide, advertisementRightSide, advertisementBottom})
+
+        // const imageLinksLeft = [];
+        // const imageLinksRight = [];
+        // const imageLinksBottom = [];
+        // advertisementLeftSide.forEach(advertisement => imageLinksLeft.push(advertisement.url));
+        // advertisementRightSide.forEach(advertisement => imageLinksRight.push(advertisement.url));
+        // advertisementBottom.forEach(advertisement => imageLinksBottom.push(advertisement.url));
+        //
+        // console.log(imageLinksLeft)
+        //
+        // const imageAdLeftSide = document.getElementById("advertisement-left");
+        // let currentImageIndex = 0;
+        // function changeImage() {
+        //     imageAdLeftSide.src = imageLinks[currentImageIndex];
+        //     currentImageIndex = (currentImageIndex + 1) % imageLinks.length;
+        // }
+        //
+        // // Đặt thời gian thay đổi liên kết ảnh sau mỗi 3 giây
+        // setInterval(changeImage, 200000);
     </script>
 </th:block>
 

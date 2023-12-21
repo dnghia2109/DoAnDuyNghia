@@ -14,12 +14,14 @@
 .main-text-title h2,
 .card-title-child a,
 .title-name-br{
+    display: block;
     display: -webkit-box;
     -webkit-line-clamp: 3; /* Số dòng tối đa muốn hiển thị */
     -webkit-box-orient: vertical;
+    line-height: 1.25;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-align: justify;
+    text-align: justify-all;
 }
 h2.title-name-br, .main-text-title h2{
     margin-right: 13px;
@@ -94,16 +96,18 @@ ul li {
 
 .main-text-title {
     position: absolute;
-    bottom: 4%;
-    left: 20px;
+    bottom: 0;
+    padding: 0 5px 5px 5px;
     color: #ffff;
+    background: linear-gradient(to bottom, rgba(179, 171, 171, 0) 0%, rgba(48, 48, 48, 0.71) 49%, rgba(19, 19, 19, 0.8) 100%);
 }
 
 .main-text-title-ts {
     position: absolute;
-    bottom: 2%;
-    left: 20px;
+    bottom: 0;
+    padding: 0 5px 5px 5px;
     color: #ffffff;
+    background: linear-gradient(to bottom, rgba(179, 171, 171, 0) 0%, rgba(48, 48, 48, 0.71) 49%, rgba(19, 19, 19, 0.8) 100%);
 }
 
 .content-breaking {
@@ -441,7 +445,7 @@ article.card.card-full.hover-a.mb-4 .col-9.col-md-8 {
 @media (min-width: 992px) {
     article.card.card-full.hover-a.mb-4 .col-3.col-md-4.pe-2.pe-md-0 {
         padding: 0;
-        height: 66px;
+        height: 82px;
         overflow: hidden;
     }
 }
@@ -449,7 +453,7 @@ article.card.card-full.hover-a.mb-4 .col-9.col-md-8 {
 
 @media (max-width: 992px) {
     article.card.card-full.hover-a.mb-4 .col-3.col-md-4.pe-2.pe-md-0 {
-        height: 66px;
+        height: 82px;
         overflow: hidden;
     }
 }

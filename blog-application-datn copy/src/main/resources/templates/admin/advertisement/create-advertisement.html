@@ -26,7 +26,8 @@
             }
             
             .image-preview-container #image {
-                height: 450px;
+                height: 274px;
+                margin: 0;
             }
             
              .modal-dialog {
@@ -127,18 +128,6 @@
                                         </div>
                                     </form>
                                 </div>
-<!--                                <div class="col-md-7">-->
-<!--                                <div class="form-group">-->
-<!--                                    <div class="thumbnail-preview-container mb-3">-->
-<!--                                        <img src="https://placehold.co/1000x600" alt="" id="thumbnail"/>-->
-<!--                                        &lt;!&ndash;                                            <img th:src="${(blog.thumbnail != null) ? blog.thumbnail : 'https://placehold.co/600x400'}" alt="" id="thumbnail"/>&ndash;&gt;-->
-<!--                                    </div>-->
-<!--                                    <button type="button" class="btn btn-info btn-flat" data-toggle="modal"-->
-<!--                                            data-target="#modal-xl" id="btn-modal-image">-->
-<!--                                        Chọn hình ảnh-->
-<!--                                    </button>-->
-<!--                                </div>-->
-<!--                                </div>-->
                                 <div class="col-md-7">
                                     <div class="form-group">
                                         <div class="image-preview-container mb-3">
@@ -150,7 +139,6 @@
                                         </button>
                                     </div>
                                 </div>
-                            
                             </div>
                         </div>
                     </div>
@@ -238,8 +226,8 @@
             const status = document.getElementById('status').value;
             const url = document.getElementById('image').src;
             const positionEl = document.getElementById('position-order').value;
-            let thumbnail = null;
-            if (url.length > 0) {
+            let thumbnail = "";
+            if (url.length > 0 && url.toString() !== "https://placehold.co/1000x600") {
                 // Tạo một đối tượng URL từ URL ban đầu
                 const urlImage = new URL(url);
                 // Lấy phần path sau phần gốc (pathName)
@@ -261,10 +249,10 @@
                 .then(function (response) {
                     if (response.status === 200) {
                         toastr.success('Tạo banner thành công');
-                        // setTimeout(function () {
-                        //     // window.location.href = `/dashboard/admin/advertisement`;
-                        //     // location.reload();
-                        // }, 1500);
+                        setTimeout(function () {
+                            // window.location.href = `/dashboard/admin/advertisement`;
+                            location.reload();
+                        }, 1500);
                     } else {
                         toastr.error('Tạo banner thất bại');
                     }

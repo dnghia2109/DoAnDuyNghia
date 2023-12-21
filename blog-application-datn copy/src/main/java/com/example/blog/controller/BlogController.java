@@ -68,8 +68,8 @@ public class BlogController {
     @GetMapping("/api/v1/blogs/")
     public ResponseEntity<?> getSearchBlogs(@RequestParam(required = false, defaultValue = "1") Integer page,
                                             @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-                                            @RequestParam(required = false, defaultValue = "id") String sortField,
-                                            @RequestParam(required = false, defaultValue = "asc") String sortDir,
+                                            @RequestParam(required = false, defaultValue = "publishedAt") String sortField,
+                                            @RequestParam(required = false, defaultValue = "desc") String sortDir,
                                             @RequestParam(required = false) String keyword,
                                             @RequestParam(required = false, defaultValue = "all") String categoryId,
                                             @RequestParam(required = false, defaultValue = "all") String time) {
@@ -149,7 +149,6 @@ public class BlogController {
     }
 
     // TODO: Danh sách bài viết chờ được phê duyệt có approvalStatus là PENDING (ADMIN)
-    // TODO: Cần chỉnh lại HTML cho page này
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/dashboard/admin/blogs/pending")
     public String getBlogsPendingPage(@RequestParam(required = false, defaultValue = "1") Integer page,
@@ -170,7 +169,7 @@ public class BlogController {
             Page<BlogDto> pageInfoDto = blogService.getBlogsPendingByUser(page, pageSize);
             model.addAttribute("page", pageInfoDto);
             model.addAttribute("currentPage", page);
-            return "admin/blog/blog-not-approve";
+            return "admin/blog/blog-pending-user";
         }
 
 

@@ -50,9 +50,11 @@ public class WebController {
     @GetMapping("/homepage")
     public String getHomePageNew(Model model) {
         List<CategoryDto> categories = categoryService.getAllCategoryPublic();
+        List<CategoryDto> categoriesHomePage = categoryService.getAllCategoryPublicOnIndexPage();
         List<BlogDto> lastestBlogs = blogService.getLastestNew();
         // List Blog hiển thị tin nóng
         List<BlogDto> lastestNewsWithTagTinNong = blogService.getLastestNewsWithTagTinNong();
+        List<BlogDto> popularBlogs = blogService.getBlogsCreateInAWeekAndHasMostViews();
         List<Advertisement> advertisementListOnLeftSide = advertisementService.getAdvertisementByDisplayOrder(1);
         List<Advertisement> advertisementListOnRightSide = advertisementService.getAdvertisementByDisplayOrder(2);
         List<Advertisement> advertisementListBottom = advertisementService.getAdvertisementByDisplayOrder(3);
@@ -60,7 +62,9 @@ public class WebController {
         model.addAttribute("user", curUser);
         model.addAttribute("blogLastestList", lastestBlogs);
         model.addAttribute("blogHotList", lastestNewsWithTagTinNong);
+        model.addAttribute("popularBlogs", popularBlogs);
         model.addAttribute("categoryList", categories);
+        model.addAttribute("categoryHoemPageList", categoriesHomePage);
         model.addAttribute("advertisementListOnLeftSide", advertisementListOnLeftSide);
         model.addAttribute("advertisementListOnRightSide", advertisementListOnRightSide);
         model.addAttribute("advertisementListBottom", advertisementListBottom);
@@ -71,6 +75,9 @@ public class WebController {
     @GetMapping("/homepage/blogs/{blogId}/{blogSlug}")
     public String getBlogDetailPublic(@PathVariable Integer blogId, @PathVariable String blogSlug, Model model) {
         List<CategoryDto> categories = categoryService.getAllCategoryPublic();
+        List<BlogDto> relatedBlogs = blogService.getTop5NewestBlogs();
+        List<BlogDto> lastestBlogs = blogService.getLastestNew();
+        List<BlogDto> popularBlogs = blogService.getBlogsCreateInAWeekAndHasMostViews();
         BlogDto blog = blogService.getBlogDtoByIdForPublic(blogId);
         Boolean isExistInSavedList = savedBlogService.blogIsSaved(blogId);
         User curUser = webService.getUserDetailPage();
@@ -78,6 +85,9 @@ public class WebController {
         model.addAttribute("blog", blog);
         model.addAttribute("isExistInSavedList", isExistInSavedList);
         model.addAttribute("categoryList", categories);
+        model.addAttribute("lastestBlogs", lastestBlogs);
+        model.addAttribute("relatedBlogs", relatedBlogs);
+        model.addAttribute("popularBlogs", popularBlogs);
         return "public/detail-blog";
     }
 
@@ -135,6 +145,11 @@ public class WebController {
         List<CategoryDto> categoryList = categoryService.getAllCategoryPublic();
         model.addAttribute("categoryList", categoryList);
         return "public/feedback";
+    }
+
+    @GetMapping("/api/v1/blog/top5-views")
+    public ResponseEntity<?> getBlogViews() {
+        return ResponseEntity.ok(blogService.getBlogsCreateInAWeekAndHasMostViews());
     }
 
 }

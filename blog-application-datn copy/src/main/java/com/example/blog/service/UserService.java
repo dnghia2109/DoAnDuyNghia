@@ -92,7 +92,7 @@ public class UserService {
         User currentUser = userOptional.get();
 
         currentUser.setName(request.getName());
-        currentUser.setPassword(passwordEncoder.encode(request.getNewPassword()));
+//        currentUser.setPassword(passwordEncoder.encode(request.getNewPassword()));
         currentUser.setRoles(roleRepository.findByIdIn(request.getRoleIds()));
         //currentUser.setEnabled(true);
         return userRepository.save(currentUser);

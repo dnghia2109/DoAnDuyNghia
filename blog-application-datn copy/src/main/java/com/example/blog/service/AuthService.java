@@ -126,11 +126,11 @@ public class AuthService {
         int serverPort = userReceiveNewsService.getServerPort();
 
         String linkConfirm = "http://localhost:" + serverPort + "/auth/change-password/" + tokenConfirm.getToken();
+//        mailService.sendMail(user.getEmail(), "Đổi mật khẩu", linkConfirm);
         Map<String, Object> data = new HashMap<>();
-        data.put("email", user.getEmail());
         data.put("username", user.getName());
         data.put("linkConfirm", linkConfirm);
-        mailService.sendEmailChangePassword(user.getName(), data);
+        mailService.sendEmailChangePassword(user.getEmail(), data);
     }
 
     public void changePassword(ChangePasswordRequest request) {

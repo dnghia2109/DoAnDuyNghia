@@ -29,19 +29,18 @@ public class AdvertisementService {
         if (request.getName().isEmpty()) {
             throw new BadRequestException("Tên quảng cáo bị trống!");
         }
-        if (request.getUrl().isEmpty()) {
-            throw new BadRequestException("Link ảnh quảng cáo bị trống!");
-        }
         List<Advertisement> advertisementsActive = advertisementRepository.findAllByStatus(true);
         Advertisement advertisement = new Advertisement();
         advertisement.setName(request.getName());
         advertisement.setStatus(request.getStatus());
         advertisement.setLinkRedirect(request.getLinkRedirect() != null ? request.getLinkRedirect() : null);
-        if (request.getUrl() != null) {
+        if (!request.getUrl().isEmpty()) {
             advertisement.setUrl(request.getUrl());
         } else {
             advertisement.setUrl(null);
+            advertisement.setStatus(false);
         }
+
         advertisement.setDisplayOrder(request.getPosition());
 
         advertisementRepository.save(advertisement);

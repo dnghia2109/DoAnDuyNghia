@@ -139,7 +139,7 @@
                                         <label for="category" class="required-label">Danh mục</label>
                                         <select class="form-control" id="category">
                                             <th:block th:each="category : ${categoryList}">
-                                                <option th:value="${category.id}" th:text="${category.name}" th:selected="${blog.category.id == category.id}">
+                                                <option th:value="${category.id}" th:text="${category.name}"  th:selected="${blog.category != null and blog.category.id == category.id}">
                                                     Java
                                                 </option>
                                             </th:block>
@@ -147,15 +147,15 @@
                                         <div class="form-group">
                                             <label for="select-tag">Tags</label>
                                             <div class="select2-purple">
-                                                 <select class="select2 form-control" multiple="multiple" id="select-tag">
-                                                      <option th:each="tag:${tagList}" th:value="${tag.id}" th:text="${tag.name}" >Alabama</option>
-                                                 </select>
+                                                <select class="select2 form-control" multiple="multiple" id="select-tag">
+                                                    <option th:each="tag:${tagList}" th:value="${tag.id}" th:text="${tag.name}" >Alabama</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="thumbnail-preview-container mb-3">
-                                            <img src="" alt="" id="thumbnail"/>
+                                            <img src="https://placehold.co/600x400" alt="" id="thumbnail"/>
 <!--                                            <img th:src="${(blog.thumbnail != null) ? blog.thumbnail : 'https://placehold.co/600x400'}" alt="" id="thumbnail"/>-->
                                         </div>
                                         <button type="button" class="btn btn-info btn-flat" data-toggle="modal"
@@ -284,9 +284,6 @@
                     tagArr.push(parseInt(el.value))
                 }
             })
-            if (tagArr.length === 0) {
-                tagArr = null;
-            }
             return tagArr;
         }
 
@@ -299,7 +296,6 @@
 
                 // Lấy dữ liệu
                 const title = titleEl.value;
-                // const content = easyMDE.value();
                 const content = $('#content').summernote('code')
                 const description = descriptionEl.value;
                 const status = statusEl.value;

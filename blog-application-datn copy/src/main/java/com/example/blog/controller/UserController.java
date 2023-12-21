@@ -121,7 +121,7 @@ public class UserController {
 
     @DeleteMapping("/api/v1/admin/users/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
-        userRepository.delete(userRepository.findById(id).get());
+        userService.deleteUser(id);
         return ResponseEntity.ok("Đã xóa");
     }
     

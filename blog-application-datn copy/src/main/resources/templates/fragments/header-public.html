@@ -32,7 +32,7 @@
                     <ul>
 <!--                        <li sec:authorize="authenticated" th:text="${user.name}"></li>-->
                         <li sec:authorize="not authenticated">
-                            <a th:href="@{/admin/login}" th:onclick="saveRedirectUrl()">Đăng nhập</a>
+                            <a th:href="@{/auth/login}" th:onclick="saveRedirectUrl()">Đăng nhập</a>
                         </li>
                         <li sec:authorize="authenticated">
                             <a th:href="@{/tai-khoan}">Tài khoản</a>
@@ -41,7 +41,7 @@
                             <a target="_blank" th:href="@{/dashboard/blogs/own-blogs}">Quản trị</a>
                         </li>
                         <li>
-                            <a th:href="@{/register}">Đăng ký</a>
+                            <a th:href="@{/auth/register}">Đăng ký</a>
                         </li>
                         <li sec:authorize="authenticated">
                             <a id="btn-logout" style="cursor: pointer">Đăng xuất</a>

@@ -18,7 +18,7 @@
                     <h1 class="search-title">Tìm Kiếm</h1>
                     <div class="search-main">
                         <div class="input-search-top">
-                            <input th:value="${keyword}" type="text" placeholder="Nhập tìm kiếm...." id="keyword">
+                            <input th:value="${keyword}" type="text" placeholder="Nhập từ khóa...." id="keyword">
                             <i class='bx bx-search'></i>
                         </div>
                         <div class="main-content-search">
@@ -48,14 +48,14 @@
                                 </select>
                             </label>
                         </div>
-                        <button type="submit" class="btn btn-group" id="btn-search">Tìm kiếm</button>
+                        <button type="button" class="btn btn-primary" id="btn-search">Tìm kiếm</button>
                     </div>
                     <!-- <input type="text" class="input-search" placeholder="Type to Search..."> -->
                 </div>
                 <div class="block-area container">
                     <div class="content-search">
-                        <h4>
-                            <span>Search result for: </span>
+                        <h4 th:if="${keyword} != null">
+                            <span>Kết quả tìm kiếm cho từ khóa: </span>
                             <span th:text="${keyword}" class="content-search-main-he">"Tài chính"</span>
                         </h4>
                     </div>
@@ -84,48 +84,6 @@
                             </div>
                         </aside>
                     </th:block>
-                    
-<!--                    <aside class="card-search-main row">-->
-<!--                        <div class="col-sm-6 col-md-12 col-lg-5">-->
-<!--                            <a href="#">-->
-<!--                                <img class="img-search"-->
-<!--                                     src="https://cdnphoto.dantri.com.vn/fPakawtEPA2kjknPquE4DQiDpiU=/zoom/378_252/2023/12/12/quyen-1702377843722.jpeg" alt="">-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                        <div class="col-sm-6 col-md-12 col-lg-7">-->
-<!--                            <div class="card-body">-->
-<!--                                <h2 class="card-title-search">VietinBank tại COP28: Cam kết chung tay thúc đẩy tài chính khí hậu-->
-<!--                                </h2>-->
-<!--                                <div class="card-text mb-2 text-muted small">-->
-<!--                                    <span class="d-none d-sm-inline me-1">Duy Nghia</span>-->
-<!--                                    <time datetime="2019-10-22">Sep 10, 2023</time>-->
-<!--                                </div>-->
-<!--                                <p class="card-text">TTham gia Hội nghị lần thứ 28 các bên tham gia Công ước khung của Liên Hiệp Quốc về Biến đổi khí hậu (COP28), VietinBank mong muốn chung tay cùng cộng đồng quốc tế thúc đẩy tài chính khí hậu thông qua nhiều hoạt động ý nghĩa.-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </aside>-->
-<!--                    <aside class="card-search-main row">-->
-<!--                        <div class="col-sm-6 col-md-12 col-lg-5">-->
-<!--                            <a href="#">-->
-<!--                                <img class="img-search"-->
-<!--                                     src="https://cdnphoto.dantri.com.vn/MqYkjuw99n6gs90c7CIg-NZ5Ios=/zoom/378_252/2023/07/10/vietnam-1622631758-2415-1622631770r680x408-1011-crop-1688988991380.jpeg" alt="">-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                        <div class="col-sm-6 col-md-12 col-lg-7">-->
-<!--                            <div class="card-body">-->
-<!--                                <h2 class="card-title-search">Vietnam Airlines công bố báo cáo tài chính 2022: Vẫn lỗ nhưng đã giảm-->
-<!--                                </h2>-->
-<!--                                <div class="card-text mb-2 text-muted small">-->
-<!--                                    <span class="d-none d-sm-inline me-1">Bùi Hiên</span>-->
-<!--                                    <time datetime="2019-10-22">Oct 02, 2022</time>-->
-<!--                                </div>-->
-<!--                                <p class="card-text">Tới cuối năm nay, Vietnam Airlines công bố báo cáo tài chính năm 2022. Hãng hàng không quốc ghi nhận doanh thu trên 70.000 tỷ đồng trong năm qua nhưng vẫn lỗ sau thuế 11.223 tỷ đồng.-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </aside>-->
-                    
                     <div class="d-flex justify-content-center mt-3" id="pagination">
                         <ul class="pagination mb-0">
                             <li class="paginate_button page-item previous" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
@@ -300,10 +258,11 @@
             console.log("time: " + timeEl.value);
             console.log("cate: " + categoryEl.value);
             try {
+                e.preventDefault()
                 window.location.href =`/blogs?keyword=${keywordEl.value}&time=${timeEl.value}&categoryId=${categoryEl.value}&page=1`;
-            } catch (e) {
-                toastr.warning(e.response.data.message);
-                console.log(e);
+            } catch (err) {
+                toastr.warning(err.response.data.message);
+                console.log(err);
             }
         })
         

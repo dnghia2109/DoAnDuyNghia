@@ -113,6 +113,7 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     @Query("select b from Blog b inner join b.tags tags where tags.id = ?1 and b.status = 1 and b.approvalStatus = 'APPROVE'")
     List<Blog> findByTags_Id(Integer id);
 
-//    @Query("select b from Blog b where b.tags.c")
-//    List<Blog> findByTag(Tag tag);
+    @Query("select b from Blog b where b.status = true and b.approvalStatus = 'APPROVE' and b.publishedAt >= ?1 order by b.views desc")
+    List<Blog> getBlogsCreateInAWeekAndHasMostViews(LocalDateTime oneWeekAgo, Pageable pageable);
+
 }

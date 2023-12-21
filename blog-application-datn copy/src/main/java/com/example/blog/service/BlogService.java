@@ -159,6 +159,7 @@ public class BlogService {
         blog.setDescription(request.getDescription());
         blog.setContent(request.getContent());
         blog.setThumbnail(request.getThumbnail());
+        blog.setStatus(request.getStatus());
         blog.setCategory(category);
         blog.setTags(tags);
 
@@ -357,5 +358,10 @@ public class BlogService {
                 })
                 .collect(Collectors.toList());
         return blogDtoList;
+    }
+
+    public List<BlogDto> getBlogsCreateInAWeekAndHasMostViews() {
+        List<BlogDto> result = blogRepository.getBlogsCreateInAWeekAndHasMostViews(LocalDateTime.now().minusWeeks(1), Pageable.ofSize(5)).stream().map(BlogDto::new).collect(Collectors.toList());
+        return result;
     }
 }

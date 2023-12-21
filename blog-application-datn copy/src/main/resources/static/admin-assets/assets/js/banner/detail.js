@@ -45,10 +45,13 @@ btnUpdate.addEventListener('click', function () {
         url: url
     };
 
-    axios.put(`/api/v1/admin/banners/${banner.id}`, data)
+    axios.put(`/api/v1/admin/advertisement/${banner.id}`, data)
         .then(function (response) {
             if (response.status === 200) {
                 toastr.success('Cập nhật banner thành công');
+                setTimeout(() => {
+                    window.location.href = 'dashboard/admin/advertisement';
+                },1500);
             } else {
                 toastr.error('Cập nhật banner thất bại');
             }
@@ -64,12 +67,12 @@ const btnDelete = document.getElementById('btn-delete');
 btnDelete.addEventListener('click', function () {
     const isConfirm = confirm('Bạn có chắc chắn muốn xóa banner này?');
     if (!isConfirm) return;
-    axios.delete(`/api/v1/admin/banners/${banner.id}`)
+    axios.delete(`/api/v1/admin/advertisement/${banner.id}`)
         .then(function (response) {
             if (response.status === 200) {
                 toastr.success('Xóa banner thành công');
                 setTimeout(function () {
-                    window.location.href = '/admin/banners';
+                    window.location.href = 'dashboard/admin/advertisement';
                 }, 1500);
             } else {
                 toastr.error('Xóa banner thất bại');

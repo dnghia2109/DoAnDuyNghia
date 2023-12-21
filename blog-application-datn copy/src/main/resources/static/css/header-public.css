@@ -14,8 +14,14 @@ a {
     color: #000 ;
 }
 
+.name-nav-header a {
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
 a:hover {
-    color: #1a88ff;
+    color: #0249ab !important;
+    cursor: pointer !important;
 }
 
 .container {

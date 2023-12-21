@@ -105,7 +105,7 @@ public class CategoryService {
     // TODO: Lấy ra danh sách các category hiển thị bài viết ở trang chủ(USER)
     public List<CategoryDto> getAllCategoryPublic() {
         List<String> categoryNames = List.of("Thời sự", "Xã hội", "Thế giới", "Kinh tế", "Thể thao", "Văn hóa",
-                "Pháp luật", "Giáo dục", "Việc làm", "Xe", "Công nghệ", "Bất động sản", "Du lịch", "Kinh Doanh", "Sức khỏe");
+                "Pháp luật", "Giáo dục", "Xe", "Công nghệ", "Du lịch", "Kinh Doanh", "Sức khỏe");
         List<CategoryDto> categoryDtos = categoryRepository.findAllCategoryPublic().stream()
 //            .filter(category -> categoryNames.contains(category.getName()))
             .map(category -> {
@@ -114,6 +114,21 @@ public class CategoryService {
                 return categoryDto;
             })
             .collect(Collectors.toList());
+        return categoryDtos;
+    }
+
+    // TODO: Lấy ra danh sách các category hiển thị bài viết ở trang chủ(USER)
+    public List<CategoryDto> getAllCategoryPublicOnIndexPage() {
+        List<String> categoryNames = List.of("Thời sự", "Xã hội", "Thế giới", "Kinh tế", "Thể thao", "Văn hóa",
+                "Pháp luật", "Giáo dục", "Xe", "Công nghệ", "Kinh Doanh");
+        List<CategoryDto> categoryDtos = categoryRepository.findAllCategoryPublic().stream()
+            .filter(category -> categoryNames.contains(category.getName()))
+                .map(category -> {
+                    CategoryDto categoryDto = new CategoryDto(category);
+                    categoryDto.setBlogs(blogService.getBlogsEachCate(category.getId()));
+                    return categoryDto;
+                })
+                .collect(Collectors.toList());
         return categoryDtos;
     }
 

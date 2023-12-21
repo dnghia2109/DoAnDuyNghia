@@ -153,7 +153,7 @@
                                     <!--Code mới-->
                                     <div class="form-group">
                                         <div class="image-preview-container mb-3">
-                                            <img src="https://placehold.co/1000x600" alt="" id="image"/>
+                                            <img src="https://placehold.co/600x400" alt="" id="image"/>
                                         </div>
                                         <button type="button" class="btn btn-info btn-flat rounded" data-toggle="modal"
                                                 data-target="#modal-image" id="btn-modal-image">
@@ -168,44 +168,7 @@
             </div>
         </div>
     </section>
-
-    <!--Modal chọn anh-->
-<!--    <div class="modal fade" id="modal-xl" aria-hidden="true">-->
-<!--        <div class="modal-dialog modal-xl">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h4 class="modal-title">Danh sách ảnh</h4>-->
-<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                        <span aria-hidden="true">×</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                <div class="modal-body">-->
-<!--                    <div class="d-flex justify-content-between">-->
-<!--                        <div>-->
-<!--                            <button class="btn btn-success" id="btn-chose-image" disabled>Chọn ảnh</button>-->
-
-<!--                            <label for="avatar" class="btn btn-warning mb-0">Upload ảnh</label>-->
-<!--                            <input type="file" id="avatar" class="d-none">-->
-<!--                        </div>-->
-<!--                        <div>-->
-<!--                            <button class="btn btn-danger" id="btn-delete-image" disabled>Xóa ảnh</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; Hiển thị danh sách ảnh &ndash;&gt;-->
-<!--                    <div class="image-container mt-4 mb-4">-->
-<!--                        <div class="image-item">-->
-<!--                            <img src="https://images.unsplash.com/photo-1656918931725-2f9d9fce4acb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60" alt="">-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    &lt;!&ndash; Hiển thị phần phân trang &ndash;&gt;-->
-<!--                    <div class="pagination-container d-flex justify-content-center">-->
-
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    
     <div class="modal fade" id="modal-image" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -306,9 +269,6 @@
                     tagArr.push(parseInt(el.value))
                 }
             })
-            if (tagArr.length === 0) {
-                tagArr = null;
-            }
             return tagArr;
         }
 
@@ -318,7 +278,6 @@
             try {
                 // Lấy dữ liệu
                 const title = titleEl.value;
-                // const content = easyMDE.value();
                 const content = $('#content').summernote('code')
                 const description = descriptionEl.value;
                 const status = statusEl.value;
@@ -355,7 +314,7 @@
 
                 toastr.success("Tạo bài viết thành công");
                 setTimeout(() => {
-                    window.location.href = `/dashboard/blogs/${data.id}/detail`;
+                    // window.location.href = `/dashboard/blogs/${data.id}/detail`;
                 }, 1500) // 1500ms = 1.5s
             } catch (err) {
                 console.log(err)

@@ -49,6 +49,12 @@ public class AdvertisementController {
         return new ResponseEntity<>(advertisementService.update(id, advertisementRequest), HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/v1/admin/advertisement/{id}")
+    public ResponseEntity<?> deleteAdvertisement(@PathVariable Integer id) {
+        advertisementService.delete(id);
+        return new ResponseEntity<>("Xóa thành công", HttpStatus.OK);
+    }
+
     @GetMapping("/api/v1/advertisement/get-all")
     public ResponseEntity<?> getAll(@RequestParam(required = false, defaultValue = "1") Integer page,
                                     @RequestParam(required = false, defaultValue = "20") Integer pageSize) {

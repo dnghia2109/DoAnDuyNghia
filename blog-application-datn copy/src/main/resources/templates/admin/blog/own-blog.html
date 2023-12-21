@@ -32,10 +32,10 @@
             <div class="row py-2">
                 <div class="col-12">
                     <button type="button" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Viết bài
+                        <a style="color: white" href="/dashboard/blogs/create"><i class="fas fa-plus"></i> Viết bài</a>
                     </button>
                     <button type="button" class="btn btn-info">
-                        <i class="fas fa-redo"></i> Refresh
+                        <a style="color: white" href="/dashboard/blogs/own-blogs"><i class="fas fa-redo"></i> Refresh</a>
                     </button>
                 </div>
             </div>
@@ -43,9 +43,10 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered table-hover">
-                                <thead class="thead-dark">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
                                 <tr>
+                                    <th class="text-center">STT</th>
                                     <th class="text-center">Tiêu đề</th>
                                     <th class="text-center">Danh mục</th>
                                     <th class="text-center">Trạng thái phê duyệt</th>
@@ -54,23 +55,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-<!--                                <th:block th:with="blogList = ${page.getContent()}">-->
-<!--                                    <tr th:each="blog : ${blogList}">-->
-<!--                                        <td>-->
-<!--                                            <a th:href="@{/admin/blogs/{id}/detail  (id=${blog.id})}" th:text="${blog.title}">Khai giảng khóa</a>-->
-<!--                                        </td>-->
-<!--                                        <td>-->
-<!--                                            <a href="#" th:text="${blog.user.name}">John Doe</a>-->
-<!--                                        </td>-->
-<!--                                        <td>-->
-<!--                                            <span th:each="category : ${blog.categories}" class="badge bg-info mr-1" th:text="${category.name}"></span>-->
-<!--                                        </td>-->
-<!--                                        <td th:text="${blog.status ? 'Công khai' : 'Nháp'}">Công khai</td>-->
-<!--                                        <td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>-->
-<!--                                    </tr>-->
-<!--                                </th:block>-->
                                 <th:block th:with="blogList = ${page.getContent()}">
-                                    <tr th:each="blog : ${blogList}">
+                                    <tr th:each="blog,state : ${blogList}">
+                                        <td th:text="${(currentPage - 1) * page.getSize() + (state.index + 1)}" class="text-center" >1</td>
                                         <td>
                                             <a th:href="@{/dashboard/blogs/{id}/detail (id=${blog.id})}" th:text="${blog.title}">Blog's title</a>
                                         </td>
@@ -79,14 +66,13 @@
                                             <span class="badge bg-info mr-1" th:text="${blog?.category?.name} != null ? ${blog.category.name} : 'Category is null'"></span>
                                         </td>
                                         <td  class="text-center" >
-                                            <a th:if="${blog.approvalStatus == 'APPROVE'}" class="btn btn-success btn-circle"
-                                               href="#"
-                                               onclick="return confirm('Bạn có muốn phê duyệt bài viết này?')">
+                                            <a th:if="${blog.approvalStatus == 'APPROVE'}" class="btn btn-success btn-circle" href="#">
                                                 <i class="fas fa-check"></i>
                                             </a>
-                                            <a th:if="${blog.approvalStatus == 'PENDING'}" class="btn btn-warning btn-circle"
-                                               href="#"
-                                               onclick="return confirm('Are you sure to unactive this user?')">
+                                            <a th:if="${blog.approvalStatus == 'PENDING'}" class="btn btn-warning btn-circle" href="#">
+                                                <i class="fas fa-exclamation-triangle"> </i>
+                                            </a>
+                                            <a th:if="${blog.approvalStatus == 'NOT_APPROVE'}" class="btn btn-danger btn-circle" href="#">
                                                 <i class="fas fa-exclamation-triangle"> </i>
                                             </a>
                                         </td>

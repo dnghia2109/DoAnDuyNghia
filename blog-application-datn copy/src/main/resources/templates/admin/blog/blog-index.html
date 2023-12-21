@@ -52,7 +52,7 @@
                         </select>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="keyword">Keyword:</label>
+                        <label for="keyword">Từ khóa:</label>
                         <input type="text" class="form-control" id="keyword" th:value="${keyword}">
                     </div>
                     <div class="col-md-2 mb-3">
@@ -66,7 +66,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th class="text-center">
@@ -108,22 +108,25 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <th:block th:with="blogList = ${page1.getContent()}">
-                                    <tr th:each="blog : ${blogList}">
-                                        <td class="text-center" th:text="${blog.id}"></td>
-                                        <td>
-                                            <a th:href="@{/dashboard/blogs/{id}/detail  (id=${blog.id})}" th:text="${blog.title}">Khai giảng khóa</a>
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="#" th:text="${blog.author}">John Doe</a>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge bg-info mr-1" th:text="${blog.category.name}"></span>
-                                        </td>
-                                        <td class="text-center" th:text="${blog.status ? 'Công khai' : 'Nháp'}">Công khai</td>
-                                        <td class="text-center" th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>
-                                    </tr>
-                                </th:block>
+                                    <th:block th:with="blogList = ${page1.getContent()}">
+                                        <tr th:each="blog : ${blogList}">
+                                            <td class="text-center" th:text="${blog.id}"></td>
+                                            <td>
+                                                <a th:href="@{/dashboard/blogs/{id}/detail  (id=${blog.id})}" th:text="${blog.title}">Khai giảng khóa</a>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="#" th:text="${blog.author}">John Doe</a>
+                                            </td>
+                                            <td class="text-center" th:if="${blog.category}">
+                                                <span class="badge bg-info mr-1" th:text="${blog.category.name}"></span>
+                                            </td>
+                                            <td class="text-center" th:if="!${blog.category}">
+                                                <span class="badge bg-warning mr-1" th:text="CATEGORY_NULL"></span>
+                                            </td>
+                                            <td class="text-center" th:text="${blog.status ? 'Công khai' : 'Nháp'}">Công khai</td>
+                                            <td class="text-center" th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>
+                                        </tr>
+                                    </th:block>
                                 </tbody>
                             </table>
 
