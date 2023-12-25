@@ -7,6 +7,7 @@ import com.example.blog.dto.TagDto;
 import com.example.blog.dto.projection.BlogPublic;
 import com.example.blog.dto.projection.CategoryPublic;
 import com.example.blog.entity.User;
+import com.example.blog.request.BlogCrawlDataRequest;
 import com.example.blog.request.UpsertBlogRequest;
 import com.example.blog.security.ICurrentUser;
 import com.example.blog.service.*;
@@ -38,6 +39,7 @@ public class BlogController {
     private final CommentService commentService;
     private final WebService webService;
     private final ICurrentUser iCurrentUser;
+    private final BlogCrawlerDataService blogCrawlerDataService;
 
     /*
     * @author: Lai Duy Nghia
@@ -122,14 +124,17 @@ public class BlogController {
         if (!StringUtils.isEmpty(categoryId) && !"all".equalsIgnoreCase(categoryId)) {
             categoryIdAsInteger = Integer.parseInt(categoryId);
         }
-        Page<BlogDto> pageInfoDto = blogService.getSearchBlogsTest(page, pageSize, sortField, sortDir, keyword, categoryIdAsInteger, time);
+        List<CategoryDto> categoryList = categoryService.getAllCategories();
+        Page<BlogDto> pageInfoDto = blogService.getAllBlogsForAdmin(page, pageSize, sortField, sortDir, keyword, categoryIdAsInteger, time);
         String sortReverseDirection = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
         model.addAttribute("page1", pageInfoDto);
+        model.addAttribute("categoryList", categoryList);
         model.addAttribute("currentPage", page);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortReverseDir", sortReverseDirection);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("categorySearchId", categoryId);
         model.addAttribute("time", time);
         return "admin/blog/blog-index";
     }
@@ -185,7 +190,7 @@ public class BlogController {
         return "admin/blog/blog-not-approve";
     }
 
-    // TODO: Tạo bài viết
+    // TODO: Trang tạo bài viết
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     @GetMapping("/dashboard/blogs/create")
     public String getBlogCreatePage(Model model) {
@@ -197,7 +202,13 @@ public class BlogController {
         return "admin/blog/blog-create";
     }
 
-    // TODO: Chi tiết bài viết
+    // TODO: Trang crawl bài viết
+    @GetMapping("/dashboard/blogs/crawl-blog")
+    public String getCrawlBlogPage(Model model) {
+        return "admin/blog/blog-crawl-data";
+    }
+
+    // TODO: Trang chi tiết bài viết
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUTHOR')")
     @GetMapping("/dashboard/blogs/{id}/detail")
     public String getBlogDetailPage(@PathVariable Integer id, Model model) {
@@ -286,5 +297,16 @@ public class BlogController {
     @GetMapping("/api/blogs/{blogId}/{blogSlug}")
     public ResponseEntity<?> getTop5NewestBlogs(@PathVariable Integer blogId, @PathVariable String blogSlug) {
         return new ResponseEntity<>(blogService.getBlogDtoById(blogId), HttpStatus.OK);
+    }
+
+    // TODO: Test chức năng crawl bài viết từ trang khác:
+    @PostMapping("/api/v1/blogs/crawl-data")
+    public ResponseEntity<?> crawlBlogsFromUrl(@RequestBody BlogCrawlDataRequest urls) {
+        return new ResponseEntity<>(blogCrawlerDataService.crawlFromListUrl(urls), HttpStatus.OK);
+    }
+
+    @GetMapping("/dashboard")
+    public String getDashBoardPage(Model model) {
+        return "admin/blog/dashboard";
     }
 }
