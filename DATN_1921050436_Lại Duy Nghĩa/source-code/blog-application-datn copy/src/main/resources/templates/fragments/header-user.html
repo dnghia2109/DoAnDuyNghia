@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header class="header" id="header">
+    <div class="nav-main">
+        <div class="nav-top">
+            <div class="container">
+                <div id="nav">
+                    <p class="phone">+ 0865565468</p>
+                    <div>
+                        <a href="#">
+                            <img src="./assets/images/logo.png" alt="logo" />
+                        </a>
+                    </div>
+                    <div class="account">
+                        <i class="bx bx-user"></i>
+                        <i class='bx bx-menu'></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-bottom">
+            <div class="container">
+                <ul class="nav-menu">
+                    <li class="has dropdowns main-li" id="bs">
+                        Home <i class="bx bxs-down-arrow"></i>
+                        <div class="dropdows">
+                            <ul class="nav-dropdown-menu">
+                                <li class="dropdown-li" th:each="category : ${categoryList}">
+                                    Category page
+                                    <a th:href="@{/categories/{name} (name=${category.name})}">
+                                        <th:block th:text="${category.name}">Fantasy</th:block>
+                                        <sup><strong><sup th:text="${category.used}">9</sup></strong></sup>
+                                    </a>
+                                </li>
+                                <!--                                <li class="dropdown-li">Post page</li>-->
+                                <!--                                <li class="dropdown-li">Author page</li>-->
+                                <!--                                <li class="dropdown-li">About Us</li>-->
+                                <!--                                <li class="dropdown-li">Contact</li>-->
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="has dropdowns main-li">
+                        Lifestyle <i class="bx bxs-down-arrow"></i>
+                    </li>
+                    <li class="has dropdowns main-li">
+                        Fashion <i class="bx bxs-down-arrow"></i>
+                        <div class="dropdown-body">
+                            <div class="col-md-3">
+                                <h4 class="dropdown-heading">
+                                    Categories
+                                </h4>
+
+                                <ul class="dropdown-list">
+                                    <li class="ts">Lifestyle</li>
+                                    <li class="ts">Fashion</li>
+                                    <li class="ts">Technology</li>
+                                    <li class="ts">Health</li>
+                                    <li class="ts">Travel</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <h4 class="dropdown-heading">
+                                    Lifestyle
+                                </h4>
+
+                                <ul class="dropdown-list">
+                                    <li class="ts">Lifestyle</li>
+                                    <li class="ts">Fashion</li>
+                                    <li class="ts">Health</li>
+
+                                </ul>
+                                <h4 class="dropdown-heading">
+                                    Technology
+                                </h4>
+
+                                <ul class="dropdown-list">
+                                    <li class="ts">Lifestyle</li>
+                                    <li class="ts">Fashion</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <h4 class="dropdown-heading">
+                                    Fashion
+                                </h4>
+
+                                <ul class="dropdown-list">
+                                    <li class="ts">Health</li>
+                                    <li class="ts">Travel</li>
+                                </ul>
+                                <h4 class="dropdown-heading">
+                                    Travel
+                                </h4>
+
+                                <ul class="dropdown-list">
+                                    <li class="ts">Fashion</li>
+                                    <li class="ts">Technology</li>
+                            </div>
+                            <div class="col-md-3">
+                                <h4 class="dropdown-heading">
+                                    Health
+                                </h4>
+
+                                <ul class="dropdown-list">
+                                    <li class="ts">Lifestyle</li>
+                                    <li class="ts">Fashion</li>
+                                    <li class="ts">Technology</li>
+                                    <li class="ts">Health</li>
+                                    <li class="ts">Travel</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="main-li">Technology</li>
+                    <li class="main-li">Health</li>
+                    <li class="main-li">Travel</li>
+                    <th:block  sec:authorize="not isAuthenticated()">
+                        <li class="main-li"><a href="admin/login" target="_blank" class="btn btn-primary">Login</a></li>
+                    </th:block>
+                    <th:block  sec:authorize="isAuthenticated()">
+                        <li class="main-li" th:text="${#authentication.getName()}"></li>
+                        <li class="main-li" th:text="${user_name}"></li>
+                        <!--                        <li class="main-li" th:text="${curUser.getUsername()}"></li>-->
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<main id="content-main-body"></main>
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                <div class="footer-widget">
+                    <div class="footer-logo">
+                        <img src="./assets/images/logo-alt2.png" alt="">
+                    </div>
+                    <p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed.
+                        Nunc non
+                        blandit massa enim nec.</p>
+                    <ul class="contact-social">
+                        <li>
+                            <a href="#" class="fb"><i class='bx bxl-facebook'></i></a>
+                        </li>
+                        <li>
+                            <a href="#" class="twitter"><i class='bx bxl-twitter'></i></a>
+                        </li>
+                        <li>
+                            <a href="#" class="google-plus"><i class='bx bxl-google-plus'></i></a>
+                        </li>
+                        <li>
+                            <a href="#" class="instagram"><i class='bx bxl-instagram'></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                <div class="footer-widget">
+                    <h3 class="footer-title">Categories</h3>
+                    <div class="category-widget">
+                        <ul>
+                            <li><a href="#">Lifestyle <span>451</span></a></li>
+                            <li><a href="#">Fashion <span>230</span></a></li>
+                            <li><a href="#">Technology <span>40</span></a></li>
+                            <li><a href="#">Travel <span>38</span></a></li>
+                            <li><a href="#">Health <span>24</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                <div class="footer-widget">
+                    <h3 class="footer-title">Tags</h3>
+                    <div class="tags-widget">
+                        <ul>
+                            <li><a href="#">Social</a></li>
+                            <li><a href="#">Lifestyle</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Travel</a></li>
+                            <li><a href="#">Technology</a></li>
+                            <li><a href="#">Fashion</a></li>
+                            <li><a href="#">Life</a></li>
+                            <li><a href="#">News</a></li>
+                            <li><a href="#">Magazine</a></li>
+                            <li><a href="#">Food</a></li>
+                            <li><a href="#">Health</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                <div class="footer-widget">
+                    <h3 class="footer-title">Newsletter</h3>
+                    <div class="newsletter-widget">
+                        <form>
+                            <p>Nec feugiat nisl pretium fusce id velit ut tortor pretium.</p>
+                            <input class="input" name="newsletter" placeholder="Enter Your Email">
+                            <button class="primary-button">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bootom row">
+            <div class="col-md-6 col-md-pull-6">
+                <div class="footer-copyright">
+                    Copyright ©2023 All rights reserved | Made with
+                    <i class="fa fa-heart-o" aria-hidden="true">
+
+                    </i> by <a href="" target="_blank">Duy Nghia</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-push-6">
+                <ul class="footer-nav">
+                    <li><a href="">Home</a></li>
+                    <li><a href="">About Us</a></li>
+                    <li><a href="">Contacts</a></li>
+                    <li><a href="#">Advertise</a></li>
+                    <li><a href="#">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>

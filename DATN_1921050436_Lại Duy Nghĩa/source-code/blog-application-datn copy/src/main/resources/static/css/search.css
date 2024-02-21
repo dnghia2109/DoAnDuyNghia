@@ -1,0 +1,93 @@
+.search-title-main-top {
+    margin-top: 20px;
+}
+
+.card-search-main .col-sm-6.col-md-12.col-lg-5,
+.card-search-main .col-sm-6.col-md-12.col-lg-7  {
+    padding-left: 0 !important;
+}
+
+.card-title-search {
+    font-size: 22px;
+}
+
+#btn-search {
+    height: auto;
+    width: 25%;
+    /*padding: 0.75rem 1rem;*/
+    margin: auto 0;
+    background-color: #0249ab
+}
+
+#keyword
+,#btn-search:focus{
+    border-color:#0249ab!important;
+    box-shadow: 0 0 0 rgba(128, 0, 128, 0.7);
+}
+
+ /*mới thêm 18/12 cho phần tiêu đề blog search result*/
+h2.card-title-search {
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Số dòng tối đa muốn hiển thị */
+    -webkit-box-orient: vertical;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify-all;
+}
+
+/*.card-title {*/
+/*    margin-top: 12px;*/
+/*}*/
+
+/*kết thúc mới thêm 18/12*/
+
+.img-search {
+    width: 100%;
+    height: auto;
+}
+
+.block-area  {
+    margin-top: 20px;
+}
+
+.qc {
+    height: 200px;
+}
+
+.qc img {
+    width: 100%;
+}
+
+.content-search-main-he {
+    font-style: italic;
+}
+
+.content-search {
+    text-align: center;
+    /* margin-bottom: 20px; */
+}
+
+.block-title-4 {
+    margin-top: 20px;
+}
+
+aside.card-search-main.row {
+    padding-bottom: 40px;
+}
+
+aside.card-search-main.row {
+    padding: 20px 0;
+    border-bottom: 1px solid #e9e2e2;
+}
+
+aside.card-search-main.row:last-child {
+    border: none;
+}
+
+@media (max-width: 768px) {
+    aside.qc {
+        display: none;
+    }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layout/layout-admin :: main-fragment(~{:: title}, ~{:: #css}, ~{:: .content-wrapper}, ~{:: #js})}">
+
+<head>
+    <title>Tạo bài viết</title>
+    
+    
+    <th:block id="css">
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/summernote/summernote-bs4.min.css}"/>
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/plugins/select2/css/select2.min.css}"/>
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
+              integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        
+        <link rel="stylesheet" th:href="@{/admin-lte/dist/css/style.css}">
+        <link rel="stylesheet" th:href="@{/admin-assets/admin-lte/dist/css/style.css}">
+        <style>
+            .modal-dialog {
+                max-width: 1000px;
+            }
+
+            .image-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+            }
+
+            .image-item {
+                height: 150px;
+                border: 2px solid #eee;
+            }
+
+            .image-item.selected {
+                border-color: #28a745!important;
+                border-width: 4px !important;
+            }
+
+            .image-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        </style>
+    </th:block>
+
+</head>
+
+<body>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#">Blog</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Tạo bài viết
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row py-2">
+                <div class="col-6">
+                    <button type="button" class="btn btn-default">
+                        <i class="fas fa-chevron-left"></i> Quay lại
+                    </button>
+                    <button type="button" onclick="handleClick()" class="btn btn-info px-4" id="btn-create">
+                        Lưu
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="input-urls">Danh sách URL</label>
+                                        <textarea rows="5" class="form-control" id="input-urls"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="form-group">
+    <textarea id='myTextArea'
+              rows='10'
+              cols='50' class="form-control"></textarea>
+    <br>
+    <button >Get textarea value</button>
+    </div>
+
+</div>
+
+<th:block id="js">
+    <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+    
+    
+    <script th:inline="javascript">
+        function handleClick() {
+            // // get the value of textarea:
+            // var textareaValue = document.querySelector('#myTextArea').value;
+            //
+            // // split value of textarea by \n (it will be converted into array):
+            // var linesArray = textareaValue.split('\n');
+            // const urlsValue = document.querySelector('#input-urls').value;
+            // let arrURLs = urlsValue.split('\n');
+            // console.log(linesArray);
+            // console.log(arrURLs);
+        }
+        let urlsValue = document.querySelector('#input-urls').value;
+        // const rs = urls.split('\n');
+        console.log(urlsValue)
+        // console.log(rs)
+        const btnCreate = document.getElementById('btn-create');
+        let arrURLs = urlsValue.split('\n');
+        
+        btnCreate.addEventListener("click", async () => {
+            try {
+                const urlsValue = document.querySelector('#input-urls').value;
+                const urls = urlsValue.split('\n');
+                console.log(urls)
+                let res = await axios.post('/api/v1/blogs/crawl-data', { urls: urls })
+                if(res.status === 200 || res.status === 204) {
+                    toastr.success("Thêm các bài viết thành công");
+                    setTimeout(() => {
+                        window.location.href="/dashboard/blogs/own-blogs"
+                    },1000)
+                }
+            } catch (e) {
+                toastr.error(e.response.data.message);
+                console.log(e);
+            }
+        })
+    </script>
+</th:block>
+
+</body>
+
+</html>

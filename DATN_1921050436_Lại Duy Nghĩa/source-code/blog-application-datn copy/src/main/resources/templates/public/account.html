@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-public :: main-fragment(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
+
+<head>
+    <title>Thông tin tài khoản</title>
+    <th:block id="css">
+        <!--        <link rel="stylesheet" th:href="@{/css/style-public-web.css}">-->
+        <link rel="stylesheet" th:href="@{/css/account.css}">
+<!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+    </th:block>
+</head>
+
+<body>
+<th:block id="content">
+    <!-- Blog Section Begin -->
+    <section class="account-section spad">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="customer-sidebar">
+                        <ul class="customer-sidebar-menu">
+                            <li class="menu-item">
+                                <a href="/tai-khoan">
+                                    <span><i class="fas fa-user" aria-hidden="true"></i></span>
+                                    Tài khoản
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/saved-blog-list">
+                                    <span><i class="fas fa-list-ul" aria-hidden="true"></i></span>
+                                    Bài viết đã lưu
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="javascript:void(0)" class="logout-btn" id="btn-logout" onclick="logout()">
+                                    <span><i class="fas fa-right-from-bracket" aria-hidden="true"></i></span>
+                                    Đăng xuất
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="customer-info pb-5">
+                        <h4 class="mb-4">Thông tin tài khoản</h4>
+                        <div class="row mb-4">
+                            <div class="col-lg-2">
+                                <div class="d-flex align-items-center h-100">
+                                    <p class="my-0">Avatar</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-10">
+                                <div class="checkout__input mb-0 checkout__input__avatar">
+                                    <div class="user-avatar-container d-flex align-items-center">
+                                        <img id="avatar-preview" th:src="${currentUser.avatar}" alt="">
+                                        <label for="avatar">Đổi Avatar</label>
+                                        <input type="file" id="avatar" class="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="form-update-profile">
+                            <div class="row mb-4">
+                                <div class="col-lg-2">
+                                    <div class="d-flex align-items-center h-100">
+                                        <p class="my-0">Họ tên</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="checkout__input mb-0 form-group">
+                                        <input type="text" placeholder="Nhập họ tên đầy đủ"
+                                               th:value="${currentUser.name}" id="username" name="username"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+<!--                            <div class="row mb-4">-->
+<!--                                <div class="col-lg-2">-->
+<!--                                    <div class="d-flex align-items-center h-100">-->
+<!--                                        <p class="my-0">Số điện thoại</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-lg-10">-->
+<!--                                    <div class="checkout__input mb-0 form-group">-->
+<!--                                        <input type="text" placeholder="Nhập số điện thoại"-->
+<!--                                               th:value="${currentUser.phone}" id="phone" name="phone" class="form-control">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                            <div class="row mb-4">
+                                <div class="col-lg-2">
+                                    <div class="d-flex align-items-center h-100">
+                                        <p class="my-0">Email</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="checkout__input mb-0 form-group">
+                                        <input type="text" placeholder="Nhập email" disabled
+                                               th:value="${currentUser.email}" id="email" name="email" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="w-100 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-success" id="btn-update-profile">Cập nhật</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="customer-info pt-5" style="border-top : 10px solid #f2f2f2">
+                        <form id="form-update-password">
+                            <h4 class="mb-4">Đổi mật khẩu</h4>
+                            <div class="row mb-4">
+                                <div class="col-lg-2">
+                                    <div class="d-flex align-items-center h-100">
+                                        <p class="my-0">Mật khẩu cũ</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="checkout__input mb-0">
+                                        <div class="login-form-input form-group mb-0">
+                                            <input type="password" id="old-password" class="input-full form-control"
+                                                   placeholder="Nhập mật khẩu cũ" autocomplete="off" name="oldPassword">
+                                            <span class="icon-toggle-password"><i
+                                                    id="hiddenDisplay" class="fa fa-eye"
+                                                    aria-hidden="true"
+                                                    onclick="hiddenOrDisplay('old-password','hiddenDisplay')"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-lg-2">
+                                    <div class="d-flex align-items-center h-100">
+                                        <p class="my-0">Mật khẩu mới</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="checkout__input mb-0">
+                                        <div class="login-form-input form-group mb-0">
+                                            <input type="password" id="new-password" class="input-full form-control"
+                                                   placeholder="Nhập mật khẩu mới" autocomplete="off" name="newPassword">
+                                            <span class="icon-toggle-password">
+                                                <i id="hiddenDisplay1"
+                                                   class="fa fa-eye" aria-hidden="true"
+                                                   onclick="hiddenOrDisplay('new-password','hiddenDisplay1')">
+                                                </i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-lg-2">
+                                    <div class="d-flex align-items-center h-100">
+                                        <p class="my-0">Nhập lại mật khẩu mới</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="checkout__input mb-0">
+                                        <div class="login-form-input form-group mb-0">
+                                            <input type="password" id="confirm-password" class="input-full form-control"
+                                                   placeholder="Nhập lại mật khẩu mới" autocomplete="off" name="confirmPassword">
+                                            <span class="icon-toggle-password"><i onclick="hiddenOrDisplay('confirm-password','hiddenDisplay2')" id="hiddenDisplay2" class="fa fa-eye" aria-hidden="true"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="w-100 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-success mb-4" id="btn-update-password">Cập nhật</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Section End -->
+</th:block>
+
+<th:block id="js">
+    <script th:inline="javascript">
+        // add event listener to avatar input change
+        // Update avatar
+        const avatarInput = document.getElementById('avatar');
+        const avatarPreview = document.getElementById('avatar-preview');
+        avatarInput.addEventListener("change", async (e) => {
+            try {
+                const file = e.target.files[0];
+
+                // create form data with key file and value is file in input
+                const formData = new FormData();
+                formData.append('file', file);
+
+                let res = await axios.post("/api/v1/user/update-avatar", formData)
+                if(res.status === 200 || res.status === 201) {
+                    avatarPreview.src = res.data;
+                    toastr.success('Cập nhật avatar thành công');
+                }
+            } catch (err) {
+                toastr.error(err.response.data.message);
+                console.log(err);
+            }
+        })
+        
+        // // Update name for user
+        // const
+        
+
+        // Toggle password
+        function hiddenOrDisplay(inputId, iconId) {
+            let passwordInput = document.getElementById(inputId);
+            let togglePassword = document.getElementById(iconId);
+            console.log(inputId)
+
+            // Toggle password visibility
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePassword.classList.remove('fa-eye');
+                togglePassword.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                togglePassword.classList.remove('fa-eye-slash');
+                togglePassword.classList.add('fa-eye');
+            }
+        }
+
+        // Update name for user
+        const btnUpdateProfile = document.getElementById("btn-update-profile");
+        const usernameEl = document.getElementById("username");
+
+        $('#form-update-profile').validate({
+            rules: {
+                username: {
+                    required: true
+                },
+                linkRedirect: {
+                    required: true
+                }
+            },
+            messages: {
+                username: {
+                    required: "Họ tên không được để trống"
+                },
+                linkRedirect: {
+                    required: "Link không được để trống",
+
+                }
+            }
+        });
+        
+        btnUpdateProfile.addEventListener("click", async (e) => {
+            e.preventDefault();
+            if (!$('#form-update-profile').valid()) {
+                return;
+            }
+            const name = usernameEl.value;
+            try {
+                let res = await axios.put("/api/v1/user", {name})
+                if(res.status === 200 || res.status === 201) {
+                    toastr.success("Cập nhật thông tin tài khoản thành công");
+                    setTimeout(() => {
+                        e.preventDefault()
+                        location.reload();
+                    }, 1500);
+                }
+            } catch (err) {
+                toastr.error(err.response.data.message);
+                console.log(err);
+            }
+        })
+        
+        // Update password for user
+        const btnUpdatePassword = document.getElementById("btn-update-password");
+        const oldPasswordEl = document.getElementById("old-password");
+        const newPasswordEl = document.getElementById("new-password");
+        const confirmPasswordEl = document.getElementById("confirm-password");
+        $('#form-update-password').validate({
+            rules: {
+                oldPassword: {
+                    required: true
+                },
+                newPassword: {
+                    required: true,
+                    minlength: 3
+                },
+                confirmPassword: {
+                    required: true,
+                    equalTo: "#new-password",
+                    minlength: 3
+                }
+            },
+            messages: {
+                oldPassword: {
+                    required: "Mật khẩu cũ không được để trống"
+                },
+                newPassword: {
+                    required: "Mật khẩu mới không được để trống",
+                    minlength: "Hãy nhập ít nhất 8 ký tự"
+                },
+                confirmPassword: {
+                    required: "Mật khẩu xác nhận không được để trống",
+                    minlength: "Hãy nhập ít nhất 8 ký tự",
+                    equalTo: "Mật khẩu xác nhận không khớp"
+                }
+            }
+        });
+        btnUpdatePassword.addEventListener("click", async (e) => {
+            if (!$('#form-update-password').valid()) {
+                return;
+            }
+            const oldPassword = oldPasswordEl.value;
+            const newPassword = newPasswordEl.value;
+            const confirmPassword = confirmPasswordEl.value;
+            try {
+                let res = await axios.put("/api/v1/user/password", {oldPassword, newPassword, confirmPassword})
+                if(res.status === 200 || res.status === 201) {
+                    toastr.success("Cập nhật thông tin tài khoản thành công");
+                    setTimeout(() => {
+                        // e.preventDefault()
+                        location.reload();
+                    }, 1500);
+                }
+            } catch (err) {
+                toastr.error(err.response.data.message);
+                console.log(err);
+            }
+        })
+        
+    </script>
+</th:block>
+</body>
+
+</html>

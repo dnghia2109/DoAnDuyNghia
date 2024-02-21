@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300');
+
+
+/*body {*/
+/*    height: 100vh;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    margin: 0;*/
+/*}*/
+
+/*.error-div {*/
+/*    text-align: center;*/
+/*}*/
+
+/*.error-div {*/
+/*    !*display:flex;*!*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    flex-direction: column;*/
+/*    margin: auto auto;*/
+/*}*/
+
+/*.error-div img {*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+
+/*.row {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    flex-direction: column;*/
+/*}*/
+
+/*CSS error v2*/
+/*body{*/
+/*    background: #3498DB;*/
+/*    color: #fff;*/
+/*    font-family: 'Montserrat', sans-serif;*/
+/*    font-size: 16px;*/
+/*}*/
+/*h1{*/
+/*    font-size: 30vh;*/
+/*}*/
+/*h2 span{*/
+/*    font-size: 4rem;*/
+/*    font-weight: 600;*/
+/*}*/
+/*a:link, a:visited{*/
+/*    text-decoration: none;*/
+/*    color: #fff;*/
+/*}*/
+/*h3 a:hover{*/
+/*    text-decoration: none;*/
+/*    background: #fff;*/
+/*    color: #3498DB;*/
+/*    cursor: pointer;*/
+/*}*/
+
+
+/*ver3*/
+.wrap-error {
+    /*background-color: #667bf2;*/
+    background-color: #4f46e5;
+
+    background-attachment: fixed;
+    background-size: cover;
+    height: calc(var(--vh, 1vh) * 100);
+}
+.wrap-error h1 {
+    font-size: 6.875rem;
+    letter-spacing: -13px;
+    line-height: 1;
+    font-family: montserrat, sans-serif;
+}
+h1 span {
+    text-shadow: -8px 0 0 rgb(102 123 242);
+}
+.text-9xl {
+    font-size: 5.5rem;
+}
+
+a {
+    text-decoration: none !important;
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="main-fragment(title, css, content, js)">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"/>
+
+    <title th:replace="${title} ?: ~{}">Title</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/admin-lte/plugins/fontawesome-free/css/all.min.css}"/>
+
+    <!-- Lấy từ file index của Huy-->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel=icon th:href="@{/img/umaru.PNG}">
+    <link rel=icon type=image/png sizes=16x16 th:href="@{/img/umaru.PNG}">
+    <link rel=icon type=image/png sizes=32x32 th:href="@{/img/umaru.PNG}">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style-header-footer-user.css}">
+
+    <!--    CSS-->
+    <th:block th:replace="${css} ?: ~{}"></th:block>
+</head>
+<body class="list">
+<!--HEADER-->
+<th:block th:replace="~{fragments/header-user :: .header}"></th:block>
+
+<!--CONTENT-->
+<th:block th:replace="${content} ?: ~{}"></th:block>
+
+<!--Bootstrap-->
+<script th:src="@{https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js}"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js}"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+<!-- jQuery -->
+<script th:src="@{/admin-lte/plugins/jquery/jquery.min.js}"></script>
+
+<!-- overlayScrollbars -->
+<script th:src="@{/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+
+<script th:src="@{/js/main-public-web.js}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+</script>
+
+<th:block th:replace="${js} ?: ~{}"></th:block>
+
+
+<!--<script th:inline="javascript">-->
+<!--    let isLogined = [[${isLogined}]];-->
+<!--    console.log(isLogined);-->
+<!--    console.log(1);-->
+<!--</script>-->
+</body>
+</html>

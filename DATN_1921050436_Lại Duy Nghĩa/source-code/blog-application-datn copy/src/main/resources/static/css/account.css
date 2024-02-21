@@ -1,0 +1,143 @@
+/*---------------------
+  Account Page
+-----------------------*/
+
+.account-section {
+    background: #F3F6FA;
+    border-bottom: 2px solid #7fad39;
+}
+
+.account-section a{
+    text-decoration: none;
+}
+
+.account-section .row {
+    background: #fcfcfc;
+    padding-top: 20px;
+}
+
+.customer-sidebar .customer-sidebar-menu .menu-item {
+    width: 100%;
+    list-style: none;
+}
+
+.customer-sidebar .customer-sidebar-menu .menu-item a {
+    width: 100%;
+    color: #6f6f6f;
+    font-size: 15px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.customer-sidebar .customer-sidebar-menu .menu-item a span {
+    display: inline-block;
+    width: 25px;
+}
+
+.customer-sidebar .customer-sidebar-menu .menu-item a.active {
+    background: #F3F6FA;
+}
+
+.customer-sidebar .customer-sidebar-menu .menu-item a:hover {
+    background: #F3F6FA;
+}
+
+.customer-info #avatar-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: contain;
+}
+
+.customer-info .address-detail {
+    flex-basis: 90%;
+}
+
+.customer-info .btn-action-list {
+    flex-basis: 10%;
+}
+
+.customer-info .address-default {
+    font-style: italic;
+    font-weight: 500;
+    color: #222222;
+}
+
+.customer-info .address-sub {
+    font-style: italic;
+    color: #bd1a2d;
+    cursor: pointer;
+}
+
+.customer-info .address-sub:hover {
+    text-decoration: underline;
+}
+
+.customer-info .btn-action-list .btn-action {
+    display: inline-block;
+    font-size: 14px;
+    color: #7fad39;
+    border: 1px solid #7fad39;
+    padding: 5px 10px;
+    margin-right: 5px;
+    background: transparent;
+    border-radius: 50%;
+}
+
+.customer-info .btn-action-list .btn-action:hover {
+    background: #7fad39;
+    color: #ffffff;
+}
+
+.customer-info p {
+    margin: 15px 0;
+}
+
+.user-avatar-container label {
+    display: none;
+}
+
+span.icon-toggle-password {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+}
+
+.checkout__input.mb-0 {
+    position: relative;
+    cursor: pointer;
+}
+
+
+input#avatar {
+    display: inline-block;
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+
+}
+
+/*.user-avatar-container.d-flex.align-items-center {*/
+/*    width: fit-content;*/
+/*    overflow: hidden;*/
+/*}*/
+.user-avatar-container.d-flex.align-items-center {
+     /*background: red;*/
+    width: fit-content;
+}
+
+.checkout__input__avatar {
+    width: 100px;
+}
+
+/*.checkout__input.mb-0 {*/
+/*    width: 100%;*/
+/*    cursor: pointer;*/
+/*}*/
+
